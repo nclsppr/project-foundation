@@ -1,0 +1,129 @@
+# PROJECT.md
+
+## Identité
+
+| Champ | Valeur |
+| --- | --- |
+| Nom | Project Foundation |
+| Propriétaire | Nicolas Pieper |
+| Classe | Produit interne |
+| Surface de production | Aucune |
+| Version | 0.1.0 |
+| Licence | Privé, aucune licence publique |
+
+## Problème
+
+Les projets créés au fil du temps accumulent de bonnes règles, mais celles-ci restent dispersées, dupliquées et trop liées à une stack ou à un outil d'agent.
+
+## Utilisateurs
+
+| Utilisateur | Situation | Besoin | Risque principal |
+| --- | --- | --- | --- |
+| Nicolas | Démarre ou reprend un projet | Retrouver un cadre commun immédiatement | Repartir de zéro ou copier des règles obsolètes |
+| Agent de développement | Intervient dans un dépôt | Découvrir les sources, limites et gates locales | Inventer le contexte ou appliquer un conseil générique |
+
+## Résultat attendu
+
+Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documenter ses dérogations et rester autonome après copie du snapshot.
+
+### Preuves de succès
+
+| Preuve | Cible | Source |
+| --- | --- | --- |
+| Bootstrap compréhensible | Un nouveau projet peut remplir les documents sans contexte caché | `PROJECT-BOOTSTRAP.md` et templates |
+| Socle cohérent | Liens valides, fichiers requis présents, aucune valeur à compléter dans le noyau | `./scripts/verify.sh` |
+| Adoption traçable | Version, profils et dérogations enregistrés | `templates/FOUNDATION.md` |
+
+## Périmètre
+
+### Inclus
+
+- principes de travail universels ;
+- defaults révocables ;
+- profils web, backend et données, production et expérience ;
+- profils d'artefacts générés et de changement de dépendance ;
+- templates de contrat, statut, roadmap, agents, ADR et design ;
+- templates de runbook et de preuve de livraison ;
+- définition de done et audit d'origine ;
+- vérification locale et CI du socle.
+
+### Non-objectifs
+
+- imposer une stack ou un workflow Git à tous les projets ;
+- fournir un framework applicatif ;
+- synchroniser automatiquement les dépôts existants ;
+- devenir une dépendance runtime ;
+- remplacer les décisions locales ou les instructions de sécurité.
+
+### Conditions de réévaluation
+
+- un principe produit des exceptions dans plusieurs projets ;
+- le snapshot vendorisé devient trop coûteux à mettre à jour ;
+- un générateur apporte une réduction mesurable des erreurs de bootstrap ;
+- une nouvelle catégorie de projet nécessite un profil distinct.
+
+## État et séquencement
+
+- L'état vérifié vit dans [`STATUS.md`](STATUS.md).
+- L'ordre de livraison vit dans [`ROADMAP.md`](ROADMAP.md).
+- Les choix structurants vivent dans `docs/decisions/`.
+
+## Sources de vérité
+
+| Concept | Source canonique | Type |
+| --- | --- | --- |
+| But et périmètre | `PROJECT.md` | normative |
+| Version courante | `VERSION` | normative |
+| État courant | `STATUS.md` | snapshot opérationnel |
+| Séquencement | `ROADMAP.md` | normative |
+| Invariants | `PRINCIPLES.md` | normative |
+| Defaults | `DEFAULTS.md` | normative révocable |
+| Gates | `DEFINITION-OF-DONE.md` | normative |
+| Profils | `profiles/` | normative opt-in |
+| Décisions | `docs/decisions/` | normative |
+| Historique de versions | `CHANGELOG.md` | historique |
+| Politique de version | `VERSIONING.md` | normative |
+| Origine des règles | `AUDIT.md` | snapshot historique |
+| Templates | `templates/` | dérivée et copiable |
+
+## Architecture
+
+Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent et de contrôles Python 3.9 ou plus récent. Git porte l'historique, la provenance et les contrôles de diff. Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa version dans `FOUNDATION.md`.
+
+## Environnements
+
+| Environnement | Support | Vérification |
+| --- | --- | --- |
+| macOS | Référence locale, Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` |
+| Linux | Supporté, Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` et workflow CI |
+| Windows | Via WSL2 avec Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` |
+
+## Commandes canoniques
+
+| Action | Commande | Résultat attendu |
+| --- | --- | --- |
+| Prérequis | `git --version && bash --version && python3 --version` | Git disponible, Bash 3.2 ou plus, Python 3.9 ou plus, aucun package tiers |
+| Vérifier | `./scripts/verify.sh` | Liens, structure, style et diff valides |
+| Vérifier une release | `./scripts/verify.sh --release` | Worktree propre, version cohérente et tag annoté sur HEAD |
+| Construire | Non applicable | Les fichiers Markdown sont les artefacts |
+| Déployer | Non applicable | Le dépôt est consommé par copie versionnée |
+
+## Données et sécurité
+
+- Aucune donnée personnelle ou secret n'est nécessaire.
+- Les exemples ne doivent contenir aucune valeur réelle sensible.
+- Le dépôt reste privé tant qu'une licence publique n'est pas décidée.
+
+## Livraison
+
+- Branche canonique locale : `main`.
+- Un changement de principe explique sa raison, sa preuve et son niveau.
+- Chaque version met à jour `CHANGELOG.md`.
+- Les versions stables portent un tag.
+- Aucun remote n'est inventé. La publication sera décidée séparément.
+
+## Responsabilité
+
+| Zone | Propriétaire | Reprise |
+| --- | --- | --- |
+| Socle et décisions | Nicolas Pieper | Documentation et historique Git |
