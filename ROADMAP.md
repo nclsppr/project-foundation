@@ -31,7 +31,6 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 
 ### Exclu
 
-- publication distante ;
 - modification des projets sources ;
 - outil de mise à niveau automatique.
 
@@ -40,6 +39,14 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - `./scripts/verify.sh` passe ;
 - le dépôt est sur `main` avec un commit propre ;
 - le tag `v0.1.0` pointe vers le commit vérifié.
+
+### Maintenance compatible livrée en v0.2.0
+
+- dépôt officiel et tags publiés ;
+- catalogue exhaustif de tous les Markdown ;
+- audiences documentaires explicites ;
+- profil Nimbus opt-in ;
+- protocole de contribution amont depuis un projet consommateur.
 
 ## Phase F02 : test d'adoption
 

@@ -40,6 +40,19 @@ qu'aux unités de travail qui rencontrent leur déclencheur.
 
 Une dérogation à un invariant exige une portée limitée, un contrôle compensatoire et une date de réexamen.
 
+## Challenger le socle
+
+Le snapshot `docs/foundation/` est en lecture seule dans ce projet.
+
+- Si le besoin est local, écrire une dérogation dans ce fichier.
+- Si la règle devrait changer pour tous les projets, modifier le dépôt indiqué
+  par `Source`, vérifier ses tests, publier une nouvelle release, puis mettre ce
+  projet à niveau vers le nouveau tag et son SHA.
+- Ne jamais corriger directement le snapshot : cela créerait un fork silencieux
+  et la modification serait perdue à la prochaine mise à niveau.
+
+Le protocole complet vit dans `ADOPTION.md` du dépôt Project Foundation.
+
 ## Sources locales supplémentaires
 
 Les règles locales vivent dans leur document naturel. Cette table les référence sans les recopier.
@@ -54,6 +67,7 @@ Les fichiers suivants partent de la baseline du socle puis deviennent locaux et
 éditables :
 
 - `scripts/check_markdown.py`
+- `scripts/documentation_catalog.py`
 - `scripts/verify.sh`
 
 Ils peuvent recevoir les gates propres au projet. Une mise à niveau compare leur
@@ -85,5 +99,6 @@ preuve de livraison les gates de ce profil applicables à l'unité.
 3. Examiner les changements d'invariants, defaults et profils.
 4. Mettre à jour les dérogations locales si nécessaire.
 5. Comparer la nouvelle baseline des scripts et fusionner les corrections utiles.
-6. Exécuter la commande de vérification du projet.
-7. Committer le snapshot, ce fichier et les adaptations dans une seule unité.
+6. Régénérer le catalogue documentaire.
+7. Exécuter la commande de vérification du projet.
+8. Committer le snapshot, ce fichier et les adaptations dans une seule unité.

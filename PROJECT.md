@@ -8,8 +8,8 @@
 | Propriétaire | Nicolas Pieper |
 | Classe | Produit interne |
 | Surface de production | Aucune |
-| Version | 0.1.0 |
-| Licence | Privé, aucune licence publique |
+| Version | 0.2.0 |
+| Licence | Dépôt public, aucune licence accordée |
 
 ## Problème
 
@@ -33,6 +33,8 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Bootstrap compréhensible | Un nouveau projet peut remplir les documents sans contexte caché | `PROJECT-BOOTSTRAP.md` et templates |
 | Socle cohérent | Liens valides, fichiers requis présents, aucune valeur à compléter dans le noyau | `./scripts/verify.sh` |
 | Adoption traçable | Version, profils et dérogations enregistrés | `templates/FOUNDATION.md` |
+| Documentation exhaustive | Chaque Markdown est classé une fois et possède une audience | `documentation.json`, catalogue et `./scripts/verify.sh` |
+| Évolution commune | Un challenge général remonte dans le dépôt du socle avant mise à niveau | `ADOPTION.md` et `templates/FOUNDATION.md` |
 
 ## Périmètre
 
@@ -42,8 +44,11 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 - defaults révocables ;
 - profils web, backend et données, production et expérience ;
 - profils d'artefacts générés et de changement de dépendance ;
+- profil de documentation Nimbus ;
 - templates de contrat, statut, roadmap, agents, ADR et design ;
 - templates de runbook et de preuve de livraison ;
+- manifeste et catalogue documentaires communs à tous les packs ;
+- procédure d'adoption, de contribution amont et de mise à niveau ;
 - définition de done et audit d'origine ;
 - vérification locale et CI du socle.
 
@@ -84,11 +89,14 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Historique de versions | `CHANGELOG.md` | historique |
 | Politique de version | `VERSIONING.md` | normative |
 | Origine des règles | `AUDIT.md` | snapshot historique |
+| Contrat documentaire | `DOCUMENTATION.md` et `documentation.json` | normative |
+| Navigation documentaire | `DOCUMENTATION-CATALOG.md` | dérivée |
+| Adoption et contribution amont | `ADOPTION.md` | normative |
 | Templates | `templates/` | dérivée et copiable |
 
 ## Architecture
 
-Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent et de contrôles Python 3.9 ou plus récent. Git porte l'historique, la provenance et les contrôles de diff. Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa version dans `FOUNDATION.md`.
+Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent et de contrôles Python 3.9 ou plus récent. Git porte l'historique, la provenance et les contrôles de diff. Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa version dans `FOUNDATION.md`. Le manifeste `documentation.json` classe tous les Markdown et génère un catalogue sans dépendance web ; Nimbus reste un profil de rendu opt-in.
 
 ## Environnements
 
@@ -105,22 +113,23 @@ Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récen
 | Prérequis | `git --version && bash --version && python3 --version` | Git disponible, Bash 3.2 ou plus, Python 3.9 ou plus, aucun package tiers |
 | Vérifier | `./scripts/verify.sh` | Liens, structure, style et diff valides |
 | Vérifier une release | `./scripts/verify.sh --release` | Worktree propre, version cohérente et tag annoté sur HEAD |
-| Construire | Non applicable | Les fichiers Markdown sont les artefacts |
+| Régénérer la navigation | `python3 scripts/documentation_catalog.py --write` | Catalogue aligné sur le manifeste et les Markdown |
+| Construire | Non applicable au noyau | Un rendu Nimbus est construit uniquement dans un projet qui active ce profil |
 | Déployer | Non applicable | Le dépôt est consommé par copie versionnée |
 
 ## Données et sécurité
 
 - Aucune donnée personnelle ou secret n'est nécessaire.
 - Les exemples ne doivent contenir aucune valeur réelle sensible.
-- Le dépôt reste privé tant qu'une licence publique n'est pas décidée.
+- Le dépôt public n'accorde aucune licence de réutilisation tant qu'un fichier `LICENSE` n'est pas décidé.
 
 ## Livraison
 
-- Branche canonique locale : `main`.
+- Branche canonique : `main`, publiée sur `origin`.
 - Un changement de principe explique sa raison, sa preuve et son niveau.
 - Chaque version met à jour `CHANGELOG.md`.
 - Les versions stables portent un tag.
-- Aucun remote n'est inventé. La publication sera décidée séparément.
+- Dépôt officiel : `https://github.com/nclsppr/project-foundation.git`.
 
 ## Responsabilité
 

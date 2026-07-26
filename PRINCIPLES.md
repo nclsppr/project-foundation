@@ -121,3 +121,19 @@ Ces principes s'appliquent à tout projet, quelle que soit sa stack. Chaque prin
 **Pourquoi.** La connaissance cachée augmente le temps de reprise et le risque d'incident.
 
 **Preuve minimale.** Chaque zone critique a un propriétaire, une documentation de reprise et un chemin de vérification exécutable par une autre personne ou un autre agent.
+
+## P16. Donner une place et une audience à chaque Markdown
+
+**Règle.** Tout fichier Markdown maintenu appartient à la documentation du
+projet. Il est classé comme public, interne, référence ou archive et reste
+navigable depuis un catalogue ou le moteur documentaire. Un rendu généré ne
+devient jamais une seconde source éditoriale.
+
+**Pourquoi.** Un fichier orphelin disparaît de la mémoire collective. Publier
+indistinctement tous les Markdown expose à l'inverse des runbooks, preuves ou
+informations internes qui n'ont pas la bonne audience.
+
+**Preuve minimale.** `documentation.json` classe chaque `.md` exactement une
+fois, `DOCUMENTATION-CATALOG.md` fournit une navigation exhaustive et la
+commande `verify` contrôle le catalogue. Si un moteur comme Nimbus est activé,
+son build respecte les audiences et la collection générée n'est pas éditée.

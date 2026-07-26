@@ -20,5 +20,6 @@ Une intention n'est pas une preuve d'état. Signaler tout écart sans choisir si
 - Rester dans la question, le périmètre et la limite du brief.
 - Inspecter l'état du dépôt avant d'agir et préserver le travail sans rapport.
 - Utiliser les commandes canoniques du README et rapporter uniquement les preuves réellement observées.
+- Ne pas modifier `docs/foundation/`. Une exception reste dans `FOUNDATION.md` ; une règle générale se change dans le dépôt Project Foundation puis se réadopte par version.
 - Mettre à jour la conclusion et ses limites dans `BRIEF.md`.
 - Si l'exploration devient un produit, arrêter ce parcours léger et effectuer un bootstrap standard.

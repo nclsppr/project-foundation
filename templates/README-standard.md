@@ -12,6 +12,7 @@ Les prérequis, commandes canoniques et résultats attendus vivent dans [`PROJEC
 - [`STATUS.md`](STATUS.md) : état réellement vérifié à une date donnée.
 - [`ROADMAP.md`](ROADMAP.md) : ordre de livraison et critères de sortie.
 - [`FOUNDATION.md`](FOUNDATION.md) : version du socle, profils et dérogations.
+- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) : navigation exhaustive des Markdown et de leurs audiences.
 - [`AGENTS.md`](AGENTS.md) : adaptateur local pour les interventions assistées.
 - `docs/decisions/` : décisions structurantes.
 - `docs/foundation/` : snapshot vendorisé du noyau et des profils, non édité localement.

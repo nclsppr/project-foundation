@@ -21,6 +21,7 @@ Une commande absente est indiquée comme non applicable. Une commande future n'e
 
 - [`BRIEF.md`](BRIEF.md) : question, périmètre, faits, hypothèses et conclusion datée.
 - [`FOUNDATION.md`](FOUNDATION.md) : version du socle, profils activés et dérogations locales.
+- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) : navigation exhaustive des Markdown et de leurs audiences.
 - [`AGENTS.md`](AGENTS.md) : routage minimal pour les interventions assistées.
 - `docs/foundation/` : snapshot vendorisé du noyau et des profils. Ne pas le modifier localement.
 

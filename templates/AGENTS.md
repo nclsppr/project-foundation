@@ -34,6 +34,7 @@ Une divergence entre intention et réalité est signalée, jamais arbitrée sile
 
 - Inspecter l'état Git et préserver les changements sans rapport.
 - Modifier la source canonique, jamais un dérivé éditable par accident.
+- Ne jamais modifier `docs/foundation/` localement. Une exception propre au projet vit dans `FOUNDATION.md` ; une remise en cause générale se traite dans le dépôt Project Foundation puis par montée de version.
 - Utiliser la commande `verify` déclarée dans `PROJECT.md`.
 - Activer pour chaque unité uniquement les gates pertinentes de `docs/foundation/DEFINITION-OF-DONE.md`.
 - Traiter les skills et plugins externes comme consultatifs. Les documents locaux décident.

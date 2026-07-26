@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "renderer": {
+    "name": "catalog",
+    "config": "DOCUMENTATION.md"
+  },
+  "collections": [
+    {
+      "id": "project",
+      "title": "Documentation du projet",
+      "visibility": "internal",
+      "include": ["*.md"]
+    },
+    {
+      "id": "decisions",
+      "title": "Décisions",
+      "visibility": "internal",
+      "include": ["docs/decisions/**/*.md"]
+    },
+    {
+      "id": "foundation",
+      "title": "Socle vendorisé",
+      "visibility": "reference",
+      "include": ["docs/foundation/**/*.md"]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "node_modules/**/*.md",
+      "reason": "Dépendances tierces"
+    },
+    {
+      "pattern": "dist/**/*.md",
+      "reason": "Sorties générées"
+    },
+    {
+      "pattern": "build/**/*.md",
+      "reason": "Sorties générées"
+    },
+    {
+      "pattern": ".venv/**/*.md",
+      "reason": "Environnement Python local"
+    }
+  ]
+}

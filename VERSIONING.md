@@ -19,12 +19,13 @@ Le fichier `VERSION` est la source canonique de la version courante. `PROJECT.md
 1. Mettre à jour `VERSION`.
 2. Mettre à jour `CHANGELOG.md`.
 3. Mettre à jour `PROJECT.md`, `STATUS.md` et `ROADMAP.md` si leur état change.
-4. Exécuter `./scripts/verify.sh`.
-5. Relire le diff complet.
-6. Créer un commit cohérent.
-7. Créer un tag annoté `vMAJOR.MINOR.PATCH`.
-8. Rejouer `./scripts/verify.sh --release` sur le worktree propre.
-9. Publier commit et tag uniquement si un remote a été explicitement configuré.
+4. Régénérer `DOCUMENTATION-CATALOG.md`.
+5. Exécuter `./scripts/verify.sh`.
+6. Relire le diff complet.
+7. Créer un commit cohérent.
+8. Créer un tag annoté `vMAJOR.MINOR.PATCH`.
+9. Rejouer `./scripts/verify.sh --release` sur le worktree propre.
+10. Publier commit et tag uniquement si un remote a été explicitement configuré.
 
 Le tag lisible facilite la discussion. Le commit complet reste la référence immuable.
 
@@ -36,6 +37,7 @@ Le projet consommateur enregistre dans `FOUNDATION.md` :
 - le tag ;
 - le commit complet ;
 - les profils activés ;
+- le contrat documentaire et son catalogue ;
 - les dérogations et contrôles compensatoires.
 
 Le snapshot est copié sous `docs/foundation/` et commité avec le projet.
@@ -47,11 +49,17 @@ Le snapshot est copié sous `docs/foundation/` et commité avec le projet.
 3. Remplacer le snapshot, sans fusion silencieuse ligne par ligne.
 4. Examiner le diff des invariants, defaults, profils et gates.
 5. Réconcilier les dérogations locales.
-6. Comparer les nouvelles baselines de `scripts/check_markdown.py` et `scripts/verify.sh`, puis fusionner explicitement les corrections utiles sans écraser les gates locales.
-7. Exécuter la vérification du projet.
-8. Livrer snapshot, version et adaptations dans une seule unité.
+6. Comparer les nouvelles baselines de `scripts/check_markdown.py`, `scripts/documentation_catalog.py` et `scripts/verify.sh`, puis fusionner explicitement les corrections utiles sans écraser les gates locales.
+7. Régénérer le catalogue documentaire et relire les audiences.
+8. Exécuter la vérification du projet.
+9. Livrer snapshot, version et adaptations dans une seule unité.
 
 Une mise à jour automatique peut proposer un diff. Elle ne doit jamais modifier silencieusement les règles locales ou les protections d'un projet.
+
+Si un projet découvre qu'une règle générale doit changer, il ne modifie pas son
+snapshot vendorisé. Il contribue au dépôt officiel, publie une release, puis
+suit cette procédure de mise à niveau. Le protocole complet vit dans
+[`ADOPTION.md`](ADOPTION.md).
 
 ## Dépréciation
 

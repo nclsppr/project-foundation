@@ -26,6 +26,21 @@ La décision de ne pas placer ce socle sous `vps/ai` est documentée dans [`AUDI
 
 Un projet local peut renforcer le socle. Il ne le copie pas intégralement et ne le contredit pas silencieusement.
 
+## Contrat documentaire
+
+Tout fichier Markdown maintenu fait partie de la documentation du projet, mais
+tout fichier Markdown n'est pas forcément public. `documentation.json` classe
+chaque `.md` exactement une fois comme public, interne, référence ou archive.
+[`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) fournit la navigation
+exhaustive et la commande `verify` refuse les fichiers orphelins.
+
+Les Markdown restent les sources éditoriales. Pour une documentation durable
+qui doit être navigable, recherchable ou publiée, Nimbus est le default actuel
+via [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md). Il
+reste un profil optionnel : le noyau n'impose ni Node, ni Astro, ni un moteur de
+rendu à une exploration ou à un service qui n'en a pas besoin. Le contrat
+complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
+
 ## Contenu
 
 | Fichier | Rôle |
@@ -39,6 +54,9 @@ Un projet local peut renforcer le socle. Il ne le copie pas intégralement et ne
 | [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md) | Séquence pour créer un projet de zéro |
 | [`DEFINITION-OF-DONE.md`](DEFINITION-OF-DONE.md) | Critères de fin communs et gates par type de changement |
 | [`VERSIONING.md`](VERSIONING.md) | Compatibilité, releases et mise à niveau d'un snapshot |
+| [`ADOPTION.md`](ADOPTION.md) | Inclusion dans un projet et contribution au socle amont |
+| [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classement, audiences et rendu de tous les Markdown |
+| [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Navigation exhaustive générée depuis le manifeste |
 | [`AUDIT.md`](AUDIT.md) | Origine des règles, exclusions et dérives observées |
 | [`templates/AGENTS.md`](templates/AGENTS.md) | Contrat local, court et découvrable par les agents |
 | [`templates/PROJECT.md`](templates/PROJECT.md) | Fiche produit, sources de vérité et commandes |
@@ -59,11 +77,14 @@ Un projet local peut renforcer le socle. Il ne le copie pas intégralement et ne
 | [`profiles/experiment.md`](profiles/experiment.md) | Prototype isolé, honnête et supprimable |
 | [`profiles/generated-artifacts.md`](profiles/generated-artifacts.md) | Sources, dérivés, provenance et consommateurs |
 | [`profiles/dependency-change.md`](profiles/dependency-change.md) | Besoin, licence, supply chain, coût et retrait d'un tiers |
+| [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md) | Documentation Nimbus dérivée, versionnée et vérifiée |
 | [`examples/minimal-web/`](examples/minimal-web/) | Exemple narratif fictif du parcours Minimal, pas un dépôt généré |
 
 ## Démarrer un projet
 
-Lire [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md), puis choisir un pack proportionné :
+Cloner une release du [dépôt officiel](https://github.com/nclsppr/project-foundation),
+lire [`ADOPTION.md`](ADOPTION.md) et [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md),
+puis choisir un pack proportionné :
 
 | Pack | Usage | Documents locaux |
 | --- | --- | --- |
@@ -89,6 +110,12 @@ Un bootstrap réel exige une version du socle commitée et un worktree propre. L
 
 Le projet ne dépend pas de ce dépôt au runtime et ne requiert aucun chemin relatif vers un clone voisin. Le snapshot vendorisé est versionné avec le projet. Il n'est pas édité localement : les dérogations vivent dans `FOUNDATION.md`, `PROJECT.md` ou une ADR. Une mise à jour remplace le snapshot depuis une nouvelle version du socle et fait l'objet d'un diff relu.
 
+Cette frontière est volontaire. Si une règle ne convient qu'à un projet, le
+projet documente une dérogation. Si la règle générale doit être challengée, le
+changement se fait dans le Git officiel de Project Foundation, avec ses tests et
+une nouvelle release ; le projet consommateur adopte ensuite ce tag et ce SHA.
+Modifier directement `docs/foundation/` créerait un fork silencieux.
+
 Les profils déclarés dans `FOUNDATION.md` sont des politiques durables ; une preuve de livraison n'en active que le sous-ensemble pertinent pour son unité. Les scripts de vérification copiés sont des adaptateurs locaux : lors d'une mise à niveau, comparer leur nouvelle baseline et fusionner les corrections sans écraser les gates du projet.
 
 ## Hiérarchie de vérité
@@ -111,3 +138,10 @@ Une nouvelle règle doit répondre à quatre questions :
 4. Comment et pourquoi peut-on y déroger ?
 
 Une règle sans raison, sans contrôle possible ou sans frontière claire ne doit pas entrer dans le noyau.
+
+Le protocole de contribution amont et de mise à niveau est détaillé dans
+[`ADOPTION.md`](ADOPTION.md).
+
+Le dépôt est public mais n'accorde actuellement aucune licence de
+réutilisation. L'ajout d'un fichier `LICENSE` reste une décision explicite du
+propriétaire.

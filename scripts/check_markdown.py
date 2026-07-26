@@ -40,8 +40,13 @@ REQUIRED_PATHS = (
     "DEFINITION-OF-DONE.md",
     "CHANGELOG.md",
     "AUDIT.md",
+    "ADOPTION.md",
+    "DOCUMENTATION.md",
+    "DOCUMENTATION-CATALOG.md",
+    "documentation.json",
     "VERSIONING.md",
     "docs/decisions/adr-0001-standalone-versioned-foundation.md",
+    "docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md",
     "examples/minimal-web/README.md",
     "profiles/web.md",
     "profiles/backend-data.md",
@@ -49,7 +54,9 @@ REQUIRED_PATHS = (
     "profiles/experiment.md",
     "profiles/generated-artifacts.md",
     "profiles/dependency-change.md",
+    "profiles/documentation-nimbus.md",
     "scripts/check_markdown.py",
+    "scripts/documentation_catalog.py",
     "scripts/verify.sh",
     "scripts/bootstrap.sh",
     "scripts/test_bootstrap.sh",
@@ -68,12 +75,15 @@ REQUIRED_PATHS = (
     "templates/DESIGN.md",
     "templates/RUNBOOK.md",
     "templates/DELIVERY-EVIDENCE.md",
+    "templates/DOCUMENTATION.md",
+    "templates/documentation.json",
     "templates/scripts/check_markdown.py",
     "templates/scripts/verify.sh",
 )
 
 EXECUTABLE_PATHS = (
     "scripts/check_markdown.py",
+    "scripts/documentation_catalog.py",
     "scripts/verify.sh",
     "scripts/bootstrap.sh",
     "scripts/test_bootstrap.sh",
@@ -81,6 +91,13 @@ EXECUTABLE_PATHS = (
     "templates/scripts/check_markdown.py",
     "templates/scripts/verify.sh",
 )
+
+# Le catalogue n'est pas un template : le bootstrap le génère après avoir
+# copié le README. Les tests de bootstrap vérifient ensuite sa présence.
+GENERATED_BOOTSTRAP_LINKS = {
+    (Path("templates/README.md"), "DOCUMENTATION-CATALOG.md"),
+    (Path("templates/README-standard.md"), "DOCUMENTATION-CATALOG.md"),
+}
 
 FORBIDDEN_DASHES = {
     "\u2013": "demi-cadratin",
@@ -145,6 +162,7 @@ def check_version_consistency(errors: list[str]) -> None:
     expectations = (
         ("PROJECT.md", f"| Version | {version} |"),
         ("STATUS.md", f"| Version | `v{version}` |"),
+        ("ADOPTION.md", f"- Release courante : `v{version}`"),
     )
     for relative, expected in expectations:
         path = ROOT / relative
@@ -309,6 +327,8 @@ def check_links(path: Path, text: str, errors: list[str]) -> None:
             errors.append(f"{location} : lien hors du dépôt interdit : {raw_target}")
             continue
         if not resolved.exists():
+            if (relative, target) in GENERATED_BOOTSTRAP_LINKS:
+                continue
             errors.append(f"{location} : lien local absent : {raw_target}")
             continue
 

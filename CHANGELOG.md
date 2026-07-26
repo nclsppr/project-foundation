@@ -2,6 +2,15 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.2.0 - 2026-07-27
+
+- Ajout d'un contrat qui classe chaque Markdown maintenu comme public, interne, référence ou archive.
+- Ajout d'un manifeste, d'un catalogue exhaustif et d'un contrôle des Markdown orphelins dans tous les packs.
+- Ajout du profil Nimbus comme default opt-in pour une documentation durable publiée, sans dépendance web dans le noyau.
+- Ajout d'une procédure d'adoption depuis le dépôt officiel et de mise à niveau par tag et SHA.
+- Interdiction de modifier silencieusement le snapshot vendorisé : un challenge général passe par le Git Project Foundation et une nouvelle release.
+- Publication publique du dépôt et de ses tags sur `nclsppr/project-foundation`, sans licence ajoutée par défaut.
+
 ## 0.1.0 - 2026-07-26
 
 - Création des invariants, defaults et règles de bootstrap.

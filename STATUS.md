@@ -1,24 +1,27 @@
 # STATUS.md
 
-Snapshot vérifié le 2026-07-26.
+Snapshot vérifié le 2026-07-27.
 
 ## Référence
 
 | Champ | Valeur |
 | --- | --- |
 | Branche | `main` |
-| Version | `v0.1.0` |
+| Version | `v0.2.0` |
 | Environnement | macOS local |
 | Production | Non applicable |
-| Remote | Non configuré |
+| Remote | `https://github.com/nclsppr/project-foundation.git` |
+| Visibilité | Publique, sans licence accordée |
 
 ## Livré et vérifié
 
 | Capacité | Périmètre réel | Preuve | Limite connue |
 | --- | --- | --- | --- |
 | Noyau | Invariants, defaults et définition de done | Relecture croisée des quatre zones sources et `AUDIT.md` | Première version |
-| Bootstrap | Quatre packs, six profils, dry-run et copie atomique sans écrasement | `scripts/bootstrap.sh` et `scripts/test_bootstrap.sh` verts | Le contenu métier généré reste à compléter |
-| Profils | Web, backend et données, infrastructure, expérience, artefacts générés et dépendances | Profils opt-in vérifiés | Pas de profil mobile natif ou data science |
+| Bootstrap | Quatre packs, sept profils, contrat documentaire, dry-run et copie atomique sans écrasement | `scripts/bootstrap.sh` et `scripts/test_bootstrap.sh` verts | Le contenu métier généré reste à compléter |
+| Profils | Web, backend et données, infrastructure, expérience, artefacts générés, dépendances et documentation Nimbus | Profils opt-in vérifiés | Pas de profil mobile natif ou data science |
+| Documentation | Tous les Markdown classés une fois avec une audience et une navigation générée | `documentation.json`, `DOCUMENTATION-CATALOG.md` et test d'orphelin verts | Nimbus n'est pas installé dans le noyau |
+| Adoption amont | Source officielle, snapshot immuable, dérogation locale et challenge général séparés | `ADOPTION.md` et `templates/FOUNDATION.md` | Première adoption réelle encore à prouver |
 | Provenance | Audit des règles retenues, écartées et laissées locales | `AUDIT.md` | Snapshot daté |
 | Vérification | Structure, liens, ancres, style, placeholders et sécurité du bootstrap | `./scripts/verify.sh` vert sur macOS local | Ne remplace pas une revue éditoriale |
 
@@ -26,7 +29,7 @@ Snapshot vérifié le 2026-07-26.
 
 | Phase roadmap | État observé | Prochaine preuve |
 | --- | --- | --- |
-| `F01` | Socle et initialiseur livrés, vérifiés et versionnés | Première adoption réelle |
+| `F01` | Socle, initialiseur et maintenance v0.2.0 livrés, vérifiés et versionnés | Première adoption réelle |
 | `F02` | Planifiée | Projet neuf complété et vérifié sans dépendance au dépôt source |
 
 ## Cible non livrée
@@ -37,10 +40,13 @@ Snapshot vérifié le 2026-07-26.
 
 ## Blocage externe
 
-La création d'un remote privé et sa publication nécessitent une décision du propriétaire. Elles ne bloquent pas la release locale et aucun remote n'est supposé.
+Aucun blocage externe connu pour la maintenance du socle. L'adoption dans un
+autre dépôt reste une tranche volontaire distincte.
 
 ## Dérives connues
 
-Le workflow GitHub Actions est configuré mais n'a pas été exécuté sur une forge, faute de remote. Les contradictions des projets sources restent documentées dans `AUDIT.md` et ne sont pas corrigées par ce dépôt.
+Les contradictions des projets sources restent documentées dans `AUDIT.md` et
+ne sont pas corrigées par ce dépôt. Le catalogue garantit qu'un Markdown est
+découvrable, pas que son contenu est éditorialement juste ou publiable.
 
 Après `F01`, la phase suivante est `F02`, test d'adoption sur un dépôt neuf.

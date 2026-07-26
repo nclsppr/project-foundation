@@ -47,6 +47,7 @@ copy_foundation_fixture() {
     "${destination}/"
   cp -p \
     "${SOURCE_FOUNDATION_ROOT}/scripts/bootstrap.sh" \
+    "${SOURCE_FOUNDATION_ROOT}/scripts/documentation_catalog.py" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/sanitize_git_remote.py" \
     "${destination}/scripts/"
 }
@@ -120,6 +121,8 @@ EXPLORATION_TARGET="${TEST_ROOT}/exploration-project"
 printf '%s\n' \
   "./AGENTS.md" \
   "./BRIEF.md" \
+  "./DOCUMENTATION-CATALOG.md" \
+  "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
   "./README.md" \
   "./docs/decisions/.gitkeep" \
@@ -128,11 +131,14 @@ printf '%s\n' \
   "./docs/foundation/PRINCIPLES.md" \
   "./docs/foundation/profiles/experiment.md" \
   "./docs/foundation/profiles/web.md" \
+  "./documentation.json" \
   "./scripts/check_markdown.py" \
+  "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/exploration.expected"
 tree_files "${EXPLORATION_TARGET}" >"${TEST_ROOT}/exploration.actual"
 diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" || fail "arbre exploration inattendu."
 [[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "verify exploration non exécutable."
+[[ -x "${EXPLORATION_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue exploration non exécutable."
 [[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "le bootstrap a initialisé Git."
 [[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "le pack minimal a reçu DESIGN.md."
 grep -F '| Pack adopté | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "pack minimal absent."
@@ -146,6 +152,8 @@ USER='unsafe|actor' "${BOOTSTRAP}" \
 printf '%s\n' \
   "./AGENTS.md" \
   "./DESIGN.md" \
+  "./DOCUMENTATION-CATALOG.md" \
+  "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
   "./PROJECT.md" \
   "./README.md" \
@@ -157,10 +165,13 @@ printf '%s\n' \
   "./docs/foundation/PRINCIPLES.md" \
   "./docs/foundation/profiles/backend-data.md" \
   "./docs/foundation/profiles/web.md" \
+  "./documentation.json" \
   "./scripts/check_markdown.py" \
+  "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/product.expected"
 tree_files "${PRODUCT_TARGET}" >"${TEST_ROOT}/product.actual"
 diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "arbre product inattendu."
+[[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue product non exécutable."
 
 if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
   expected_source_line="$(printf '| Source | `%s` |' "${EXPECTED_FOUNDATION_SOURCE}")"
@@ -182,6 +193,29 @@ if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
     fail "marqueur de commit non remplacé."
   fi
 fi
+
+python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check >"${TEST_ROOT}/catalog-check-baseline.out"
+mkdir -p "${PRODUCT_TARGET}/docs/notes"
+printf '%s\n' '# Note orpheline' >"${PRODUCT_TARGET}/docs/notes/orphan.md"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check
+grep -F "Markdown orphelin : docs/notes/orphan.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "Markdown orphelin non détecté."
+rm -f "${PRODUCT_TARGET}/docs/notes/orphan.md"
+rmdir "${PRODUCT_TARGET}/docs/notes"
+
+cp -p "${PRODUCT_TARGET}/documentation.json" "${TEST_ROOT}/product-documentation.json"
+python3 - "${PRODUCT_TARGET}/documentation.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+manifest = json.loads(path.read_text(encoding="utf-8"))
+manifest["collections"][0]["include"].append("docs/foundation/**/*.md")
+path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check
+grep -F "Markdown classé plusieurs fois : docs/foundation/DEFAULTS.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "Markdown classé plusieurs fois non détecté."
+cp -p "${TEST_ROOT}/product-documentation.json" "${PRODUCT_TARGET}/documentation.json"
 
 if python3 "${PRODUCT_TARGET}/scripts/check_markdown.py" >"${TEST_ROOT}/project-checker-baseline.out" 2>&1; then
   fail "le checker projet devait refuser les marqueurs de saisie."
@@ -225,10 +259,12 @@ PROTOTYPE_TARGET="${TEST_ROOT}/prototype-project"
 "${BOOTSTRAP}" \
   --target "${PROTOTYPE_TARGET}" \
   --class prototype \
-  --profiles experiment >/dev/null
+  --profiles experiment,documentation-nimbus >/dev/null
 
 printf '%s\n' \
   "./AGENTS.md" \
+  "./DOCUMENTATION-CATALOG.md" \
+  "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
   "./PROJECT.md" \
   "./README.md" \
@@ -238,8 +274,11 @@ printf '%s\n' \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
   "./docs/foundation/PRINCIPLES.md" \
+  "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/experiment.md" \
+  "./documentation.json" \
   "./scripts/check_markdown.py" \
+  "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/prototype.expected"
 tree_files "${PROTOTYPE_TARGET}" >"${TEST_ROOT}/prototype.actual"
 diff -u "${TEST_ROOT}/prototype.expected" "${TEST_ROOT}/prototype.actual" || fail "arbre prototype inattendu."
@@ -255,6 +294,8 @@ CRITICAL_TARGET="${TEST_ROOT}/critical-project"
 printf '%s\n' \
   "./AGENTS.md" \
   "./DELIVERY-EVIDENCE.md" \
+  "./DOCUMENTATION-CATALOG.md" \
+  "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
   "./PROJECT.md" \
   "./README.md" \
@@ -267,7 +308,9 @@ printf '%s\n' \
   "./docs/foundation/PRINCIPLES.md" \
   "./docs/foundation/profiles/dependency-change.md" \
   "./docs/foundation/profiles/infrastructure-production.md" \
+  "./documentation.json" \
   "./scripts/check_markdown.py" \
+  "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/critical.expected"
 tree_files "${CRITICAL_TARGET}" >"${TEST_ROOT}/critical.actual"
 diff -u "${TEST_ROOT}/critical.expected" "${TEST_ROOT}/critical.actual" || fail "arbre critical inattendu."

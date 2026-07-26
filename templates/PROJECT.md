@@ -67,6 +67,7 @@ Ne jamais transformer une cible en résultat acquis.
 | Code livré | TODO | opérationnelle | |
 | Opérations | TODO | normative | |
 | Décisions | `docs/decisions/` | normative | |
+| Documentation | `DOCUMENTATION.md`, `documentation.json` et catalogue généré | normative et dérivée | Chaque Markdown possède une audience |
 | Artefacts générés | TODO | dérivée | Nommer leur source |
 | Archives | TODO | historique | Jamais normative |
 | Expériences | TODO | expérimentale | Isolées |

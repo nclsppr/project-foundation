@@ -83,6 +83,15 @@ Un nouveau projet doit trancher explicitement :
 - licence, droits sur les données et usages de l'IA ;
 - propriétaire et procédure d'escalade.
 
+## D08. Documentation navigable
+
+- Fournir `documentation.json` et un catalogue exhaustif dans tous les packs.
+- Classer les Markdown publics, internes, de référence et archivés avant de les publier.
+- Garder les Markdown comme sources éditoriales et les rendus comme dérivés.
+- Pour une documentation durable publiée, préférer Nimbus via `profiles/documentation-nimbus.md` tant que ce choix reste validé par le projet.
+- Épingler le moteur, tester son adaptateur et intégrer son build à `verify`.
+- Une autre solution reste valide si une décision locale explique le besoin et conserve les mêmes garanties d'inventaire, d'audience et de source unique.
+
 ## Révoquer un default
 
 Un default peut être changé sans débat cérémoniel si l'impact reste local et évident. Une ADR est requise quand le changement :

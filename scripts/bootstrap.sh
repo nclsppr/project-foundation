@@ -16,7 +16,7 @@ Usage:
   ./scripts/bootstrap.sh \
     --target /chemin/absolu/nouveau-projet \
     --class exploration|prototype|product|critical \
-    --profiles web,backend-data,infrastructure-production,experiment,generated-artifacts,dependency-change|none \
+    --profiles web,backend-data,infrastructure-production,experiment,generated-artifacts,dependency-change,documentation-nimbus|none \
     [--dry-run]
 
 Le chemin cible doit être absolu, son dossier parent doit déjà exister et la
@@ -137,7 +137,7 @@ if [[ "${PROFILE_CSV}" != "none" ]]; then
   for raw_profile in "${requested_profiles[@]}"; do
     profile="$(printf '%s' "${raw_profile}" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
     case "${profile}" in
-      web|backend-data|infrastructure-production|experiment|generated-artifacts|dependency-change) ;;
+      web|backend-data|infrastructure-production|experiment|generated-artifacts|dependency-change|documentation-nimbus) ;;
       "") fail "profil vide dans --profiles." ;;
       *) fail "profil inconnu : ${profile}" ;;
     esac
@@ -161,6 +161,8 @@ add_copy() {
 }
 
 add_copy "${TEMPLATE_ROOT}/FOUNDATION.md" "FOUNDATION.md"
+add_copy "${TEMPLATE_ROOT}/DOCUMENTATION.md" "DOCUMENTATION.md"
+add_copy "${TEMPLATE_ROOT}/documentation.json" "documentation.json"
 
 case "${PROJECT_CLASS}" in
   exploration)
@@ -222,6 +224,7 @@ fi
 
 add_copy "${TEMPLATE_ROOT}/scripts/check_markdown.py" "scripts/check_markdown.py"
 add_copy "${TEMPLATE_ROOT}/scripts/verify.sh" "scripts/verify.sh"
+add_copy "${FOUNDATION_ROOT}/scripts/documentation_catalog.py" "scripts/documentation_catalog.py"
 
 for source in "${SOURCES[@]}"; do
   [[ -f "${source}" ]] || fail "source de bootstrap absente : ${source#${FOUNDATION_ROOT}/}"
@@ -313,7 +316,10 @@ done
 
 mkdir -p "${STAGING}/docs/decisions"
 : > "${STAGING}/docs/decisions/.gitkeep"
-chmod +x "${STAGING}/scripts/check_markdown.py" "${STAGING}/scripts/verify.sh"
+chmod +x \
+  "${STAGING}/scripts/check_markdown.py" \
+  "${STAGING}/scripts/documentation_catalog.py" \
+  "${STAGING}/scripts/verify.sh"
 
 if [[ -n "${FOUNDATION_COMMIT}" ]]; then
   python3 - \
@@ -369,6 +375,8 @@ PY
 else
   echo "Avertissement : aucun commit du socle n'est disponible ; remplir manuellement la version dans FOUNDATION.md." >&2
 fi
+
+python3 "${STAGING}/scripts/documentation_catalog.py" --write >/dev/null
 
 [[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "la cible est apparue pendant le bootstrap ; publication annulée."
 mv "${STAGING}" "${TARGET}"

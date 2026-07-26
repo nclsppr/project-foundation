@@ -50,6 +50,7 @@ if [[ "${git_root}" != "${PROJECT_ROOT}" ]]; then
   exit 1
 fi
 
+python3 "${SCRIPT_DIR}/documentation_catalog.py" --check
 python3 "${SCRIPT_DIR}/check_markdown.py"
 bash "${SCRIPT_DIR}/test_bootstrap.sh"
 git -C "${PROJECT_ROOT}" diff --check

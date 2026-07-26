@@ -39,6 +39,11 @@ Choisir le pack avant de copier :
 | Produit | Full | Standard, ADR pour chaque décision structurante et `DESIGN.md` si interface |
 | Critique | Critical | Full, `RUNBOOK.md`, preuve de livraison et profils risque |
 
+Tous les packs ajoutent aussi `DOCUMENTATION.md`, `documentation.json`,
+`DOCUMENTATION-CATALOG.md` et le contrôle local du catalogue. Ces fichiers ne
+rendent pas tout le dépôt public : ils rendent chaque Markdown classé et
+découvrable dans la bonne audience.
+
 - [ ] Initialiser Git selon le default retenu ou la politique locale.
 - [ ] Copier uniquement le pack choisi.
 - [ ] Enregistrer ce pack dans `FOUNDATION.md` et la classe correspondante dans le brief ou `PROJECT.md`.
@@ -49,6 +54,8 @@ Choisir le pack avant de copier :
 - [ ] Ajouter `.gitignore` et un exemple de configuration sans secret.
 - [ ] Définir le propriétaire du projet.
 - [ ] Copier le noyau et les profils retenus sous `docs/foundation/`.
+- [ ] Classer les Markdown existants comme publics, internes, références ou archives.
+- [ ] Activer `documentation-nimbus` si le projet doit publier une documentation durable.
 
 Supprimer les sections non applicables plutôt que remplir une longue série de `N/A`. À la fin de cette phase, aucun marqueur de saisie ne doit rester dans les fichiers copiés.
 
@@ -71,10 +78,16 @@ Pour un pack Standard ou supérieur, remplir dans `PROJECT.md` :
 - [ ] décisions ;
 - [ ] artefacts générés et leur source ;
 - [ ] archives et expériences.
+- [ ] collections documentaires et audiences.
 
 Une case sans source est une décision à prendre, pas une invitation à dupliquer une information. Une exploration conserve cette carte dans son brief uniquement si elle sert la question testée.
 
 Le contrat stable reste dans `PROJECT.md`. L'état réellement vérifié vit dans `STATUS.md`. L'ordre de livraison et les critères de sortie vivent dans `ROADMAP.md`.
+
+Tous les nouveaux `.md` doivent rejoindre une collection de
+`documentation.json`. Les rendus web restent dérivés des sources classées. Si
+Nimbus est activé, enregistrer sa version, sa configuration et sa commande de
+build comme sources de vérité locales.
 
 ## Phase 4. Prendre les premières décisions
 
@@ -148,9 +161,15 @@ La première tranche doit traverser le système avec le moins de faux-semblants 
 - [ ] Exécuter les gates applicables de `docs/foundation/DEFINITION-OF-DONE.md`.
 - [ ] Rechercher les marqueurs de saisie, exemples factices et chemins obsolètes.
 - [ ] Vérifier les liens documentaires.
+- [ ] Régénérer puis vérifier `DOCUMENTATION-CATALOG.md`.
 - [ ] Inspecter le diff.
 - [ ] Committer une unité cohérente.
 - [ ] Pousser selon la politique du projet.
 - [ ] Créer la prochaine tranche dans la roadmap, pas dans une liste concurrente.
 
 Le bootstrap est fini lorsque quelqu'un d'autre peut comprendre, lancer, vérifier et reprendre le projet sans commande cachée.
+
+Le snapshot du socle n'est jamais édité dans le projet consommateur. Une
+exception locale vit dans `FOUNDATION.md`. Un challenge général se traite dans
+le dépôt Project Foundation, puis revient dans le projet par une nouvelle
+release selon [`ADOPTION.md`](ADOPTION.md).

@@ -21,15 +21,19 @@ Contrôles dérivés de `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09` et `P10`
 
 ## Documentation et contenu
 
-Contrôles dérivés de `P02`, `P03`, `P04` et `P10`.
+Contrôles dérivés de `P02`, `P03`, `P04`, `P10` et `P16`.
 
 - [ ] Une idée normative n'est écrite qu'à un endroit.
+- [ ] Chaque Markdown maintenu est classé exactement une fois dans `documentation.json`.
+- [ ] Le catalogue documentaire est à jour et le fichier reste navigable.
+- [ ] Sa visibilité publique, interne, de référence ou d'archive est correcte.
 - [ ] Les liens, ancres, navigation et index sont cohérents.
 - [ ] Les faits et attributions ont été vérifiés.
 - [ ] Les traductions gardent une parité structurelle et sémantique si elles existent.
 - [ ] Les dates sont absolues.
 - [ ] Les archives, changelogs et audits datés ne sont pas présentés comme état actuel.
 - [ ] Le rendu final a été contrôlé, pas seulement la source Markdown.
+- [ ] Une collection générée par Nimbus ou un autre moteur n'a pas été modifiée à la main.
 
 ## Interface web ou produit
 

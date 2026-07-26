@@ -25,11 +25,15 @@ ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_PATHS = (
     "README.md",
     "FOUNDATION.md",
+    "DOCUMENTATION.md",
+    "DOCUMENTATION-CATALOG.md",
+    "documentation.json",
     "AGENTS.md",
     "docs/foundation/PRINCIPLES.md",
     "docs/foundation/DEFAULTS.md",
     "docs/foundation/DEFINITION-OF-DONE.md",
     "scripts/check_markdown.py",
+    "scripts/documentation_catalog.py",
     "scripts/verify.sh",
 )
 PACK_REQUIRED_PATHS = {

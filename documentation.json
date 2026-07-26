@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "renderer": {
+    "name": "catalog",
+    "config": "DOCUMENTATION.md"
+  },
+  "collections": [
+    {
+      "id": "public-guides",
+      "title": "Guides publics",
+      "visibility": "public",
+      "include": [
+        "ADOPTION.md",
+        "CHANGELOG.md",
+        "DEFAULTS.md",
+        "DEFINITION-OF-DONE.md",
+        "DOCUMENTATION.md",
+        "PRINCIPLES.md",
+        "PROJECT-BOOTSTRAP.md",
+        "README.md",
+        "VERSIONING.md"
+      ]
+    },
+    {
+      "id": "governance",
+      "title": "Gouvernance interne",
+      "visibility": "internal",
+      "include": [
+        "AGENTS.md",
+        "AUDIT.md",
+        "CLAUDE.md",
+        "DOCUMENTATION-CATALOG.md",
+        "PROJECT.md",
+        "ROADMAP.md",
+        "STATUS.md"
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": "Décisions",
+      "visibility": "reference",
+      "include": ["docs/**/*.md"]
+    },
+    {
+      "id": "profiles",
+      "title": "Profils",
+      "visibility": "reference",
+      "include": ["profiles/**/*.md"]
+    },
+    {
+      "id": "templates",
+      "title": "Templates",
+      "visibility": "reference",
+      "include": ["templates/**/*.md"]
+    },
+    {
+      "id": "examples",
+      "title": "Exemples",
+      "visibility": "reference",
+      "include": ["examples/**/*.md"]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "node_modules/**/*.md",
+      "reason": "Dépendances tierces"
+    },
+    {
+      "pattern": "dist/**/*.md",
+      "reason": "Sorties générées"
+    },
+    {
+      "pattern": "build/**/*.md",
+      "reason": "Sorties générées"
+    },
+    {
+      "pattern": ".venv/**/*.md",
+      "reason": "Environnement Python local"
+    }
+  ]
+}
