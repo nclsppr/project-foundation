@@ -34,15 +34,16 @@ Choisir le pack avant de copier :
 
 | Classe | Pack | Fichiers requis |
 | --- | --- | --- |
-| Exploration | Minimal | `README.md`, `BRIEF.md`, `AGENTS.md`, `FOUNDATION.md` |
-| Prototype | Standard | `README.md`, `PROJECT.md`, `STATUS.md`, `ROADMAP.md`, `AGENTS.md`, `FOUNDATION.md` |
+| Exploration | Minimal | `README.md`, `BRIEF.md`, `CHANGELOG.md`, `AGENTS.md`, `FOUNDATION.md` |
+| Prototype | Standard | `README.md`, `PROJECT.md`, `STATUS.md`, `ROADMAP.md`, `CHANGELOG.md`, `AGENTS.md`, `FOUNDATION.md` |
 | Produit | Full | Standard, ADR pour chaque décision structurante et `DESIGN.md` si interface |
 | Critique | Critical | Full, `RUNBOOK.md`, preuve de livraison et profils risque |
 
 Tous les packs ajoutent aussi `DOCUMENTATION.md`, `documentation.json`,
-`DOCUMENTATION-CATALOG.md` et le contrôle local du catalogue. Ces fichiers ne
-rendent pas tout le dépôt public : ils rendent chaque Markdown classé et
-découvrable dans la bonne audience.
+`DOCUMENTATION-CATALOG.md`, le scaffold `docs-nimbus/` et ses contrôles. Nimbus
+est obligatoire, y compris pour une exploration. Ces fichiers ne rendent pas
+tout le dépôt public : ils rendent chaque Markdown classé et découvrable dans
+la bonne audience.
 
 - [ ] Initialiser Git selon le default retenu ou la politique locale.
 - [ ] Copier uniquement le pack choisi.
@@ -55,7 +56,7 @@ découvrable dans la bonne audience.
 - [ ] Définir le propriétaire du projet.
 - [ ] Copier le noyau et les profils retenus sous `docs/foundation/`.
 - [ ] Classer les Markdown existants comme publics, internes, références ou archives.
-- [ ] Activer `documentation-nimbus` si le projet doit publier une documentation durable.
+- [ ] Vérifier que le profil obligatoire `documentation-nimbus` est activé.
 
 Supprimer les sections non applicables plutôt que remplir une longue série de `N/A`. À la fin de cette phase, aucun marqueur de saisie ne doit rester dans les fichiers copiés.
 
@@ -76,6 +77,7 @@ Pour un pack Standard ou supérieur, remplir dans `PROJECT.md` :
 - [ ] configuration d'environnement ;
 - [ ] opérations ;
 - [ ] décisions ;
+- [ ] historique des changements livrés ;
 - [ ] artefacts générés et leur source ;
 - [ ] archives et expériences.
 - [ ] collections documentaires et audiences.
@@ -85,14 +87,19 @@ Une case sans source est une décision à prendre, pas une invitation à dupliqu
 Le contrat stable reste dans `PROJECT.md`. L'état réellement vérifié vit dans `STATUS.md`. L'ordre de livraison et les critères de sortie vivent dans `ROADMAP.md`.
 
 Tous les nouveaux `.md` doivent rejoindre une collection de
-`documentation.json`. Les rendus web restent dérivés des sources classées. Si
-Nimbus est activé, enregistrer sa version, sa configuration et sa commande de
-build comme sources de vérité locales.
+`documentation.json`. Les rendus web restent dérivés des sources classées.
+Enregistrer la version, la configuration et la commande de build Nimbus comme
+sources de vérité locales.
 
 ## Phase 4. Prendre les premières décisions
 
-Pour un pack Full ou Critical, créer une ADR pour chaque choix qui serait coûteux à changer :
+À partir du pack Standard, une décision produit importante rejoint une ADR si
+elle change durablement les utilisateurs servis, la promesse, le périmètre, une
+règle métier ou une priorité structurante. Pour un pack Full ou Critical, créer
+aussi une ADR pour chaque choix technique qui serait coûteux à changer :
 
+- [ ] utilisateurs, promesse et contraintes produit structurantes ;
+- [ ] règles métier, tarification ou droits importants ;
 - [ ] forme du dépôt et découpage des modules ;
 - [ ] stack et versions ;
 - [ ] stockage et migrations ;
@@ -115,6 +122,7 @@ Le bootstrap crée le dossier `docs/decisions/`, pas une décision vide. Copier
 - [ ] Décrire les variables sans fournir leur valeur secrète.
 - [ ] Vérifier l'environnement réellement vu par les processus lancés.
 - [ ] Faire exécuter `verify` par la CI.
+- [ ] Installer Node `22.12.0` ou plus récent et npm pour le build Nimbus.
 - [ ] Déclarer les plateformes réellement supportées.
 
 Un guide qui ne peut pas être rejoué n'est pas terminé. Les actions sans objet sont supprimées du document au lieu de recevoir une fausse commande.
@@ -142,6 +150,7 @@ La première tranche doit traverser le système avec le moins de faux-semblants 
 - [ ] une preuve automatisée ;
 - [ ] une vérification sur la surface finale ;
 - [ ] la documentation mise à jour ;
+- [ ] le changement ajouté à `CHANGELOG.md` ;
 - [ ] aucun élément futur présenté comme livré.
 
 Éviter de construire tous les socles techniques avant d'avoir prouvé un flux utile.

@@ -8,7 +8,7 @@ documentation du projet. Aucun `.md` ne reste orphelin dans le tree.
 - `documentation.json` classe les fichiers par collection et visibilité.
 - `DOCUMENTATION-CATALOG.md` est la navigation exhaustive générée.
 - les fichiers Markdown classés restent les sources éditoriales ;
-- un rendu comme Nimbus est un consommateur dérivé, jamais une seconde source.
+- Nimbus est le moteur obligatoire et consomme une collection dérivée, jamais une seconde source.
 
 ## Visibilités
 
@@ -36,18 +36,24 @@ Après l'ajout, le déplacement ou la suppression d'un Markdown :
 2. lancer `python3 scripts/documentation_catalog.py --write` ;
 3. relire le catalogue et la visibilité attribuée ;
 4. lancer `./scripts/verify.sh` ;
-5. vérifier le rendu final si un moteur comme Nimbus est activé.
+5. vérifier le rendu Nimbus final et l'audience de la surface destinée à être publiée.
 
 Les chemins ignorés du manifeste sont réservés aux dépendances et sorties
 générées. Ils portent toujours une raison explicite.
 
-## Choix du moteur
+## Moteur obligatoire
 
-Le catalogue est la baseline sans dépendance web. Pour un produit durable qui a
-besoin de navigation, recherche, publication ou sorties destinées aux agents,
-Nimbus est le default actuel via `profiles/documentation-nimbus.md`. Il reste un
-profil remplaçable, versionné et vérifié dans chaque projet.
+Nimbus est obligatoire dans Project Foundation et dans chaque projet adopté.
+Le scaffold officiel, `nimbus.json`, la version épinglée et le lockfile sont
+vendorisés avec le projet. Node `22.12.0` ou plus récent et npm sont donc des
+prérequis de `verify`.
 
-Project Foundation n'embarque pas lui-même le runtime Nimbus en `v0.2.0`. Cette
-séparation conserve un bootstrap léger en Git, Bash et Python et évite de copier
-l'adaptateur spécifique de Surplasse. La décision est détaillée dans l'ADR-0002.
+Le catalogue reste la preuve exhaustive indépendante du rendu. L'adaptateur
+génère `docs-nimbus/src/content/docs/` depuis les sources classées, puis Nimbus
+exécute ses tests, son typecheck, son build et son lint. Cette collection est
+ignorée par Git et n'est jamais éditée.
+
+Le build local regroupe toutes les audiences pour rendre le corpus navigable.
+Il n'est pas publiable tel quel par défaut. Une publication définit un filtre
+explicite et vérifié pour ne jamais exposer une collection interne. La décision
+est détaillée dans l'ADR-0003.

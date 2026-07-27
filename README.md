@@ -34,12 +34,12 @@ chaque `.md` exactement une fois comme public, interne, référence ou archive.
 [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) fournit la navigation
 exhaustive et la commande `verify` refuse les fichiers orphelins.
 
-Les Markdown restent les sources éditoriales. Pour une documentation durable
-qui doit être navigable, recherchable ou publiée, Nimbus est le default actuel
-via [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md). Il
-reste un profil optionnel : le noyau n'impose ni Node, ni Astro, ni un moteur de
-rendu à une exploration ou à un service qui n'en a pas besoin. Le contrat
-complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
+Les Markdown restent les sources éditoriales. Nimbus est le moteur obligatoire
+de tous les projets via
+[`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md). Le
+scaffold, la version épinglée et le lockfile sont copiés par tous les packs, y
+compris Minimal. Le contrat complet vit dans
+[`DOCUMENTATION.md`](DOCUMENTATION.md).
 
 ## Contenu
 
@@ -49,6 +49,7 @@ complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
 | [`STATUS.md`](STATUS.md) | État réellement vérifié de ce dépôt |
 | [`ROADMAP.md`](ROADMAP.md) | Séquencement de ce dépôt |
 | [`VERSION`](VERSION) | Version courante canonique |
+| [`CHANGELOG.md`](CHANGELOG.md) | Historique de chaque changement livré et de son impact |
 | [`PRINCIPLES.md`](PRINCIPLES.md) | Invariants universels et preuve minimale attendue |
 | [`DEFAULTS.md`](DEFAULTS.md) | Valeurs de départ et décisions à rendre explicites |
 | [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md) | Séquence pour créer un projet de zéro |
@@ -57,6 +58,7 @@ complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
 | [`ADOPTION.md`](ADOPTION.md) | Inclusion dans un projet et contribution au socle amont |
 | [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classement, audiences et rendu de tous les Markdown |
 | [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Navigation exhaustive générée depuis le manifeste |
+| [`docs-nimbus/`](docs-nimbus/) | Scaffold Nimbus obligatoire, adaptateur, configuration et lockfile |
 | [`AUDIT.md`](AUDIT.md) | Origine des règles, exclusions et dérives observées |
 | [`templates/AGENTS.md`](templates/AGENTS.md) | Contrat local, court et découvrable par les agents |
 | [`templates/PROJECT.md`](templates/PROJECT.md) | Fiche produit, sources de vérité et commandes |
@@ -65,6 +67,7 @@ complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
 | [`templates/FOUNDATION.md`](templates/FOUNDATION.md) | Version du socle adoptée, profils et dérogations |
 | [`templates/README.md`](templates/README.md) | Entrée d'un projet minimal |
 | [`templates/README-standard.md`](templates/README-standard.md) | Entrée d'un prototype ou produit |
+| [`templates/CHANGELOG.md`](templates/CHANGELOG.md) | Historique obligatoire des changements livrés |
 | [`templates/BRIEF.md`](templates/BRIEF.md) | Contrat léger d'une exploration |
 | [`templates/AGENTS-minimal.md`](templates/AGENTS-minimal.md) | Adaptateur court pour une exploration |
 | [`templates/ADR.md`](templates/ADR.md) | Décision structurante versionnée |
@@ -77,7 +80,7 @@ complet vit dans [`DOCUMENTATION.md`](DOCUMENTATION.md).
 | [`profiles/experiment.md`](profiles/experiment.md) | Prototype isolé, honnête et supprimable |
 | [`profiles/generated-artifacts.md`](profiles/generated-artifacts.md) | Sources, dérivés, provenance et consommateurs |
 | [`profiles/dependency-change.md`](profiles/dependency-change.md) | Besoin, licence, supply chain, coût et retrait d'un tiers |
-| [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md) | Documentation Nimbus dérivée, versionnée et vérifiée |
+| [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md) | Documentation Nimbus obligatoire, dérivée, versionnée et vérifiée |
 | [`examples/minimal-web/`](examples/minimal-web/) | Exemple narratif fictif du parcours Minimal, pas un dépôt généré |
 
 ## Démarrer un projet
@@ -88,8 +91,8 @@ puis choisir un pack proportionné :
 
 | Pack | Usage | Documents locaux |
 | --- | --- | --- |
-| Minimal | Exploration courte | README, brief, adaptateur agent, version du socle |
-| Standard | Prototype | Contrat projet, statut vérifié, roadmap, adaptateur agent, version du socle |
+| Minimal | Exploration courte | README, brief, changelog, adaptateur agent, version du socle |
+| Standard | Prototype | Contrat projet, statut vérifié, roadmap, changelog, adaptateur agent, version du socle |
 | Full | Produit durable | Standard, ADR pour les décisions structurantes, design selon besoin |
 | Critical | Données sensibles, argent ou production critique | Full, runbook, preuve de livraison et profils renforcés |
 
@@ -102,7 +105,9 @@ La commande de bootstrap copie le pack, le snapshot du noyau et les profils sél
   --profiles web,experiment
 ```
 
-Prérequis : Git, Bash 3.2 ou plus récent et Python 3.9 ou plus récent, sans package Python tiers.
+Prérequis du bootstrap : Git, Bash 3.2 ou plus récent et Python 3.9 ou plus
+récent, sans package Python tiers. La vérification du projet exige aussi Node
+22.12.0 ou plus récent et npm pour Nimbus.
 
 Utiliser `--dry-run` pour voir les cibles avant toute écriture. Le parcours manuel reste documenté dans `PROJECT-BOOTSTRAP.md`.
 

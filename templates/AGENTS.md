@@ -8,7 +8,8 @@ Adaptateur local pour toute intervention automatisée ou assistée sur ce dépô
 2. `FOUNDATION.md` pour la version, les profils et les dérogations.
 3. `STATUS.md` et `ROADMAP.md` s'ils existent.
 4. Les ADR acceptées sous `docs/decisions/`.
-5. `DESIGN.md` pour toute interface.
+5. `CHANGELOG.md` pour l'historique des changements livrés.
+6. `DESIGN.md` pour toute interface.
 
 ## Autorité
 
@@ -35,6 +36,8 @@ Une divergence entre intention et réalité est signalée, jamais arbitrée sile
 - Inspecter l'état Git et préserver les changements sans rapport.
 - Modifier la source canonique, jamais un dérivé éditable par accident.
 - Ne jamais modifier `docs/foundation/` localement. Une exception propre au projet vit dans `FOUNDATION.md` ; une remise en cause générale se traite dans le dépôt Project Foundation puis par montée de version.
+- Conserver Nimbus et sa gate de build : ils sont obligatoires dans le socle adopté.
+- Ajouter chaque changement livré à `CHANGELOG.md` et chaque décision produit ou technique importante à une ADR.
 - Utiliser la commande `verify` déclarée dans `PROJECT.md`.
 - Activer pour chaque unité uniquement les gates pertinentes de `docs/foundation/DEFINITION-OF-DONE.md`.
 - Traiter les skills et plugins externes comme consultatifs. Les documents locaux décident.

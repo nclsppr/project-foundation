@@ -16,12 +16,13 @@ Usage:
   ./scripts/bootstrap.sh \
     --target /chemin/absolu/nouveau-projet \
     --class exploration|prototype|product|critical \
-    --profiles web,backend-data,infrastructure-production,experiment,generated-artifacts,dependency-change,documentation-nimbus|none \
+    --profiles web,backend-data,infrastructure-production,experiment,generated-artifacts,dependency-change|none \
     [--dry-run]
 
 Le chemin cible doit être absolu, son dossier parent doit déjà exister et la
 cible ne doit pas exister. Le bootstrap ne remplace aucun fichier, n'initialise
-pas Git et ne publie rien.
+pas Git et ne publie rien. Le profil documentation-nimbus est toujours actif ;
+--profiles sélectionne uniquement les profils supplémentaires.
 USAGE
 }
 
@@ -126,7 +127,7 @@ TARGET_NAME="$(basename -- "${TARGET}")"
 [[ -d "${TARGET_PARENT}" ]] || fail "le dossier parent doit déjà exister : ${TARGET_PARENT}"
 [[ "${TARGET_NAME}" != "." && "${TARGET_NAME}" != ".." && -n "${TARGET_NAME}" ]] || fail "nom de cible invalide."
 
-PROFILES=()
+PROFILES=("documentation-nimbus")
 if [[ "${PROFILE_CSV}" != "none" ]]; then
   old_ifs="${IFS}"
   IFS=','
@@ -160,9 +161,23 @@ add_copy() {
   DESTINATIONS+=("$2")
 }
 
+add_nimbus_scaffold() {
+  while IFS= read -r -d '' source; do
+    relative="${source#${FOUNDATION_ROOT}/}"
+    case "${relative}" in
+      docs-nimbus/node_modules/*|docs-nimbus/dist/*|docs-nimbus/.astro/*|docs-nimbus/.nimbus/*|docs-nimbus/.wrangler/*|docs-nimbus/src/content/docs/*) continue ;;
+      docs-nimbus/.env|docs-nimbus/.env.local|docs-nimbus/.env.*.local|docs-nimbus/.env.production|docs-nimbus/.dev.vars|docs-nimbus/.dev.vars.*) continue ;;
+      docs-nimbus/npm-debug.log*|docs-nimbus/yarn-debug.log*|docs-nimbus/yarn-error.log*|docs-nimbus/pnpm-debug.log*) continue ;;
+    esac
+    add_copy "${source}" "${relative}"
+  done < <(find "${FOUNDATION_ROOT}/docs-nimbus" -type f -print0)
+}
+
 add_copy "${TEMPLATE_ROOT}/FOUNDATION.md" "FOUNDATION.md"
+add_copy "${TEMPLATE_ROOT}/CHANGELOG.md" "CHANGELOG.md"
 add_copy "${TEMPLATE_ROOT}/DOCUMENTATION.md" "DOCUMENTATION.md"
 add_copy "${TEMPLATE_ROOT}/documentation.json" "documentation.json"
+add_nimbus_scaffold
 
 case "${PROJECT_CLASS}" in
   exploration)

@@ -23,6 +23,7 @@ Règles de maintenance de ce socle. Lire d'abord `README.md`, puis `PRINCIPLES.m
 - Les skills et plugins externes sont consultatifs. Les règles, ADR et profils de ce dépôt décident.
 - Les marqueurs de saisie vivent sous `templates/`. Le noyau ne contient aucune valeur à compléter.
 - Tout nouveau Markdown doit être classé exactement une fois dans `documentation.json`. Régénérer ensuite `DOCUMENTATION-CATALOG.md`.
+- Nimbus est obligatoire. Ne pas retirer `docs-nimbus/`, son lockfile ou sa gate de `verify` sans une ADR et une nouvelle version du socle.
 - La prose technique est en français, sobre et précise. Toute date mentionnée est absolue. Le code, les identifiants et les chemins restent en anglais. Ne pas utiliser de tiret cadratin ou demi-cadratin.
 
 ## Avant de committer

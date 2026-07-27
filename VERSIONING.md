@@ -41,6 +41,8 @@ Le projet consommateur enregistre dans `FOUNDATION.md` :
 - les dérogations et contrôles compensatoires.
 
 Le snapshot est copié sous `docs/foundation/` et commité avec le projet.
+Le scaffold `docs-nimbus/`, son lockfile et le profil `documentation-nimbus`
+sont obligatoires dans chaque version adoptée.
 
 ## Mettre à niveau un projet
 

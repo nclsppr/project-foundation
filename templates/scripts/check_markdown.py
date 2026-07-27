@@ -24,11 +24,21 @@ if sys.version_info < (3, 9):
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_PATHS = (
     "README.md",
+    "CHANGELOG.md",
     "FOUNDATION.md",
     "DOCUMENTATION.md",
     "DOCUMENTATION-CATALOG.md",
     "documentation.json",
     "AGENTS.md",
+    "docs-nimbus/AGENT.md",
+    "docs-nimbus/.env.example",
+    "docs-nimbus/astro.config.ts",
+    "docs-nimbus/nimbus.json",
+    "docs-nimbus/package-lock.json",
+    "docs-nimbus/package.json",
+    "docs-nimbus/scripts/sync-content.mjs",
+    "docs-nimbus/scripts/sync-content.test.mjs",
+    "docs-nimbus/src/content.config.ts",
     "docs/foundation/PRINCIPLES.md",
     "docs/foundation/DEFAULTS.md",
     "docs/foundation/DEFINITION-OF-DONE.md",
@@ -255,6 +265,9 @@ def check_structure(errors: list[str]) -> None:
             f"snapshot de profil non déclaré dans FOUNDATION.md : {profile}"
         )
 
+    if "documentation-nimbus" not in declared:
+        errors.append("le profil obligatoire documentation-nimbus n'est pas déclaré")
+
     if (
         adopted_pack == "critical"
         and not {"backend-data", "infrastructure-production"} & declared
@@ -324,7 +337,15 @@ def main() -> int:
     errors: list[str] = []
     check_structure(errors)
     for path in sorted(ROOT.rglob("*.md")):
-        if ".git" not in path.parts:
+        relative = path.relative_to(ROOT)
+        if (
+            ".git" not in path.parts
+            and "node_modules" not in path.parts
+            and "dist" not in path.parts
+            and ".astro" not in path.parts
+            and relative.parts[:4]
+            != ("docs-nimbus", "src", "content", "docs")
+        ):
             check_file(path, errors)
     if errors:
         print("\n".join(errors), file=sys.stderr)

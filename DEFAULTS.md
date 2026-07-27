@@ -10,7 +10,7 @@ Ces choix accélèrent le démarrage. Ils ne sont pas universels. Un projet peut
 - Dates absolues au format `YYYY-MM-DD`. Éviter les dates relatives.
 - Pas de tiret cadratin ou demi-cadratin dans la prose.
 - Une commande canonique par opération. La documentation ne recopie pas son implémentation.
-- `README.md` oriente. `PROJECT.md` décrit le contrat stable. `STATUS.md` décrit l'état vérifié. `ROADMAP.md` porte le séquencement. `AGENTS.md` décrit le mode d'intervention. Les ADR portent les décisions.
+- `README.md` oriente. `PROJECT.md` décrit le contrat stable. `STATUS.md` décrit l'état vérifié. `ROADMAP.md` porte le séquencement. `CHANGELOG.md` trace les changements livrés. `AGENTS.md` décrit le mode d'intervention. Les ADR portent les décisions.
 
 ## D02. Git et livraison
 
@@ -88,9 +88,9 @@ Un nouveau projet doit trancher explicitement :
 - Fournir `documentation.json` et un catalogue exhaustif dans tous les packs.
 - Classer les Markdown publics, internes, de référence et archivés avant de les publier.
 - Garder les Markdown comme sources éditoriales et les rendus comme dérivés.
-- Pour une documentation durable publiée, préférer Nimbus via `profiles/documentation-nimbus.md` tant que ce choix reste validé par le projet.
-- Épingler le moteur, tester son adaptateur et intégrer son build à `verify`.
-- Une autre solution reste valide si une décision locale explique le besoin et conserve les mêmes garanties d'inventaire, d'audience et de source unique.
+- Utiliser Nimbus dans tous les projets conformément à `P16` et à `profiles/documentation-nimbus.md`.
+- Épingler Nimbus, tester son adaptateur et intégrer son build à `verify`.
+- Un autre moteur peut fournir une sortie complémentaire, sans remplacer le build Nimbus canonique.
 
 ## Révoquer un default
 

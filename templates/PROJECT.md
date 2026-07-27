@@ -59,6 +59,7 @@ Ne jamais transformer une cible en résultat acquis.
 | Produit | TODO | normative | |
 | État courant | `STATUS.md` | snapshot opérationnel | Daté et vérifié |
 | Roadmap | `ROADMAP.md` | normative | Autorité de séquencement |
+| Historique des changements | `CHANGELOG.md` | historique | Chaque changement livré et son impact observable |
 | Architecture | TODO | normative | |
 | Contrat API | TODO | normative ou non applicable | |
 | Schéma de données | TODO | normative ou non applicable | |
@@ -67,7 +68,7 @@ Ne jamais transformer une cible en résultat acquis.
 | Code livré | TODO | opérationnelle | |
 | Opérations | TODO | normative | |
 | Décisions | `docs/decisions/` | normative | |
-| Documentation | `DOCUMENTATION.md`, `documentation.json` et catalogue généré | normative et dérivée | Chaque Markdown possède une audience |
+| Documentation | `DOCUMENTATION.md`, `documentation.json`, `docs-nimbus/` et catalogue généré | normative et dérivée | Chaque Markdown possède une audience et passe dans Nimbus |
 | Artefacts générés | TODO | dérivée | Nommer leur source |
 | Archives | TODO | historique | Jamais normative |
 | Expériences | TODO | expérimentale | Isolées |
@@ -106,8 +107,9 @@ TODO
 | --- | --- | --- |
 | Installer | TODO | TODO |
 | Développer | TODO | TODO |
-| Vérifier | TODO | TODO |
+| Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build et lint Nimbus valides |
 | Construire | TODO | TODO |
+| Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |
 | Arrêter | TODO | TODO |
 | Réinitialiser le dev | TODO | TODO |
 | Déployer | TODO | TODO |
@@ -152,4 +154,6 @@ Matrice de validation :
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-Les risques courants, blocages et prochaines preuves vivent dans `STATUS.md`. Les décisions durables vivent dans les ADR.
+Les risques courants, blocages et prochaines preuves vivent dans `STATUS.md`.
+Les changements livrés vivent dans `CHANGELOG.md`. Les décisions produit ou
+techniques importantes vivent dans les ADR.

@@ -32,6 +32,10 @@ Une mise à jour remplace ces fichiers depuis une nouvelle version du socle. Rel
 Les profils sont des politiques durables du projet. Leurs gates ne s'appliquent
 qu'aux unités de travail qui rencontrent leur déclencheur.
 
+`documentation-nimbus` est le seul profil obligatoire et s'applique à chaque
+unité qui modifie un Markdown ou la documentation. Il ne peut pas être retiré
+par une dérogation locale.
+
 ## Dérogations et contrôles compensatoires
 
 | Règle ou default | Portée | Choix local | Raison | Contrôle compensatoire | Propriétaire | Réexamen | ADR |

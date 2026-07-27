@@ -2,6 +2,18 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.3.0 - 2026-07-27
+
+- Rend Nimbus obligatoire dans tous les packs, y compris Minimal.
+- Ajoute le scaffold officiel Nimbus `0.6.3`, `@cloudflare/nimbus-docs` `0.8.2` épinglé et son lockfile npm.
+- Épingle `yaml` `2.9.0` pour fermer l'avis de sécurité présent dans la version du scaffold.
+- Ajoute un adaptateur générique qui génère la collection Nimbus depuis les Markdown classés.
+- Ajoute les tests de conversion, le typecheck, le build, Pagefind et le lint Nimbus à `verify` et à la CI.
+- Active automatiquement `documentation-nimbus` pendant le bootstrap et interdit son retrait local.
+- Remplace l'ADR-0002 par l'ADR-0003 et documente la migration incompatible depuis `v0.2.0`.
+- Exige Node `22.12.0` ou plus récent et npm pour vérifier un projet adopté.
+- Rend `CHANGELOG.md` obligatoire dans tous les packs et explicite la traçabilité des décisions produit importantes par ADR.
+
 ## 0.2.0 - 2026-07-27
 
 - Ajout d'un contrat qui classe chaque Markdown maintenu comme public, interne, référence ou archive.

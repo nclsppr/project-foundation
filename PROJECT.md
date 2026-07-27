@@ -8,7 +8,7 @@
 | Propriétaire | Nicolas Pieper |
 | Classe | Produit interne |
 | Surface de production | Aucune |
-| Version | 0.2.0 |
+| Version | 0.3.0 |
 | Licence | Dépôt public, aucune licence accordée |
 
 ## Problème
@@ -33,7 +33,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Bootstrap compréhensible | Un nouveau projet peut remplir les documents sans contexte caché | `PROJECT-BOOTSTRAP.md` et templates |
 | Socle cohérent | Liens valides, fichiers requis présents, aucune valeur à compléter dans le noyau | `./scripts/verify.sh` |
 | Adoption traçable | Version, profils et dérogations enregistrés | `templates/FOUNDATION.md` |
-| Documentation exhaustive | Chaque Markdown est classé une fois et possède une audience | `documentation.json`, catalogue et `./scripts/verify.sh` |
+| Documentation exhaustive | Chaque Markdown est classé une fois, possède une audience et passe dans Nimbus | `documentation.json`, catalogue, build Nimbus et `./scripts/verify.sh` |
 | Évolution commune | Un challenge général remonte dans le dépôt du socle avant mise à niveau | `ADOPTION.md` et `templates/FOUNDATION.md` |
 
 ## Périmètre
@@ -44,7 +44,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 - defaults révocables ;
 - profils web, backend et données, production et expérience ;
 - profils d'artefacts générés et de changement de dépendance ;
-- profil de documentation Nimbus ;
+- moteur Nimbus obligatoire, scaffold officiel, adaptateur et lockfile ;
 - templates de contrat, statut, roadmap, agents, ADR et design ;
 - templates de runbook et de preuve de livraison ;
 - manifeste et catalogue documentaires communs à tous les packs ;
@@ -54,7 +54,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 
 ### Non-objectifs
 
-- imposer une stack ou un workflow Git à tous les projets ;
+- imposer une stack applicative ou un workflow Git à tous les projets ;
 - fournir un framework applicatif ;
 - synchroniser automatiquement les dépôts existants ;
 - devenir une dépendance runtime ;
@@ -84,7 +84,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Invariants | `PRINCIPLES.md` | normative |
 | Defaults | `DEFAULTS.md` | normative révocable |
 | Gates | `DEFINITION-OF-DONE.md` | normative |
-| Profils | `profiles/` | normative opt-in |
+| Profils | `profiles/` | normative, Nimbus obligatoire et autres profils opt-in |
 | Décisions | `docs/decisions/` | normative |
 | Historique de versions | `CHANGELOG.md` | historique |
 | Politique de version | `VERSIONING.md` | normative |
@@ -96,25 +96,30 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 
 ## Architecture
 
-Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent et de contrôles Python 3.9 ou plus récent. Git porte l'historique, la provenance et les contrôles de diff. Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa version dans `FOUNDATION.md`. Le manifeste `documentation.json` classe tous les Markdown et génère un catalogue sans dépendance web ; Nimbus reste un profil de rendu opt-in.
+Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent,
+de contrôles Python 3.9 ou plus récent et d'un site Nimbus sous
+`docs-nimbus/`. Git porte l'historique, la provenance et les contrôles de diff.
+Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa
+version dans `FOUNDATION.md`. Le manifeste `documentation.json` classe tous les
+Markdown ; Nimbus les rend avec Node 22.12 ou plus récent.
 
 ## Environnements
 
 | Environnement | Support | Vérification |
 | --- | --- | --- |
-| macOS | Référence locale, Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` |
-| Linux | Supporté, Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` et workflow CI |
-| Windows | Via WSL2 avec Git, Bash 3.2 et Python 3.9 ou plus | `./scripts/verify.sh` |
+| macOS | Référence locale, Git, Bash 3.2, Python 3.9 et Node 22.12 ou plus | `./scripts/verify.sh` |
+| Linux | Supporté, mêmes prérequis | `./scripts/verify.sh` et workflow CI |
+| Windows | Via WSL2 avec les mêmes prérequis | `./scripts/verify.sh` |
 
 ## Commandes canoniques
 
 | Action | Commande | Résultat attendu |
 | --- | --- | --- |
-| Prérequis | `git --version && bash --version && python3 --version` | Git disponible, Bash 3.2 ou plus, Python 3.9 ou plus, aucun package tiers |
-| Vérifier | `./scripts/verify.sh` | Liens, structure, style et diff valides |
+| Prérequis | `git --version && bash --version && python3 --version && node --version && npm --version` | Git, Bash 3.2, Python 3.9, Node 22.12 et npm disponibles |
+| Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build, lint Nimbus et bootstrap valides |
 | Vérifier une release | `./scripts/verify.sh --release` | Worktree propre, version cohérente et tag annoté sur HEAD |
 | Régénérer la navigation | `python3 scripts/documentation_catalog.py --write` | Catalogue aligné sur le manifeste et les Markdown |
-| Construire | Non applicable au noyau | Un rendu Nimbus est construit uniquement dans un projet qui active ce profil |
+| Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |
 | Déployer | Non applicable | Le dépôt est consommé par copie versionnée |
 
 ## Données et sécurité

@@ -47,6 +47,16 @@ REQUIRED_PATHS = (
     "VERSIONING.md",
     "docs/decisions/adr-0001-standalone-versioned-foundation.md",
     "docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md",
+    "docs/decisions/adr-0003-nimbus-obligatoire.md",
+    "docs-nimbus/AGENT.md",
+    "docs-nimbus/.env.example",
+    "docs-nimbus/astro.config.ts",
+    "docs-nimbus/nimbus.json",
+    "docs-nimbus/package-lock.json",
+    "docs-nimbus/package.json",
+    "docs-nimbus/scripts/sync-content.mjs",
+    "docs-nimbus/scripts/sync-content.test.mjs",
+    "docs-nimbus/src/content.config.ts",
     "examples/minimal-web/README.md",
     "profiles/web.md",
     "profiles/backend-data.md",
@@ -63,6 +73,7 @@ REQUIRED_PATHS = (
     "scripts/sanitize_git_remote.py",
     "templates/README.md",
     "templates/README-standard.md",
+    "templates/CHANGELOG.md",
     "templates/BRIEF.md",
     "templates/PROJECT.md",
     "templates/STATUS.md",
@@ -126,6 +137,11 @@ def markdown_files() -> list[Path]:
         path
         for path in ROOT.rglob("*.md")
         if ".git" not in path.parts
+        and "node_modules" not in path.parts
+        and "dist" not in path.parts
+        and ".astro" not in path.parts
+        and path.relative_to(ROOT).parts[:4]
+        != ("docs-nimbus", "src", "content", "docs")
     )
 
 

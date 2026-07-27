@@ -201,15 +201,9 @@ def render_catalog(
             "Ces chemins contiennent des dépendances ou sorties dérivées, "
             "pas des sources documentaires maintenues."
         )
-        lines.extend(
-            [
-                "",
-                "| Motif | Glob | Fichiers Markdown observés |",
-                "| --- | --- | ---: |",
-            ]
-        )
-        for item, count in ignored_counts:
-            lines.append(f"| {item['reason']} | `{item['pattern']}` | {count} |")
+        lines.extend(["", "| Motif | Glob |", "| --- | --- |"])
+        for item, _count in ignored_counts:
+            lines.append(f"| {item['reason']} | `{item['pattern']}` |")
 
     return "\n".join(lines) + "\n"
 
@@ -221,6 +215,7 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true")
     mode.add_argument("--write", action="store_true")
+    mode.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
     try:
@@ -232,6 +227,24 @@ def main() -> int:
     except ManifestError as error:
         print(error, file=sys.stderr)
         return 1
+
+    if args.json:
+        payload = {
+            "renderer": manifest["renderer"],
+            "collections": [
+                {
+                    "id": collection["id"],
+                    "title": collection["title"],
+                    "visibility": collection["visibility"],
+                    "files": [
+                        path.relative_to(ROOT).as_posix() for path in paths
+                    ],
+                }
+                for collection, paths in classified
+            ],
+        }
+        print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
+        return 0
 
     if args.write:
         CATALOG.write_text(expected, encoding="utf-8")

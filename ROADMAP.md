@@ -48,6 +48,14 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - profil Nimbus opt-in ;
 - protocole de contribution amont depuis un projet consommateur.
 
+### Migration documentaire livrée en v0.3.0
+
+- Nimbus obligatoire dans les quatre packs ;
+- scaffold officiel et lockfile vendorisés ;
+- adaptateur générique depuis `documentation.json` ;
+- tests, typecheck, build, recherche et lint dans `verify` ;
+- migration incompatible depuis `v0.2.0` documentée.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif

@@ -33,6 +33,35 @@ tree_files() {
   (cd "$1" && find . -type f | LC_ALL=C sort)
 }
 
+copy_nimbus_scaffold() {
+  source_root="$1"
+  destination_root="$2"
+  while IFS= read -r -d '' source; do
+    relative="${source#${source_root}/}"
+    case "${relative}" in
+      node_modules/*|dist/*|.astro/*|.nimbus/*|.wrangler/*|src/content/docs/*) continue ;;
+      .env|.env.local|.env.*.local|.env.production|.dev.vars|.dev.vars.*) continue ;;
+      npm-debug.log*|yarn-debug.log*|yarn-error.log*|pnpm-debug.log*) continue ;;
+    esac
+    mkdir -p "${destination_root}/$(dirname -- "${relative}")"
+    cp -p "${source}" "${destination_root}/${relative}"
+  done < <(find "${source_root}" -type f -print0)
+}
+
+append_nimbus_expected() {
+  expected_file="$1"
+  while IFS= read -r -d '' source; do
+    relative="${source#${SOURCE_FOUNDATION_ROOT}/}"
+    case "${relative}" in
+      docs-nimbus/node_modules/*|docs-nimbus/dist/*|docs-nimbus/.astro/*|docs-nimbus/.nimbus/*|docs-nimbus/.wrangler/*|docs-nimbus/src/content/docs/*) continue ;;
+      docs-nimbus/.env|docs-nimbus/.env.local|docs-nimbus/.env.*.local|docs-nimbus/.env.production|docs-nimbus/.dev.vars|docs-nimbus/.dev.vars.*) continue ;;
+      docs-nimbus/npm-debug.log*|docs-nimbus/yarn-debug.log*|docs-nimbus/yarn-error.log*|docs-nimbus/pnpm-debug.log*) continue ;;
+    esac
+    printf './%s\n' "${relative}" >>"${expected_file}"
+  done < <(find "${SOURCE_FOUNDATION_ROOT}/docs-nimbus" -type f -print0)
+  LC_ALL=C sort -o "${expected_file}" "${expected_file}"
+}
+
 copy_foundation_fixture() {
   destination="$1"
   mkdir -p "${destination}/scripts"
@@ -45,6 +74,9 @@ copy_foundation_fixture() {
     "${SOURCE_FOUNDATION_ROOT}/profiles" \
     "${SOURCE_FOUNDATION_ROOT}/templates" \
     "${destination}/"
+  copy_nimbus_scaffold \
+    "${SOURCE_FOUNDATION_ROOT}/docs-nimbus" \
+    "${destination}/docs-nimbus"
   cp -p \
     "${SOURCE_FOUNDATION_ROOT}/scripts/bootstrap.sh" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/documentation_catalog.py" \
@@ -121,6 +153,7 @@ EXPLORATION_TARGET="${TEST_ROOT}/exploration-project"
 printf '%s\n' \
   "./AGENTS.md" \
   "./BRIEF.md" \
+  "./CHANGELOG.md" \
   "./DOCUMENTATION-CATALOG.md" \
   "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
@@ -129,12 +162,14 @@ printf '%s\n' \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
   "./docs/foundation/PRINCIPLES.md" \
+  "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/experiment.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/exploration.expected"
+append_nimbus_expected "${TEST_ROOT}/exploration.expected"
 tree_files "${EXPLORATION_TARGET}" >"${TEST_ROOT}/exploration.actual"
 diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" || fail "arbre exploration inattendu."
 [[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "verify exploration non exécutable."
@@ -142,6 +177,8 @@ diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" ||
 [[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "le bootstrap a initialisé Git."
 [[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "le pack minimal a reçu DESIGN.md."
 grep -F '| Pack adopté | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "pack minimal absent."
+grep -F '"@cloudflare/nimbus-docs": "0.8.2"' "${EXPLORATION_TARGET}/docs-nimbus/package.json" >/dev/null || fail "version Nimbus obligatoire absente du pack minimal."
+grep -F '"name": "nimbus"' "${EXPLORATION_TARGET}/documentation.json" >/dev/null || fail "renderer Nimbus absent du pack minimal."
 
 PRODUCT_TARGET="${TEST_ROOT}/product-project"
 USER='unsafe|actor' "${BOOTSTRAP}" \
@@ -151,6 +188,7 @@ USER='unsafe|actor' "${BOOTSTRAP}" \
 
 printf '%s\n' \
   "./AGENTS.md" \
+  "./CHANGELOG.md" \
   "./DESIGN.md" \
   "./DOCUMENTATION-CATALOG.md" \
   "./DOCUMENTATION.md" \
@@ -164,11 +202,13 @@ printf '%s\n' \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
   "./docs/foundation/PRINCIPLES.md" \
   "./docs/foundation/profiles/backend-data.md" \
+  "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/product.expected"
+append_nimbus_expected "${TEST_ROOT}/product.expected"
 tree_files "${PRODUCT_TARGET}" >"${TEST_ROOT}/product.actual"
 diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "arbre product inattendu."
 [[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue product non exécutable."
@@ -186,6 +226,7 @@ if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
   grep -F '| Adoptée par | unknown |' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "acteur de provenance non nettoyé."
   grep -F -- '- `web`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil web absent des métadonnées."
   grep -F -- '- `backend-data`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil backend-data absent des métadonnées."
+  grep -F -- '- `documentation-nimbus`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil Nimbus obligatoire absent des métadonnées."
   if grep -F 'TODO tag' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null; then
     fail "marqueur de version non remplacé."
   fi
@@ -225,6 +266,21 @@ if grep -E "fichier requis absent|profil déclaré sans snapshot|snapshot de pro
   fail "le pack product généré est structurellement incohérent."
 fi
 
+mv \
+  "${PRODUCT_TARGET}/docs/foundation/profiles/documentation-nimbus.md" \
+  "${TEST_ROOT}/documentation-nimbus.md"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "le profil obligatoire documentation-nimbus n'est pas déclaré" "${TEST_ROOT}/expected-failure.out" >/dev/null && fail "le retrait du profil Nimbus ne doit pas effacer sa déclaration."
+grep -F "profil déclaré sans snapshot : docs/foundation/profiles/documentation-nimbus.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait du profil Nimbus obligatoire non détecté."
+mv \
+  "${TEST_ROOT}/documentation-nimbus.md" \
+  "${PRODUCT_TARGET}/docs/foundation/profiles/documentation-nimbus.md"
+
+mv "${PRODUCT_TARGET}/docs-nimbus/package.json" "${TEST_ROOT}/nimbus-package.json"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "fichier requis absent : docs-nimbus/package.json" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait du package Nimbus obligatoire non détecté."
+mv "${TEST_ROOT}/nimbus-package.json" "${PRODUCT_TARGET}/docs-nimbus/package.json"
+
 rm -f "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "fichier requis absent : docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du noyau non détectée."
@@ -263,6 +319,7 @@ PROTOTYPE_TARGET="${TEST_ROOT}/prototype-project"
 
 printf '%s\n' \
   "./AGENTS.md" \
+  "./CHANGELOG.md" \
   "./DOCUMENTATION-CATALOG.md" \
   "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
@@ -280,6 +337,7 @@ printf '%s\n' \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/prototype.expected"
+append_nimbus_expected "${TEST_ROOT}/prototype.expected"
 tree_files "${PROTOTYPE_TARGET}" >"${TEST_ROOT}/prototype.actual"
 diff -u "${TEST_ROOT}/prototype.expected" "${TEST_ROOT}/prototype.actual" || fail "arbre prototype inattendu."
 grep -F '| Pack adopté | `standard` |' "${PROTOTYPE_TARGET}/FOUNDATION.md" >/dev/null || fail "pack standard absent."
@@ -293,6 +351,7 @@ CRITICAL_TARGET="${TEST_ROOT}/critical-project"
 
 printf '%s\n' \
   "./AGENTS.md" \
+  "./CHANGELOG.md" \
   "./DELIVERY-EVIDENCE.md" \
   "./DOCUMENTATION-CATALOG.md" \
   "./DOCUMENTATION.md" \
@@ -307,11 +366,13 @@ printf '%s\n' \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
   "./docs/foundation/PRINCIPLES.md" \
   "./docs/foundation/profiles/dependency-change.md" \
+  "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/infrastructure-production.md" \
   "./documentation.json" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/critical.expected"
+append_nimbus_expected "${TEST_ROOT}/critical.expected"
 tree_files "${CRITICAL_TARGET}" >"${TEST_ROOT}/critical.actual"
 diff -u "${TEST_ROOT}/critical.expected" "${TEST_ROOT}/critical.actual" || fail "arbre critical inattendu."
 grep -F '| Pack adopté | `critical` |' "${CRITICAL_TARGET}/FOUNDATION.md" >/dev/null || fail "pack critical absent."

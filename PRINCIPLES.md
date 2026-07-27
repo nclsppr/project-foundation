@@ -52,7 +52,7 @@ Ces principes s'appliquent à tout projet, quelle que soit sa stack. Chaque prin
 
 ## P07. Documenter les décisions, pas seulement le résultat
 
-**Règle.** Toute décision structurante est versionnée avec son contexte, ses alternatives, ses conséquences, son plan de vérification et ses conditions de réexamen.
+**Règle.** Toute décision structurante, y compris une décision produit importante, est versionnée avec son contexte, ses alternatives, ses conséquences, son plan de vérification et ses conditions de réexamen.
 
 **Pourquoi.** Sans compromis explicites, une équipe relance les mêmes débats ou conserve une décision devenue invalide.
 
@@ -126,8 +126,9 @@ Ces principes s'appliquent à tout projet, quelle que soit sa stack. Chaque prin
 
 **Règle.** Tout fichier Markdown maintenu appartient à la documentation du
 projet. Il est classé comme public, interne, référence ou archive et reste
-navigable depuis un catalogue ou le moteur documentaire. Un rendu généré ne
-devient jamais une seconde source éditoriale.
+navigable depuis le catalogue et Nimbus. Nimbus est le moteur documentaire
+obligatoire de tous les projets ; un autre moteur peut le compléter, pas le
+remplacer. Un rendu généré ne devient jamais une seconde source éditoriale.
 
 **Pourquoi.** Un fichier orphelin disparaît de la mémoire collective. Publier
 indistinctement tous les Markdown expose à l'inverse des runbooks, preuves ou
@@ -135,5 +136,20 @@ informations internes qui n'ont pas la bonne audience.
 
 **Preuve minimale.** `documentation.json` classe chaque `.md` exactement une
 fois, `DOCUMENTATION-CATALOG.md` fournit une navigation exhaustive et la
-commande `verify` contrôle le catalogue. Si un moteur comme Nimbus est activé,
-son build respecte les audiences et la collection générée n'est pas éditée.
+commande `verify` contrôle le catalogue, l'adaptateur et le build Nimbus. La
+collection générée n'est pas éditée et une publication respecte les audiences.
+
+## P17. Tracer chaque changement livré
+
+**Règle.** Chaque changement livré rejoint `CHANGELOG.md`. L'entrée décrit
+l'impact observable, la date ou la version concernée et, si nécessaire, la
+migration. Git conserve le diff technique exhaustif ; le changelog en donne une
+lecture durable et orientée projet.
+
+**Pourquoi.** Une suite de commits ne permet pas à elle seule de comprendre ce
+qui a changé pour les utilisateurs, les opérateurs ou les prochains
+contributeurs.
+
+**Preuve minimale.** Le changement figure sous une section non publiée ou dans
+la version livrée. Le commit permet de retrouver exactement les fichiers
+modifiés et une décision importante pointe aussi vers son ADR.

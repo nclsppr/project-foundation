@@ -1,11 +1,12 @@
 # ADR-0002 : catalogue universel et Nimbus optionnel
 
-- Statut : accepté
-- Statut d'implémentation : livré
+- Statut : remplacé
+- Statut d'implémentation : retiré
 - Date : 2026-07-27
 - Dernière vérification : 2026-07-27, catalogue et bootstrap vérifiés localement
 - Propriétaire : Nicolas Pieper
 - Remplace : aucune
+- Remplacé par : ADR-0003
 
 ## Contexte
 

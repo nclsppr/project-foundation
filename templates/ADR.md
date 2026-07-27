@@ -5,6 +5,7 @@
 - Date : YYYY-MM-DD
 - Dernière vérification : non vérifiée
 - Propriétaire : TODO
+- Domaine : TODO produit, architecture, données, sécurité, exploitation ou autre
 - Remplace : aucune
 - Remplacé par : aucune
 

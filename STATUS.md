@@ -7,8 +7,8 @@ Snapshot vérifié le 2026-07-27.
 | Champ | Valeur |
 | --- | --- |
 | Branche | `main` |
-| Version | `v0.2.0` |
-| Environnement | macOS local |
+| Version | `v0.3.0` |
+| Environnement | macOS local, Node `24.18.0` |
 | Production | Non applicable |
 | Remote | `https://github.com/nclsppr/project-foundation.git` |
 | Visibilité | Publique, sans licence accordée |
@@ -18,18 +18,18 @@ Snapshot vérifié le 2026-07-27.
 | Capacité | Périmètre réel | Preuve | Limite connue |
 | --- | --- | --- | --- |
 | Noyau | Invariants, defaults et définition de done | Relecture croisée des quatre zones sources et `AUDIT.md` | Première version |
-| Bootstrap | Quatre packs, sept profils, contrat documentaire, dry-run et copie atomique sans écrasement | `scripts/bootstrap.sh` et `scripts/test_bootstrap.sh` verts | Le contenu métier généré reste à compléter |
-| Profils | Web, backend et données, infrastructure, expérience, artefacts générés, dépendances et documentation Nimbus | Profils opt-in vérifiés | Pas de profil mobile natif ou data science |
-| Documentation | Tous les Markdown classés une fois avec une audience et une navigation générée | `documentation.json`, `DOCUMENTATION-CATALOG.md` et test d'orphelin verts | Nimbus n'est pas installé dans le noyau |
+| Bootstrap | Quatre packs, Nimbus obligatoire, six profils supplémentaires, dry-run et copie atomique sans écrasement | `scripts/bootstrap.sh` et `scripts/test_bootstrap.sh` verts | Le contenu métier généré reste à compléter |
+| Profils | Documentation Nimbus obligatoire ; web, backend et données, infrastructure, expérience, artefacts générés et dépendances opt-in | Snapshots et déclarations vérifiés | Pas de profil mobile natif ou data science |
+| Documentation | 44 Markdown classés, 49 pages Nimbus générées et 50 fichiers lintés | Catalogue, tests, typecheck, build, Pagefind, lint et parcours navigateur verts | Le build local complet ne doit pas être publié sans filtre d'audience |
 | Adoption amont | Source officielle, snapshot immuable, dérogation locale et challenge général séparés | `ADOPTION.md` et `templates/FOUNDATION.md` | Première adoption réelle encore à prouver |
 | Provenance | Audit des règles retenues, écartées et laissées locales | `AUDIT.md` | Snapshot daté |
-| Vérification | Structure, liens, ancres, style, placeholders et sécurité du bootstrap | `./scripts/verify.sh` vert sur macOS local | Ne remplace pas une revue éditoriale |
+| Vérification | Structure, liens, ancres, style, placeholders, Nimbus et sécurité du bootstrap | `./scripts/verify.sh` vert sur macOS local | Ne remplace pas une revue éditoriale |
 
 ## Phase active
 
 | Phase roadmap | État observé | Prochaine preuve |
 | --- | --- | --- |
-| `F01` | Socle, initialiseur et maintenance v0.2.0 livrés, vérifiés et versionnés | Première adoption réelle |
+| `F01` | Socle, initialiseur et migration Nimbus v0.3.0 livrés et vérifiés | Première adoption réelle |
 | `F02` | Planifiée | Projet neuf complété et vérifié sans dépendance au dépôt source |
 
 ## Cible non livrée

@@ -4,16 +4,17 @@
 
 Tous les fichiers Markdown maintenus par le projet sont classés ici depuis `documentation.json`.
 
-Moteur déclaré : `catalog`.
+Moteur déclaré : `nimbus`.
 
 | Collection | Visibilité | Fichiers |
 | --- | --- | ---: |
 | Guides publics | `public` | 9 |
 | Gouvernance interne | `internal` | 7 |
-| Décisions | `reference` | 2 |
+| Décisions | `reference` | 3 |
 | Profils | `reference` | 7 |
-| Templates | `reference` | 15 |
+| Templates | `reference` | 16 |
 | Exemples | `reference` | 1 |
+| Maintenance Nimbus | `reference` | 1 |
 
 ## Guides publics
 
@@ -41,6 +42,7 @@ Moteur déclaré : `catalog`.
 
 - [docs/decisions/adr-0001-standalone-versioned-foundation.md](docs/decisions/adr-0001-standalone-versioned-foundation.md)
 - [docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md](docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md)
+- [docs/decisions/adr-0003-nimbus-obligatoire.md](docs/decisions/adr-0003-nimbus-obligatoire.md)
 
 ## Profils
 
@@ -58,6 +60,7 @@ Moteur déclaré : `catalog`.
 - [templates/AGENTS-minimal.md](templates/AGENTS-minimal.md)
 - [templates/AGENTS.md](templates/AGENTS.md)
 - [templates/BRIEF.md](templates/BRIEF.md)
+- [templates/CHANGELOG.md](templates/CHANGELOG.md)
 - [templates/CLAUDE.md](templates/CLAUDE.md)
 - [templates/DELIVERY-EVIDENCE.md](templates/DELIVERY-EVIDENCE.md)
 - [templates/DESIGN.md](templates/DESIGN.md)
@@ -74,13 +77,20 @@ Moteur déclaré : `catalog`.
 
 - [examples/minimal-web/README.md](examples/minimal-web/README.md)
 
+## Maintenance Nimbus
+
+- [docs-nimbus/AGENT.md](docs-nimbus/AGENT.md)
+
 ## Chemins ignorés
 
 Ces chemins contiennent des dépendances ou sorties dérivées, pas des sources documentaires maintenues.
 
-| Motif | Glob | Fichiers Markdown observés |
-| --- | --- | ---: |
-| Dépendances tierces | `node_modules/**/*.md` | 0 |
-| Sorties générées | `dist/**/*.md` | 0 |
-| Sorties générées | `build/**/*.md` | 0 |
-| Environnement Python local | `.venv/**/*.md` | 0 |
+| Motif | Glob |
+| --- | --- |
+| Dépendances tierces | `node_modules/**/*.md` |
+| Sorties générées | `dist/**/*.md` |
+| Sorties générées | `build/**/*.md` |
+| Environnement Python local | `.venv/**/*.md` |
+| Collection Nimbus générée depuis les sources classées | `docs-nimbus/src/content/docs/**/*.md` |
+| Dépendances Nimbus tierces | `docs-nimbus/node_modules/**/*.md` |
+| Site Nimbus généré | `docs-nimbus/dist/**/*.md` |

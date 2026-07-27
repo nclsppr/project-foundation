@@ -6,14 +6,15 @@ Ces contrôles sont dérivés des principes et profils. Ils ne constituent pas u
 
 ## Noyau commun
 
-Contrôles dérivés de `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09` et `P10`.
+Contrôles dérivés de `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10` et `P17`.
 
 - [ ] Le résultat répond au problème demandé, pas à une extension implicite.
 - [ ] L'état actuel, la cible et les limites sont correctement nommés.
 - [ ] Aucun fait, chiffre, utilisateur, validation ou état de production n'est inventé.
 - [ ] Le worktree initial a été inspecté et les changements sans rapport sont préservés.
 - [ ] Le diff est ciblé, relu et sans secret.
-- [ ] Les décisions structurantes et compromis sont documentés.
+- [ ] Les décisions structurantes, notamment produit, et leurs compromis sont documentés dans une ADR.
+- [ ] `CHANGELOG.md` décrit le changement livré et son impact observable.
 - [ ] La source canonique et les artefacts dérivés sont alignés.
 - [ ] La commande `verify` passe dans l'environnement pertinent.
 - [ ] La documentation d'installation, exécution et vérification reste rejouable.
@@ -33,7 +34,9 @@ Contrôles dérivés de `P02`, `P03`, `P04`, `P10` et `P16`.
 - [ ] Les dates sont absolues.
 - [ ] Les archives, changelogs et audits datés ne sont pas présentés comme état actuel.
 - [ ] Le rendu final a été contrôlé, pas seulement la source Markdown.
-- [ ] Une collection générée par Nimbus ou un autre moteur n'a pas été modifiée à la main.
+- [ ] Les tests de l'adaptateur, le typecheck, le build et le lint Nimbus passent.
+- [ ] La collection générée par Nimbus n'a pas été modifiée à la main.
+- [ ] Une publication Nimbus expose uniquement les audiences explicitement autorisées.
 
 ## Interface web ou produit
 
@@ -109,7 +112,7 @@ Contrôles dérivés de `P02`, `P08`, `P12` et de `profiles/experiment.md`.
 
 ## Livraison et clôture
 
-Contrôles dérivés de `P05`, `P08`, `P10` et `P14`.
+Contrôles dérivés de `P05`, `P08`, `P10`, `P14` et `P17`.
 
 - [ ] Le commit ne contient que l'unité de travail.
 - [ ] Le SHA ou artefact final a ses contrôles verts.

@@ -22,9 +22,12 @@ python3 scripts/documentation_catalog.py --write
 ./scripts/verify.sh
 ```
 
-Si Nimbus est activé, sa collection générée reste ignorée par Git et sa commande
-de build complète rejoint `scripts/verify.sh`. Le choix et la version du moteur
-vivent dans `PROJECT.md`, une ADR et `documentation.json`.
+Nimbus est obligatoire. Sa collection générée reste ignorée par Git et sa
+commande de build complète rejoint `scripts/verify.sh`. Sa version, son
+lockfile et sa configuration sont versionnés avec le projet.
+
+Le build local peut réunir toutes les audiences pour la navigation. Il n'est
+jamais publié sans un filtre explicite et vérifié des collections autorisées.
 
 ## Ajouter un Markdown
 
