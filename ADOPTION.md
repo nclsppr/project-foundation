@@ -11,7 +11,7 @@ produit un diff explicite.
 ## Source officielle
 
 - Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.3.0`
+- Release courante : `v0.3.1`
 - Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
 
 Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
@@ -19,11 +19,11 @@ Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
 ## Nouveau projet
 
 ```bash
-git clone --branch v0.3.0 --depth 1 \
+git clone --branch v0.3.1 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.3.0
+  /tmp/project-foundation-v0.3.1
 
-/tmp/project-foundation-v0.3.0/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.3.1/scripts/bootstrap.sh \
   --target /chemin/absolu/vers/le-nouveau-projet \
   --class product \
   --profiles web
@@ -84,14 +84,21 @@ Une modification directe de `docs/foundation/` est interdite : elle serait
 Une future commande de mise à niveau pourra préparer ce diff. Elle ne devra
 jamais écraser silencieusement une dérogation ou une gate locale.
 
-### Migration de v0.2.0 vers v0.3.0
+### Migration de v0.2.0 vers v0.3.1
 
 Cette montée de version est incompatible sans adaptation :
 
 1. installer Node `22.12.0` ou plus récent et npm dans les environnements local et CI ;
-2. copier `docs-nimbus/`, son lockfile et le profil obligatoire depuis `v0.3.0` ;
+2. copier `docs-nimbus/`, son lockfile et le profil obligatoire depuis `v0.3.1` ;
 3. ajouter `CHANGELOG.md` depuis le template si le projet n'en possède pas ;
 4. fusionner les nouvelles baselines de `scripts/check_markdown.py` et `scripts/verify.sh` ;
 5. déclarer `documentation-nimbus` dans `FOUNDATION.md` ;
 6. définir les variables Nimbus uniquement si les valeurs locales par défaut ne conviennent pas ;
 7. exécuter `./scripts/verify.sh` avant de publier la montée de version.
+
+### Migration de v0.3.0 vers v0.3.1
+
+`v0.3.0` construit correctement le dépôt du socle mais son guide Nimbus contient
+deux liens non portables qui font échouer le lint d'un pack généré. Remplacer le
+scaffold et les scripts de vérification depuis `v0.3.1`, puis rejouer
+`./scripts/verify.sh`.

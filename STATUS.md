@@ -7,7 +7,7 @@ Snapshot vérifié le 2026-07-27.
 | Champ | Valeur |
 | --- | --- |
 | Branche | `main` |
-| Version | `v0.3.0` |
+| Version | `v0.3.1` |
 | Environnement | macOS local, Node `24.18.0` |
 | Production | Non applicable |
 | Remote | `https://github.com/nclsppr/project-foundation.git` |
@@ -29,7 +29,7 @@ Snapshot vérifié le 2026-07-27.
 
 | Phase roadmap | État observé | Prochaine preuve |
 | --- | --- | --- |
-| `F01` | Socle, initialiseur et migration Nimbus v0.3.0 livrés et vérifiés | Première adoption réelle |
+| `F01` | Socle, initialiseur et correction d'adoption Nimbus v0.3.1 livrés et vérifiés | Première adoption réelle |
 | `F02` | Planifiée | Projet neuf complété et vérifié sans dépendance au dépôt source |
 
 ## Cible non livrée

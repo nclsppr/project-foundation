@@ -56,6 +56,12 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - tests, typecheck, build, recherche et lint dans `verify` ;
 - migration incompatible depuis `v0.2.0` documentée.
 
+### Correction d'adoption livrée en v0.3.1
+
+- liens de maintenance Nimbus portables dans les projets générés ;
+- build Nimbus d'un pack Product ajouté aux tests du bootstrap ;
+- lockfile copié comparé octet pour octet à la source.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif

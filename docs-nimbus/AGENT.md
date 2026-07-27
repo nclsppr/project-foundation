@@ -4,11 +4,11 @@ Ce dossier contient le scaffold Nimbus obligatoire de Project Foundation. Il
 reste suivi par `nimbus.json`, mais ses commandes et son adaptateur sont adaptés
 au contrat documentaire du socle.
 
-Les règles normatives vivent dans [`DOCUMENTATION.md`](../DOCUMENTATION.md), le
-profil obligatoire dans
-[`profiles/documentation-nimbus.md`](../profiles/documentation-nimbus.md) et la
-décision dans
-[`docs/decisions/adr-0003-nimbus-obligatoire.md`](../docs/decisions/adr-0003-nimbus-obligatoire.md).
+Les règles normatives vivent dans [`DOCUMENTATION.md`](../DOCUMENTATION.md).
+Dans un projet adopté, le profil obligatoire est vendorisé sous
+`docs/foundation/profiles/documentation-nimbus.md`. La décision d'origine reste
+dans Project Foundation sous
+`docs/decisions/adr-0003-nimbus-obligatoire.md`.
 
 ## Sources et dérivés
 

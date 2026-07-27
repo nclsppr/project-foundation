@@ -2,6 +2,13 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.3.1 - 2026-07-27
+
+- Corrige les liens du guide Nimbus pour qu'ils restent valides dans un projet généré, sans dépendre de fichiers propres au dépôt Project Foundation.
+- Ajoute le build, la recherche et le lint Nimbus d'un pack Product généré aux tests du bootstrap.
+- Vérifie que le lockfile Nimbus copié reste strictement identique à celui de la release.
+- Remplace `v0.3.0` comme version recommandée pour toute nouvelle adoption.
+
 ## 0.3.0 - 2026-07-27
 
 - Rend Nimbus obligatoire dans tous les packs, y compris Minimal.

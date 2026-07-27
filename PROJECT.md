@@ -8,7 +8,7 @@
 | Propriétaire | Nicolas Pieper |
 | Classe | Produit interne |
 | Surface de production | Aucune |
-| Version | 0.3.0 |
+| Version | 0.3.1 |
 | Licence | Dépôt public, aucune licence accordée |
 
 ## Problème

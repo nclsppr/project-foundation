@@ -266,6 +266,22 @@ if grep -E "fichier requis absent|profil déclaré sans snapshot|snapshot de pro
   fail "le pack product généré est structurellement incohérent."
 fi
 
+[[ -d "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/node_modules" ]] || fail "dépendances Nimbus absentes ; lancer la vérification complète avant les tests du bootstrap."
+cmp -s \
+  "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/package-lock.json" \
+  "${PRODUCT_TARGET}/docs-nimbus/package-lock.json" || fail "lockfile Nimbus altéré pendant le bootstrap."
+ln -s \
+  "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/node_modules" \
+  "${PRODUCT_TARGET}/docs-nimbus/node_modules"
+if ! (
+  cd "${PRODUCT_TARGET}"
+  npm run check --prefix docs-nimbus
+) >"${TEST_ROOT}/product-nimbus-check.out" 2>&1; then
+  tail -n 80 "${TEST_ROOT}/product-nimbus-check.out" >&2
+  fail "build Nimbus du pack product généré invalide."
+fi
+rm "${PRODUCT_TARGET}/docs-nimbus/node_modules"
+
 mv \
   "${PRODUCT_TARGET}/docs/foundation/profiles/documentation-nimbus.md" \
   "${TEST_ROOT}/documentation-nimbus.md"
