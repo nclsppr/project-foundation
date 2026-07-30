@@ -173,7 +173,8 @@ La première tranche doit traverser le système avec le moins de faux-semblants 
 - [ ] Régénérer puis vérifier `DOCUMENTATION-CATALOG.md`.
 - [ ] Inspecter le diff.
 - [ ] Committer une unité cohérente.
-- [ ] Pousser selon la politique du projet.
+- [ ] Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée, conformément à `P18`.
+- [ ] Vérifier que le SHA existe sur le remote et observer les contrôles distants disponibles.
 - [ ] Créer la prochaine tranche dans la roadmap, pas dans une liste concurrente.
 
 Le bootstrap est fini lorsque quelqu'un d'autre peut comprendre, lancer, vérifier et reprendre le projet sans commande cachée.

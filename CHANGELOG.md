@@ -2,6 +2,15 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.4.0 - 2026-07-30
+
+- Ajoute `P18`, invariant qui impose de committer puis pousser chaque tranche cohérente et vérifiée dès que la tâche autorise la modification du dépôt.
+- Impose `main` comme cible directe lorsqu'elle est accessible, ou une branche dédiée lorsque la branche canonique est protégée ou soumise à revue.
+- Empêche une dérogation locale de conserver silencieusement un travail terminé uniquement dans le worktree ou l'historique local.
+- Aligne les adaptateurs `AGENTS.md`, la définition de done, le bootstrap, la preuve de livraison, l'adoption et le processus de release sur cette discipline.
+- Ajoute un test de bootstrap qui vérifie la propagation de `P18` et de sa traduction opérationnelle dans tous les packs.
+- Documente la décision dans l'ADR-0004 et la migration depuis `v0.3.1`.
+
 ## 0.3.1 - 2026-07-27
 
 - Corrige les liens du guide Nimbus pour qu'ils restent valides dans un projet généré, sans dépendre de fichiers propres au dépôt Project Foundation.

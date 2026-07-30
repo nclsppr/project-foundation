@@ -179,6 +179,8 @@ diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" ||
 grep -F '| Pack adopté | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "pack minimal absent."
 grep -F '"@cloudflare/nimbus-docs": "0.8.2"' "${EXPLORATION_TARGET}/docs-nimbus/package.json" >/dev/null || fail "version Nimbus obligatoire absente du pack minimal."
 grep -F '"name": "nimbus"' "${EXPLORATION_TARGET}/documentation.json" >/dev/null || fail "renderer Nimbus absent du pack minimal."
+grep -F '## P18. Committer et pousser chaque tranche validée' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack minimal."
+grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack minimal."
 
 PRODUCT_TARGET="${TEST_ROOT}/product-project"
 USER='unsafe|actor' "${BOOTSTRAP}" \
@@ -212,6 +214,8 @@ append_nimbus_expected "${TEST_ROOT}/product.expected"
 tree_files "${PRODUCT_TARGET}" >"${TEST_ROOT}/product.actual"
 diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "arbre product inattendu."
 [[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue product non exécutable."
+grep -F '## P18. Committer et pousser chaque tranche validée' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack Product."
+grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack Product."
 
 if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
   expected_source_line="$(printf '| Source | `%s` |' "${EXPECTED_FOUNDATION_SOURCE}")"

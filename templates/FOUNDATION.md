@@ -43,6 +43,9 @@ par une dérogation locale.
 | TODO | TODO | TODO | TODO | TODO | TODO | TODO | TODO |
 
 Une dérogation à un invariant exige une portée limitée, un contrôle compensatoire et une date de réexamen.
+`P18` ne peut pas être désactivé par une dérogation locale : la politique du
+projet choisit entre push direct sur la branche canonique et branche dédiée,
+mais ne conserve pas une tranche terminée uniquement en local.
 
 ## Challenger le socle
 
@@ -106,3 +109,4 @@ preuve de livraison les gates de ce profil applicables à l'unité.
 6. Régénérer le catalogue documentaire.
 7. Exécuter la commande de vérification du projet.
 8. Committer le snapshot, ce fichier et les adaptations dans une seule unité.
+9. Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.

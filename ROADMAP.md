@@ -11,7 +11,7 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 | Ordre | ID | Phase | Résultat | État | Critère de sortie |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `F01` | Socle et bootstrap | Noyau, templates, profils et initialiseur versionnés | done | Vérification locale verte et tag `v0.1.0` |
-| 2 | `F02` | Test d'adoption | Un dépôt neuf utilise réellement le socle | planned | Bootstrap rejoué, liens autonomes et commande `verify` du projet verte |
+| 2 | `F02` | Test d'adoption | Un dépôt neuf utilise réellement le socle | in_progress | Bootstrap rejoué, liens autonomes, commit distant et commande `verify` du projet verte |
 | 3 | `F03` | Mise à niveau assistée | Un projet compare puis remplace son snapshot sans perdre ses dérogations | planned | Diff explicite, dry-run, aucun écrasement implicite |
 | 4 | `F04` | Audit d'adoption | Un projet détecte sa dérive par rapport au snapshot | planned | Contrôle neutre local et CI avec messages actionnables |
 
@@ -62,11 +62,22 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - build Nimbus d'un pack Product ajouté aux tests du bootstrap ;
 - lockfile copié comparé octet pour octet à la source.
 
+### Discipline de publication livrée en v0.4.0
+
+- invariant `P18` pour committer et pousser chaque tranche validée ;
+- push direct sur la branche canonique si autorisé, branche dédiée sinon ;
+- adaptateurs, définition de done, bootstrap et adoption alignés ;
+- propagation vérifiée dans les packs générés.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif
 
 Créer un dépôt jetable ou un vrai petit projet, suivre uniquement le bootstrap, puis corriger ce qui nécessite encore du contexte implicite.
+
+Parkventory est le premier projet réel utilisé pour cette preuve. Son adoption
+reste `in_progress` jusqu'à la présence du commit sur son remote et au résultat
+de sa CI.
 
 ### Critère de sortie
 

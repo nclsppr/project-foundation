@@ -6,7 +6,7 @@ Ces contrôles sont dérivés des principes et profils. Ils ne constituent pas u
 
 ## Noyau commun
 
-Contrôles dérivés de `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10` et `P17`.
+Contrôles dérivés de `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17` et `P18`.
 
 - [ ] Le résultat répond au problème demandé, pas à une extension implicite.
 - [ ] L'état actuel, la cible et les limites sont correctement nommés.
@@ -112,11 +112,14 @@ Contrôles dérivés de `P02`, `P08`, `P12` et de `profiles/experiment.md`.
 
 ## Livraison et clôture
 
-Contrôles dérivés de `P05`, `P08`, `P10`, `P14` et `P17`.
+Contrôles dérivés de `P05`, `P08`, `P10`, `P14`, `P17` et `P18`.
 
 - [ ] Le commit ne contient que l'unité de travail.
 - [ ] Le SHA ou artefact final a ses contrôles verts.
-- [ ] Le push et le déploiement requis ont réussi.
+- [ ] Chaque tranche terminée a été commitée après ses validations applicables.
+- [ ] Le SHA final existe sur la branche distante attendue : branche canonique si l'écriture directe est autorisée, branche dédiée sinon.
+- [ ] Les contrôles distants disponibles ont été observés ; tout blocage de push est exact, attribué et laisse un SHA local reprenable.
+- [ ] Le déploiement requis a réussi lorsqu'il fait partie du périmètre autorisé.
 - [ ] L'URL, le service ou le fichier final a été contrôlé.
 - [ ] Les preuves utiles sont résumées.
 - [ ] Les risques restants et actions externes sont séparés du travail terminé.

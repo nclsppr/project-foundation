@@ -153,3 +153,31 @@ contributeurs.
 **Preuve minimale.** Le changement figure sous une section non publiée ou dans
 la version livrée. Le commit permet de retrouver exactement les fichiers
 modifiés et une décision importante pointe aussi vers son ADR.
+
+## P18. Committer et pousser chaque tranche validée
+
+**Règle.** Dès qu'une tâche autorise la modification d'un dépôt Git doté d'un
+remote, chaque tranche cohérente et vérifiée est commitée puis poussée sans
+attendre d'autres travaux. Le push vise la branche canonique lorsque l'écriture
+directe y est autorisée ; si elle est protégée ou soumise à revue, il vise une
+branche dédiée au périmètre. Une tranche terminée ne reste pas uniquement dans
+le worktree ou l'historique local. Le commit ne mélange pas de changements sans
+rapport et ne fige pas volontairement un état connu comme invalide.
+
+Ce principe ne peut pas être désactivé par un default ou une dérogation de
+convenance. Les seules exceptions sont une tâche explicitement en lecture seule
+ou limitée au local, une interdiction d'autorité supérieure, l'absence de remote
+ou un blocage externe de réseau, d'authentification ou de plateforme. Le SHA
+local et le blocage exact sont alors signalés, et le push reprend dès que le
+blocage disparaît.
+
+**Pourquoi.** Un travail terminé mais seulement local reste invisible,
+fragile, difficile à relire et impossible à reprendre de façon fiable par une
+autre personne ou la CI. Des unités petites et publiées réduisent la perte de
+travail, raccourcissent les revues et rendent le rollback précis.
+
+**Preuve minimale.** Le commit contient une seule tranche validée, son SHA est
+présent sur la branche distante attendue et l'état final du worktree est connu.
+La branche canonique est utilisée directement si sa politique le permet ; sinon
+la branche distante et le chemin de revue sont nommés. Les contrôles distants
+disponibles sont observés avant de déclarer la livraison terminée.

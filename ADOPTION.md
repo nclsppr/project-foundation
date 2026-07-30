@@ -11,7 +11,7 @@ produit un diff explicite.
 ## Source officielle
 
 - Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.3.1`
+- Release courante : `v0.4.0`
 - Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
 
 Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
@@ -19,11 +19,11 @@ Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
 ## Nouveau projet
 
 ```bash
-git clone --branch v0.3.1 --depth 1 \
+git clone --branch v0.4.0 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.3.1
+  /tmp/project-foundation-v0.4.0
 
-/tmp/project-foundation-v0.3.1/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.4.0/scripts/bootstrap.sh \
   --target /chemin/absolu/vers/le-nouveau-projet \
   --class product \
   --profiles web
@@ -46,7 +46,8 @@ Le bootstrap exige une cible inexistante. Pour un dépôt existant :
 5. remplir `FOUNDATION.md`, les dérogations et les sources locales ;
 6. régénérer le catalogue documentaire ;
 7. lancer la vérification du projet ;
-8. committer l'adoption comme une unité réversible.
+8. committer l'adoption comme une unité réversible ;
+9. pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
 
 ## Exception locale ou challenge du socle
 
@@ -64,9 +65,10 @@ Modifier le dépôt Project Foundation lui-même :
 1. créer une branche ou un worktree depuis le dépôt officiel ;
 2. modifier la source canonique, ses templates, contrôles et tests ;
 3. exécuter `./scripts/verify.sh` ;
-4. relire et committer une unité cohérente ;
-5. publier une nouvelle version selon `VERSIONING.md` ;
-6. mettre ensuite à niveau le projet consommateur vers ce tag et ce SHA.
+4. relire, vérifier et committer une unité cohérente ;
+5. pousser le commit selon `P18` ;
+6. publier une nouvelle version selon `VERSIONING.md` ;
+7. mettre ensuite à niveau le projet consommateur vers ce tag et ce SHA.
 
 Une modification directe de `docs/foundation/` est interdite : elle serait
 écrasée à la prochaine mise à niveau et masquerait le débat aux autres projets.
@@ -80,6 +82,7 @@ Une modification directe de `docs/foundation/` est interdite : elle serait
 5. Comparer les nouvelles baselines des scripts avec les adaptations locales.
 6. Régénérer le catalogue documentaire.
 7. Vérifier et committer snapshot, provenance et adaptations ensemble.
+8. Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
 
 Une future commande de mise à niveau pourra préparer ce diff. Elle ne devra
 jamais écraser silencieusement une dérogation ou une gate locale.
@@ -102,3 +105,18 @@ Cette montée de version est incompatible sans adaptation :
 deux liens non portables qui font échouer le lint d'un pack généré. Remplacer le
 scaffold et les scripts de vérification depuis `v0.3.1`, puis rejouer
 `./scripts/verify.sh`.
+
+### Migration de v0.3.1 vers v0.4.0
+
+Cette version ajoute l'invariant `P18` :
+
+1. remplacer `PRINCIPLES.md`, `DEFAULTS.md` et `DEFINITION-OF-DONE.md` depuis `v0.4.0` ;
+2. fusionner la nouvelle baseline de l'adaptateur `AGENTS.md` ;
+3. expliciter dans `PROJECT.md` la branche canonique et le choix entre push direct et branche avec revue ;
+4. conserver les gates applicatives locales puis exécuter `./scripts/verify.sh` ;
+5. committer snapshot, provenance et adaptations dans une unité ;
+6. pousser cette unité conformément à `P18` et vérifier son SHA distant.
+
+Une dérogation locale ne peut pas annuler `P18`. Une tâche explicitement en
+lecture seule ou limitée au local, une interdiction supérieure, l'absence de
+remote ou un blocage externe documenté restent les seules exceptions.

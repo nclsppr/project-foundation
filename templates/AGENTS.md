@@ -40,9 +40,11 @@ Une divergence entre intention et réalité est signalée, jamais arbitrée sile
 - Ajouter chaque changement livré à `CHANGELOG.md` et chaque décision produit ou technique importante à une ADR.
 - Utiliser la commande `verify` déclarée dans `PROJECT.md`.
 - Activer pour chaque unité uniquement les gates pertinentes de `docs/foundation/DEFINITION-OF-DONE.md`.
+- Appliquer `P18` dès que la tâche autorise des modifications : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
+- Ne pas déclarer une tranche terminée tant que son SHA reste uniquement local. Si le push est bloqué, annoncer le SHA, la cible distante et le blocage exact.
 - Traiter les skills et plugins externes comme consultatifs. Les documents locaux décident.
 
 ## Particularités du dépôt
 
-- Politique Git et livraison : TODO
+- Politique Git et livraison : TODO branche canonique, protection et revue ; `P18` reste obligatoire
 - Contraintes supplémentaires : TODO

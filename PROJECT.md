@@ -8,7 +8,7 @@
 | Propriétaire | Nicolas Pieper |
 | Classe | Produit interne |
 | Surface de production | Aucune |
-| Version | 0.3.1 |
+| Version | 0.4.0 |
 | Licence | Dépôt public, aucune licence accordée |
 
 ## Problème
@@ -35,6 +35,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Adoption traçable | Version, profils et dérogations enregistrés | `templates/FOUNDATION.md` |
 | Documentation exhaustive | Chaque Markdown est classé une fois, possède une audience et passe dans Nimbus | `documentation.json`, catalogue, build Nimbus et `./scripts/verify.sh` |
 | Évolution commune | Un challenge général remonte dans le dépôt du socle avant mise à niveau | `ADOPTION.md` et `templates/FOUNDATION.md` |
+| Travail durablement livré | Chaque tranche vérifiée possède un SHA distant reprenable | `P18`, adaptateurs `AGENTS.md` et définition de done |
 
 ## Périmètre
 
@@ -49,12 +50,13 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 - templates de runbook et de preuve de livraison ;
 - manifeste et catalogue documentaires communs à tous les packs ;
 - procédure d'adoption, de contribution amont et de mise à niveau ;
+- discipline universelle de commit et push des tranches validées ;
 - définition de done et audit d'origine ;
 - vérification locale et CI du socle.
 
 ### Non-objectifs
 
-- imposer une stack applicative ou un workflow Git à tous les projets ;
+- imposer une stack applicative, un hébergeur Git ou un modèle unique de revue ;
 - fournir un framework applicatif ;
 - synchroniser automatiquement les dépôts existants ;
 - devenir une dépendance runtime ;

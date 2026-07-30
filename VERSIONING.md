@@ -25,7 +25,9 @@ Le fichier `VERSION` est la source canonique de la version courante. `PROJECT.md
 7. Créer un commit cohérent.
 8. Créer un tag annoté `vMAJOR.MINOR.PATCH`.
 9. Rejouer `./scripts/verify.sh --release` sur le worktree propre.
-10. Publier commit et tag uniquement si un remote a été explicitement configuré.
+10. Pousser le commit sur `main` si l'écriture directe est autorisée, sinon sur une branche dédiée.
+11. Publier le tag dès que le commit de release est présent sur le remote.
+12. Observer les contrôles distants disponibles avant de déclarer la release terminée.
 
 Le tag lisible facilite la discussion. Le commit complet reste la référence immuable.
 
@@ -55,6 +57,7 @@ sont obligatoires dans chaque version adoptée.
 7. Régénérer le catalogue documentaire et relire les audiences.
 8. Exécuter la vérification du projet.
 9. Livrer snapshot, version et adaptations dans une seule unité.
+10. Pousser immédiatement cette unité conformément à `P18` et vérifier son SHA distant.
 
 Une mise à jour automatique peut proposer un diff. Elle ne doit jamais modifier silencieusement les règles locales ou les protections d'un projet.
 

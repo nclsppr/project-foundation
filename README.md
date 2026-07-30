@@ -26,6 +26,14 @@ La décision de ne pas placer ce socle sous `vps/ai` est documentée dans [`AUDI
 
 Un projet local peut renforcer le socle. Il ne le copie pas intégralement et ne le contredit pas silencieusement.
 
+## Discipline de livraison
+
+`P18` rend la publication Git obligatoire pour toute tranche dont la tâche
+autorise la modification : vérifier, committer une unité cohérente, puis la
+pousser immédiatement. La branche canonique reçoit le push direct lorsqu'elle
+l'autorise ; une branche dédiée prend le relais lorsqu'elle est protégée ou
+soumise à revue. Une livraison terminée ne reste pas uniquement en local.
+
 ## Contrat documentaire
 
 Tout fichier Markdown maintenu fait partie de la documentation du projet, mais

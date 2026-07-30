@@ -14,17 +14,23 @@ Ces choix accélèrent le démarrage. Ils ne sont pas universels. Un projet peut
 
 ## D02. Git et livraison
 
+`P18` impose le commit et le push de chaque tranche cohérente et vérifiée. Ce
+default choisit seulement la destination et le mode de revue ; il ne permet pas
+de conserver une tranche terminée uniquement en local.
+
 Pour un dépôt personnel ou à propriétaire unique :
 
 - branche canonique `main` ;
-- commits petits mais cohérents, après validation ;
+- push direct sur `main` lorsque la plateforme l'autorise ;
+- branche dédiée lorsque `main` est protégée ou qu'une revue est exigée ;
 - message impératif préfixé par le périmètre ;
-- push après une unité terminée si le dépôt publie ou sauvegarde le travail ;
 - pas de pull request obligatoire.
 
 Pour un dépôt d'équipe, public, réglementé ou à risque élevé, définir une politique de revue et de protection de branche. Le workflow Git est toujours local au projet.
 
-Ces choix décrivent un workflow par défaut. Ils n'accordent jamais une autorisation permanente de commit, push, publication ou déploiement.
+Ces choix décrivent un workflow par défaut. Ils ne peuvent pas élargir
+l'autorité de la tâche à un déploiement ou une autre mutation externe sans
+rapport avec le dépôt.
 
 ## D03. Architecture et dépendances
 

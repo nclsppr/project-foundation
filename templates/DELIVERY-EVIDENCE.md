@@ -108,7 +108,8 @@ Ne pas généraliser une preuve locale à la CI, au conteneur, à la production 
 - Fichiers du résultat : TODO.
 - Changements sans rapport préservés : TODO.
 - Source, dérivés et consommateurs livrés ensemble : TODO ou non applicable.
-- Commit, push ou déploiement requis : TODO.
+- Commit et push requis par `P18` : TODO SHA, remote et branche.
+- Déploiement requis par le périmètre : TODO ou non applicable.
 - Etat final du worktree : TODO.
 
 ## Conclusion

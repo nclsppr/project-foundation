@@ -139,7 +139,11 @@ Matrice de validation :
 
 ## Livraison
 
-- Branche et revue : TODO
+`P18` impose le commit et le push de chaque tranche validée. La politique locale
+choisit la destination, jamais l'absence de publication distante.
+
+- Branche canonique : TODO
+- Push direct ou branche avec revue : TODO
 - Convention de commit : TODO
 - Artefact : TODO
 - Déploiement : TODO

@@ -23,5 +23,7 @@ Une intention n'est pas une preuve d'état. Signaler tout écart sans choisir si
 - Ne pas modifier `docs/foundation/`. Une exception reste dans `FOUNDATION.md` ; une règle générale se change dans le dépôt Project Foundation puis se réadopte par version.
 - Conserver Nimbus et sa gate de build, même pour cette exploration.
 - Ajouter chaque changement livré à `CHANGELOG.md` ; consigner une décision importante dans le brief ou une ADR si l'exploration devient durable.
+- Appliquer `P18` dès que la tâche autorise des modifications : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
+- Ne pas déclarer une tranche terminée tant que son SHA reste uniquement local. Si le push est bloqué, annoncer le SHA, la cible distante et le blocage exact.
 - Mettre à jour la conclusion et ses limites dans `BRIEF.md`.
 - Si l'exploration devient un produit, arrêter ce parcours léger et effectuer un bootstrap standard.
