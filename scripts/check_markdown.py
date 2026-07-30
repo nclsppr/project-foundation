@@ -136,6 +136,28 @@ EXPLICIT_HEADING_ID_PATTERN = re.compile(r"\s*\{#([^}]+)\}\s*$")
 URI_SCHEME_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 ALLOWED_EXTERNAL_SCHEMES = ("http://", "https://", "mailto:", "tel:")
 SEMVER_PATTERN = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
+REQUIRED_COMPOSE_WIRING = (
+    (
+        "scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/check_compose\.py"\s*$'
+        ),
+    ),
+    (
+        ".github/workflows/verify.yml",
+        re.compile(r"(?m)^\s*python3 scripts/check_compose\.py\s*$"),
+    ),
+    (
+        "templates/scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/check_compose\.py"\s*$'
+        ),
+    ),
+    (
+        "templates/.github/workflows/verify.yml",
+        re.compile(r"(?m)^\s*python3 scripts/check_compose\.py\s*$"),
+    ),
+)
 
 
 def markdown_files() -> list[Path]:
@@ -169,6 +191,13 @@ def check_executable_paths(errors: list[str]) -> None:
         mode = path.stat().st_mode
         if not mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH):
             errors.append(f"fichier requis non exécutable : {relative}")
+
+
+def check_compose_wiring(errors: list[str]) -> None:
+    for relative, pattern in REQUIRED_COMPOSE_WIRING:
+        path = ROOT / relative
+        if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
+            errors.append(f"gate Compose non câblée : {relative}")
 
 
 def check_version_consistency(errors: list[str]) -> None:
@@ -373,6 +402,7 @@ def main() -> int:
 
     check_required_paths(errors)
     check_executable_paths(errors)
+    check_compose_wiring(errors)
     check_version_consistency(errors)
 
     for path in files:

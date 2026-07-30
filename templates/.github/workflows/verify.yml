@@ -31,7 +31,9 @@ jobs:
           cache-dependency-path: docs-nimbus/package-lock.json
 
       - name: Check Docker Compose
-        run: docker compose version
+        run: |
+          docker compose version
+          python3 scripts/check_compose.py
 
       - name: Verify project
         run: ./scripts/verify.sh

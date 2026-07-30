@@ -2,6 +2,13 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.5.2 - 2026-07-30
+
+- Exécute `scripts/check_compose.py` directement dans les workflows Foundation et projet généré, avant la gate canonique.
+- Refuse par le checker documentaire le retrait du câblage Compose dans `scripts/verify.sh` ou `.github/workflows/verify.yml`.
+- Ajoute deux tests adversariaux qui retirent successivement ces appels dans un projet généré.
+- Maintient la frontière de confiance explicite : seule une règle GitHub rendant le workflow requis protège contre la modification simultanée du contrôle et du workflow.
+
 ## 0.5.1 - 2026-07-30
 
 - Exécute le job Compose de documentation dans un workspace anonyme et monte les sources en lecture seule.

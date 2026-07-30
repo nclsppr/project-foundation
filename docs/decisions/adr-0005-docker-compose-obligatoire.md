@@ -3,7 +3,7 @@
 - Statut : accepté
 - Statut d'implémentation : livré
 - Date : 2026-07-30
-- Dernière vérification : 2026-07-30, contrôle Compose et tests des quatre packs
+- Dernière vérification : 2026-07-30, contrôle Compose, câblage CI et tests des quatre packs
 - Propriétaire : Nicolas Pieper
 - Remplace : aucune
 - Remplacé par : aucune
@@ -64,6 +64,10 @@ Le bootstrap copie systématiquement :
 - `.github/workflows/verify.yml` ;
 - l'appel au contrôle Compose depuis `scripts/verify.sh`.
 
+Le workflow appelle aussi le checker directement avant `verify`. Le checker
+documentaire refuse la disparition de l'un ou l'autre appel afin de détecter un
+contournement accidentel du câblage.
+
 Un pack Minimal peut garder `services: {}` tant qu'il ne lance aucun processus
 local. Les packs Standard, Full et Critical doivent déclarer au moins un
 service. Les images externes sont épinglées par digest. Les services longs ont
@@ -102,7 +106,7 @@ le contrôle CI restent versionnés.
 3. Générer Compose et la CI dans les quatre packs.
 4. Rendre ces fichiers obligatoires dans le checker Markdown du consommateur.
 5. Tester le pack Minimal vide, le refus d'un pack Full vide, les digests, les
-   healthchecks et la suppression des garde-fous.
+   healthchecks, la suppression des garde-fous et le retrait des appels de gate.
 6. Faire adopter la nouvelle release par Parkventory et placer son parcours
    Quarkus, Vite et PostgreSQL sous Compose.
 

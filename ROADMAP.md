@@ -83,6 +83,12 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - contrôles isolés dans un workspace anonyme ;
 - vérification du tag rejouable après l'exécution conteneurisée.
 
+### Câblage Compose durci en v0.5.2
+
+- appel direct du checker Compose par le workflow généré ;
+- vérification structurelle des appels depuis `verify` et la CI ;
+- tests de retrait de chacun des deux câblages dans un projet généré.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif

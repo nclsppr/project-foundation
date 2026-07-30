@@ -11,7 +11,7 @@ produit un diff explicite.
 ## Source officielle
 
 - Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.5.1`
+- Release courante : `v0.5.2`
 - Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
 
 Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
@@ -19,11 +19,11 @@ Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
 ## Nouveau projet
 
 ```bash
-git clone --branch v0.5.1 --depth 1 \
+git clone --branch v0.5.2 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.5.1
+  /tmp/project-foundation-v0.5.2
 
-/tmp/project-foundation-v0.5.1/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.5.2/scripts/bootstrap.sh \
   --target /chemin/absolu/vers/le-nouveau-projet \
   --class product \
   --profiles web
@@ -147,3 +147,13 @@ workspace anonyme. Les projets générés ne possèdent pas ce service documenta
 ne nécessitent aucune adaptation supplémentaire. Toute nouvelle adoption doit
 néanmoins viser `v0.5.1` afin de partir de la release dont les runs main et tag
 peuvent être vérifiés sans conflit de permissions.
+
+### Migration de v0.5.1 vers v0.5.2
+
+Cette correction durcit le câblage de la gate Compose. Fusionner les nouvelles
+baselines de `scripts/check_markdown.py` et `.github/workflows/verify.yml` : le
+workflow appelle désormais `scripts/check_compose.py` directement avant la gate
+projet, et le checker documentaire refuse le retrait de cet appel ou de celui
+présent dans `scripts/verify.sh`. Le contrôle reste versionné avec le dépôt ; une
+racine de confiance indépendante exige toujours de rendre ce workflow requis
+dans les règles GitHub du projet consommateur.

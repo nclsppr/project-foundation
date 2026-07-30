@@ -386,6 +386,38 @@ expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "fichier requis absent : .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du workflow CI non détectée."
 mv "${TEST_ROOT}/required-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
 
+cp -p "${PRODUCT_TARGET}/scripts/verify.sh" "${TEST_ROOT}/wired-verify.sh"
+python3 - "${PRODUCT_TARGET}/scripts/verify.sh" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = 'python3 "${SCRIPT_DIR}/check_compose.py"\n'
+if needle not in text:
+    raise SystemExit("appel Compose attendu absent du fixture")
+path.write_text(text.replace(needle, "", 1), encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "gate Compose non câblée : scripts/verify.sh" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait de l'appel Compose dans verify non détecté."
+mv "${TEST_ROOT}/wired-verify.sh" "${PRODUCT_TARGET}/scripts/verify.sh"
+
+cp -p "${PRODUCT_TARGET}/.github/workflows/verify.yml" "${TEST_ROOT}/wired-workflow.yml"
+python3 - "${PRODUCT_TARGET}/.github/workflows/verify.yml" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = "          python3 scripts/check_compose.py\n"
+if needle not in text:
+    raise SystemExit("appel Compose attendu absent du workflow fixture")
+path.write_text(text.replace(needle, "", 1), encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "gate Compose non câblée : .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait de l'appel Compose dans la CI non détecté."
+mv "${TEST_ROOT}/wired-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
+
 rm -f "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "fichier requis absent : docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du noyau non détectée."
