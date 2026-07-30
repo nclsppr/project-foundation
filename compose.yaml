@@ -6,17 +6,25 @@ services:
     working_dir: /workspace
     command:
       - sh
-      - -c
-      - npm ci --prefix docs-nimbus --ignore-scripts --no-audit --no-fund && npm run check --prefix docs-nimbus
+      - -ec
+      - |
+        tar \
+          --exclude=.git \
+          --exclude=node_modules \
+          --exclude=dist \
+          --exclude=.astro \
+          --exclude=.nimbus \
+          --exclude=.wrangler \
+          --exclude=docs-nimbus/src/content/docs \
+          -C /source -cf - . | tar -C /workspace -xf -
+        npm ci --prefix docs-nimbus --ignore-scripts --no-audit --no-fund
+        npm run check --prefix docs-nimbus
     volumes:
       - type: bind
         source: .
-        target: /workspace
+        target: /source
+        read_only: true
       - type: volume
-        source: documentation-node-modules
-        target: /workspace/docs-nimbus/node_modules
+        target: /workspace
     labels:
       foundation.lifecycle: job
-
-volumes:
-  documentation-node-modules:

@@ -11,7 +11,7 @@ produit un diff explicite.
 ## Source officielle
 
 - Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.5.0`
+- Release courante : `v0.5.1`
 - Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
 
 Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
@@ -19,11 +19,11 @@ Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
 ## Nouveau projet
 
 ```bash
-git clone --branch v0.5.0 --depth 1 \
+git clone --branch v0.5.1 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.5.0
+  /tmp/project-foundation-v0.5.1
 
-/tmp/project-foundation-v0.5.0/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.5.1/scripts/bootstrap.sh \
   --target /chemin/absolu/vers/le-nouveau-projet \
   --class product \
   --profiles web
@@ -138,3 +138,12 @@ Cette version ajoute l'invariant `P19` et un prérequis Docker Compose :
 Une dérogation locale ne peut retirer `compose.yaml`, son checker ou sa gate.
 Un check réellement indépendant du contenu du dépôt exige en complément que la
 plateforme rende le workflow de vérification obligatoire sur la branche.
+
+### Migration de v0.5.0 vers v0.5.1
+
+Cette correction concerne le `compose.yaml` du dépôt Project Foundation : les
+sources sont montées en lecture seule et les contrôles s'exécutent dans un
+workspace anonyme. Les projets générés ne possèdent pas ce service documentaire et
+ne nécessitent aucune adaptation supplémentaire. Toute nouvelle adoption doit
+néanmoins viser `v0.5.1` afin de partir de la release dont les runs main et tag
+peuvent être vérifiés sans conflit de permissions.

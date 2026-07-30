@@ -7,7 +7,7 @@ Snapshot vérifié le 2026-07-30.
 | Champ | Valeur |
 | --- | --- |
 | Branche | `main` |
-| Version | `v0.5.0` |
+| Version | `v0.5.1` |
 | Environnement | macOS local, Node `24.18.0`, Docker Compose `5.1.2` |
 | Production | Non applicable |
 | Remote | `https://github.com/nclsppr/project-foundation.git` |
@@ -30,7 +30,7 @@ Snapshot vérifié le 2026-07-30.
 
 | Phase roadmap | État observé | Prochaine preuve |
 | --- | --- | --- |
-| `F01` | `done` : socle `v0.5.0`, tag et runs main/tag à vérifier après publication | Runs distants verts sur le SHA de release |
+| `F01` | `done` : socle `v0.5.1`, tag et runs main/tag à vérifier après publication | Runs distants verts sur le SHA de release |
 | `F02` | `done` : Parkventory autonome, poussé et vérifié depuis un clone public | Préparer F03 sans modifier le projet consommateur |
 | `F03` | `planned` : mise à niveau assistée non commencée | Définir le diff et le dry-run sans écrasement implicite |
 

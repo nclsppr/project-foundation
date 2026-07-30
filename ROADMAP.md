@@ -77,6 +77,12 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - contournements structurels testés par le bootstrap ;
 - Parkventory choisi comme première montée de version réelle.
 
+### Correction de permissions livrée en v0.5.1
+
+- sources du job Compose montées en lecture seule ;
+- contrôles isolés dans un workspace anonyme ;
+- vérification du tag rejouable après l'exécution conteneurisée.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif

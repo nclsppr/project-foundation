@@ -2,6 +2,12 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## 0.5.1 - 2026-07-30
+
+- Exécute le job Compose de documentation dans un workspace anonyme et monte les sources en lecture seule.
+- Empêche le job exécuté comme root de laisser des fichiers impossibles à remplacer par l'utilisateur du runner lors de la vérification du tag.
+- Remplace `v0.5.0` comme version recommandée ; son run `main` est vert mais son run tag a révélé cette erreur de permissions Linux.
+
 ## 0.5.0 - 2026-07-30
 
 - Ajoute `P19`, invariant qui impose un `compose.yaml` racine et Docker Compose comme chemin canonique d'exécution locale intégrée.
