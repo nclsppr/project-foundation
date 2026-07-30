@@ -2,6 +2,14 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
+## Non publié
+
+- Consigne la première adoption réelle : Parkventory utilise le snapshot
+  `v0.4.0`, reste autonome depuis un clone public propre et passe sa gate CI au
+  SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`.
+- Marque la phase F02 de test d'adoption `done` sans modifier les artefacts de
+  la release `v0.4.0`.
+
 ## 0.4.0 - 2026-07-30
 
 - Ajoute `P18`, invariant qui impose de committer puis pousser chaque tranche cohérente et vérifiée dès que la tâche autorise la modification du dépôt.
