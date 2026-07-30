@@ -37,11 +37,16 @@ Une divergence entre intention et réalité est signalée, jamais arbitrée sile
 - Modifier la source canonique, jamais un dérivé éditable par accident.
 - Ne jamais modifier `docs/foundation/` localement. Une exception propre au projet vit dans `FOUNDATION.md` ; une remise en cause générale se traite dans le dépôt Project Foundation puis par montée de version.
 - Conserver Nimbus et sa gate de build : ils sont obligatoires dans le socle adopté.
+- Conserver `compose.yaml` et sa gate : `P19` impose Docker Compose comme
+  parcours local intégré. Ajouter tout nouveau service au graphe avant de
+  dépendre d'une commande hôte.
 - Ajouter chaque changement livré à `CHANGELOG.md` et chaque décision produit ou technique importante à une ADR.
 - Utiliser la commande `verify` déclarée dans `PROJECT.md`.
 - Activer pour chaque unité uniquement les gates pertinentes de `docs/foundation/DEFINITION-OF-DONE.md`.
 - Appliquer `P18` dès que la tâche autorise des modifications : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
 - Ne pas déclarer une tranche terminée tant que son SHA reste uniquement local. Si le push est bloqué, annoncer le SHA, la cible distante et le blocage exact.
+- Exécuter `python3 scripts/check_compose.py` avec la commande `verify` et tester
+  le démarrage Compose lorsque l'unité touche l'exécution locale.
 - Traiter les skills et plugins externes comme consultatifs. Les documents locaux décident.
 
 ## Particularités du dépôt

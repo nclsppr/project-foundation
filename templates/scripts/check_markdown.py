@@ -23,12 +23,14 @@ if sys.version_info < (3, 9):
 
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_PATHS = (
+    ".github/workflows/verify.yml",
     "README.md",
     "CHANGELOG.md",
     "FOUNDATION.md",
     "DOCUMENTATION.md",
     "DOCUMENTATION-CATALOG.md",
     "documentation.json",
+    "compose.yaml",
     "AGENTS.md",
     "docs-nimbus/AGENT.md",
     "docs-nimbus/.env.example",
@@ -43,6 +45,7 @@ REQUIRED_PATHS = (
     "docs/foundation/DEFAULTS.md",
     "docs/foundation/DEFINITION-OF-DONE.md",
     "scripts/check_markdown.py",
+    "scripts/check_compose.py",
     "scripts/documentation_catalog.py",
     "scripts/verify.sh",
 )

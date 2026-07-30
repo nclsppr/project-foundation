@@ -2,13 +2,16 @@
 
 Ce fichier décrit les versions du socle. Il reste historique et non normatif.
 
-## Non publié
+## 0.5.0 - 2026-07-30
 
-- Consigne la première adoption réelle : Parkventory utilise le snapshot
-  `v0.4.0`, reste autonome depuis un clone public propre et passe sa gate CI au
-  SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`.
-- Marque la phase F02 de test d'adoption `done` sans modifier les artefacts de
-  la release `v0.4.0`.
+- Ajoute `P19`, invariant qui impose un `compose.yaml` racine et Docker Compose comme chemin canonique d'exécution locale intégrée.
+- Ajoute `scripts/check_compose.py` pour refuser les fichiers absents, packs durables vides, images externes sans digest et services longs sans healthcheck.
+- Génère `compose.yaml`, le checker Compose et un workflow GitHub Actions dans les quatre packs.
+- Ajoute un service fini épinglé par digest pour vérifier la documentation du socle lui-même sous Compose.
+- Teste les contournements par suppression du fichier, du checker ou du workflow, ainsi que les images mutables et healthchecks absents.
+- Documente la décision dans l'ADR-0005 et la migration depuis `v0.4.0`.
+- Consigne la première adoption réelle : Parkventory utilise le snapshot `v0.4.0`, reste autonome depuis un clone public propre et passe sa gate CI au SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`.
+- Marque la phase F02 de test d'adoption `done` avant la montée de Parkventory vers cette release.
 
 ## 0.4.0 - 2026-07-30
 

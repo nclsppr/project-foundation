@@ -64,7 +64,7 @@ Ne jamais transformer une cible en résultat acquis.
 | Contrat API | TODO | normative ou non applicable | |
 | Schéma de données | TODO | normative ou non applicable | |
 | Design system | TODO | normative ou non applicable | |
-| Configuration | TODO | opérationnelle | |
+| Configuration | `compose.yaml` et TODO configuration complémentaire | opérationnelle | Compose porte le parcours local intégré imposé par `P19` |
 | Code livré | TODO | opérationnelle | |
 | Opérations | TODO | normative | |
 | Décisions | `docs/decisions/` | normative | |
@@ -97,8 +97,8 @@ TODO
 
 | Environnement | Plateforme | Configuration canonique | URL ou accès | Vérification |
 | --- | --- | --- | --- | --- |
-| Développement | TODO | TODO | TODO | TODO |
-| CI | TODO | TODO | TODO | TODO |
+| Développement | Docker Compose et TODO plateforme hôte | `compose.yaml` | TODO URL ou accès | `python3 scripts/check_compose.py` puis sondes du parcours |
+| CI | TODO | `.github/workflows/verify.yml` | Runs de la plateforme | `./scripts/verify.sh` |
 | Production | TODO | TODO | TODO | TODO |
 
 ## Commandes canoniques
@@ -106,12 +106,13 @@ TODO
 | Action | Commande | Résultat attendu |
 | --- | --- | --- |
 | Installer | TODO | TODO |
-| Développer | TODO | TODO |
+| Développer | `docker compose up --build --wait` | Tous les services requis deviennent sains |
 | Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build et lint Nimbus valides |
+| Vérifier Compose | `python3 scripts/check_compose.py` | Configuration, services, digests et healthchecks conformes à `P19` |
 | Construire | TODO | TODO |
 | Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |
-| Arrêter | TODO | TODO |
-| Réinitialiser le dev | TODO | TODO |
+| Arrêter | `docker compose down` | Services arrêtés, volumes préservés |
+| Réinitialiser le dev | TODO commande avec cibles explicites | Seules les données de développement nommées sont supprimées |
 | Déployer | TODO | TODO |
 | Contrôler la santé | TODO | TODO |
 | Sauvegarder | TODO ou non applicable | TODO |
@@ -141,6 +142,9 @@ Matrice de validation :
 
 `P18` impose le commit et le push de chaque tranche validée. La politique locale
 choisit la destination, jamais l'absence de publication distante.
+
+`P19` impose `compose.yaml` comme chemin local intégré. Une commande hôte peut
+rester documentée comme raccourci, jamais comme unique procédure reproductible.
 
 - Branche canonique : TODO
 - Push direct ou branche avec revue : TODO

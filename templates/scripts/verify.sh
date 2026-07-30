@@ -52,6 +52,7 @@ fi
 
 python3 "${SCRIPT_DIR}/documentation_catalog.py" --check
 python3 "${SCRIPT_DIR}/check_markdown.py"
+python3 "${SCRIPT_DIR}/check_compose.py"
 npm ci --prefix "${PROJECT_ROOT}/docs-nimbus" --ignore-scripts --no-audit --no-fund
 npm run check --prefix "${PROJECT_ROOT}/docs-nimbus"
 if [[ -n "$(git -C "${PROJECT_ROOT}" ls-files -- docs-nimbus/src/content/docs)" ]]; then

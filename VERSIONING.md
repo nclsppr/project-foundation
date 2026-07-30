@@ -43,8 +43,9 @@ Le projet consommateur enregistre dans `FOUNDATION.md` :
 - les dérogations et contrôles compensatoires.
 
 Le snapshot est copié sous `docs/foundation/` et commité avec le projet.
-Le scaffold `docs-nimbus/`, son lockfile et le profil `documentation-nimbus`
-sont obligatoires dans chaque version adoptée.
+Le scaffold `docs-nimbus/`, son lockfile, le profil `documentation-nimbus`,
+`compose.yaml`, le checker Compose et le workflow CI sont obligatoires dans
+chaque version adoptée.
 
 ## Mettre à niveau un projet
 
@@ -53,7 +54,7 @@ sont obligatoires dans chaque version adoptée.
 3. Remplacer le snapshot, sans fusion silencieuse ligne par ligne.
 4. Examiner le diff des invariants, defaults, profils et gates.
 5. Réconcilier les dérogations locales.
-6. Comparer les nouvelles baselines de `scripts/check_markdown.py`, `scripts/documentation_catalog.py` et `scripts/verify.sh`, puis fusionner explicitement les corrections utiles sans écraser les gates locales.
+6. Comparer les nouvelles baselines de `scripts/check_markdown.py`, `scripts/check_compose.py`, `scripts/documentation_catalog.py`, `scripts/verify.sh`, `compose.yaml` et du workflow CI, puis fusionner explicitement les corrections utiles sans écraser les gates locales.
 7. Régénérer le catalogue documentaire et relire les audiences.
 8. Exécuter la vérification du projet.
 9. Livrer snapshot, version et adaptations dans une seule unité.

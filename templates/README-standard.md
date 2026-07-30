@@ -6,7 +6,8 @@ TODO Décrire en une phrase le problème traité et le résultat observable rech
 
 Les prérequis, commandes canoniques et résultats attendus vivent dans [`PROJECT.md`](PROJECT.md). Ne pas recopier ici une recette qui devrait rester exécutable et unique.
 
-Le socle exige Node `22.12.0` ou plus récent et npm pour vérifier Nimbus.
+Le socle exige Node `22.12.0` ou plus récent, npm, Docker et Docker Compose
+`2.20.0` ou plus récent pour exécuter `verify`.
 
 ## Carte documentaire
 

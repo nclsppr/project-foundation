@@ -1,0 +1,22 @@
+name: project-foundation
+
+services:
+  documentation-check:
+    image: node:24.18.0-bookworm@sha256:5711a0d445a1af54af9589066c646df387d1831a608226f4cd694fc59e745059
+    working_dir: /workspace
+    command:
+      - sh
+      - -c
+      - npm ci --prefix docs-nimbus --ignore-scripts --no-audit --no-fund && npm run check --prefix docs-nimbus
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+      - type: volume
+        source: documentation-node-modules
+        target: /workspace/docs-nimbus/node_modules
+    labels:
+      foundation.lifecycle: job
+
+volumes:
+  documentation-node-modules:

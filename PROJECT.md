@@ -8,7 +8,7 @@
 | Propriétaire | Nicolas Pieper |
 | Classe | Produit interne |
 | Surface de production | Aucune |
-| Version | 0.4.0 |
+| Version | 0.5.0 |
 | Licence | Dépôt public, aucune licence accordée |
 
 ## Problème
@@ -36,6 +36,7 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Documentation exhaustive | Chaque Markdown est classé une fois, possède une audience et passe dans Nimbus | `documentation.json`, catalogue, build Nimbus et `./scripts/verify.sh` |
 | Évolution commune | Un challenge général remonte dans le dépôt du socle avant mise à niveau | `ADOPTION.md` et `templates/FOUNDATION.md` |
 | Travail durablement livré | Chaque tranche vérifiée possède un SHA distant reprenable | `P18`, adaptateurs `AGENTS.md` et définition de done |
+| Environnement local contractuel | Tout pack possède Compose et tout projet durable déclare un service contrôlé | `P19`, `compose.yaml`, `scripts/check_compose.py` et tests du bootstrap |
 
 ## Périmètre
 
@@ -51,6 +52,8 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 - manifeste et catalogue documentaires communs à tous les packs ;
 - procédure d'adoption, de contribution amont et de mise à niveau ;
 - discipline universelle de commit et push des tranches validées ;
+- orchestration locale Docker Compose obligatoire et contrôlée ;
+- workflow CI copié dans chaque pack ;
 - définition de done et audit d'origine ;
 - vérification locale et CI du socle.
 
@@ -95,12 +98,14 @@ Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documen
 | Navigation documentaire | `DOCUMENTATION-CATALOG.md` | dérivée |
 | Adoption et contribution amont | `ADOPTION.md` | normative |
 | Templates | `templates/` | dérivée et copiable |
+| Orchestration locale | `compose.yaml` et `scripts/check_compose.py` | opérationnelle et contrôlée |
 
 ## Architecture
 
 Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent,
-de contrôles Python 3.9 ou plus récent et d'un site Nimbus sous
-`docs-nimbus/`. Git porte l'historique, la provenance et les contrôles de diff.
+de contrôles Python 3.9 ou plus récent, d'un site Nimbus sous `docs-nimbus/` et
+d'un contrat Docker Compose. Git porte l'historique, la provenance et les
+contrôles de diff.
 Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa
 version dans `FOUNDATION.md`. Le manifeste `documentation.json` classe tous les
 Markdown ; Nimbus les rend avec Node 22.12 ou plus récent.
@@ -109,7 +114,7 @@ Markdown ; Nimbus les rend avec Node 22.12 ou plus récent.
 
 | Environnement | Support | Vérification |
 | --- | --- | --- |
-| macOS | Référence locale, Git, Bash 3.2, Python 3.9 et Node 22.12 ou plus | `./scripts/verify.sh` |
+| macOS | Référence locale, Git, Bash 3.2, Python 3.9, Node 22.12 ou plus et Docker Compose 2.20 ou plus | `./scripts/verify.sh` |
 | Linux | Supporté, mêmes prérequis | `./scripts/verify.sh` et workflow CI |
 | Windows | Via WSL2 avec les mêmes prérequis | `./scripts/verify.sh` |
 
@@ -117,8 +122,10 @@ Markdown ; Nimbus les rend avec Node 22.12 ou plus récent.
 
 | Action | Commande | Résultat attendu |
 | --- | --- | --- |
-| Prérequis | `git --version && bash --version && python3 --version && node --version && npm --version` | Git, Bash 3.2, Python 3.9, Node 22.12 et npm disponibles |
+| Prérequis | `git --version && bash --version && python3 --version && node --version && npm --version && docker compose version` | Git, Bash 3.2, Python 3.9, Node 22.12, npm et Docker Compose 2.20 disponibles |
 | Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build, lint Nimbus et bootstrap valides |
+| Vérifier Compose | `python3 scripts/check_compose.py` | Contrat Compose, digests et cycles de vie valides |
+| Vérifier Nimbus dans Compose | `docker compose run --rm documentation-check` | Contrôles Nimbus exécutés dans l'image épinglée |
 | Vérifier une release | `./scripts/verify.sh --release` | Worktree propre, version cohérente et tag annoté sur HEAD |
 | Régénérer la navigation | `python3 scripts/documentation_catalog.py --write` | Catalogue aligné sur le manifeste et les Markdown |
 | Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |

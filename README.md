@@ -34,6 +34,18 @@ pousser immédiatement. La branche canonique reçoit le push direct lorsqu'elle
 l'autorise ; une branche dédiée prend le relais lorsqu'elle est protégée ou
 soumise à revue. Une livraison terminée ne reste pas uniquement en local.
 
+## Orchestration locale
+
+`P19` rend Docker Compose obligatoire. Chaque projet reçoit un `compose.yaml`
+racine, un checker et un workflow CI. Les packs Standard, Full et Critical
+restent rouges tant qu'ils ne déclarent pas au moins un service réel. Les
+images externes sont épinglées par digest, les services longs ont un
+healthcheck et les commandes finies sont étiquetées comme jobs.
+
+Une commande hôte peut servir de raccourci, mais le parcours intégré commun
+reste `docker compose up --build --wait`. `verify` refuse la suppression du
+contrat ou de sa gate.
+
 ## Contrat documentaire
 
 Tout fichier Markdown maintenu fait partie de la documentation du projet, mais
@@ -67,12 +79,16 @@ compris Minimal. Le contrat complet vit dans
 | [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classement, audiences et rendu de tous les Markdown |
 | [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Navigation exhaustive générée depuis le manifeste |
 | [`docs-nimbus/`](docs-nimbus/) | Scaffold Nimbus obligatoire, adaptateur, configuration et lockfile |
+| `compose.yaml` | Parcours Compose du socle avec image épinglée |
+| `scripts/check_compose.py` | Contrôle générique de `P19` |
 | [`AUDIT.md`](AUDIT.md) | Origine des règles, exclusions et dérives observées |
 | [`templates/AGENTS.md`](templates/AGENTS.md) | Contrat local, court et découvrable par les agents |
 | [`templates/PROJECT.md`](templates/PROJECT.md) | Fiche produit, sources de vérité et commandes |
 | [`templates/STATUS.md`](templates/STATUS.md) | Snapshot daté de l'état réellement vérifié |
 | [`templates/ROADMAP.md`](templates/ROADMAP.md) | Autorité de séquencement et critères de sortie |
 | [`templates/FOUNDATION.md`](templates/FOUNDATION.md) | Version du socle adoptée, profils et dérogations |
+| `templates/compose.yaml` | Contrat Compose initial de tous les packs |
+| `templates/.github/workflows/verify.yml` | CI de vérification copiée dans chaque projet |
 | [`templates/README.md`](templates/README.md) | Entrée d'un projet minimal |
 | [`templates/README-standard.md`](templates/README-standard.md) | Entrée d'un prototype ou produit |
 | [`templates/CHANGELOG.md`](templates/CHANGELOG.md) | Historique obligatoire des changements livrés |
@@ -115,7 +131,7 @@ La commande de bootstrap copie le pack, le snapshot du noyau et les profils sél
 
 Prérequis du bootstrap : Git, Bash 3.2 ou plus récent et Python 3.9 ou plus
 récent, sans package Python tiers. La vérification du projet exige aussi Node
-22.12.0 ou plus récent et npm pour Nimbus.
+22.12.0 ou plus récent, npm, Docker et Docker Compose 2.20.0 ou plus récent.
 
 Utiliser `--dry-run` pour voir les cibles avant toute écriture. Le parcours manuel reste documenté dans `PROJECT-BOOTSTRAP.md`.
 

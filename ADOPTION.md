@@ -11,7 +11,7 @@ produit un diff explicite.
 ## Source officielle
 
 - Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.4.0`
+- Release courante : `v0.5.0`
 - Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
 
 Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
@@ -19,11 +19,11 @@ Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
 ## Nouveau projet
 
 ```bash
-git clone --branch v0.4.0 --depth 1 \
+git clone --branch v0.5.0 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.4.0
+  /tmp/project-foundation-v0.5.0
 
-/tmp/project-foundation-v0.4.0/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.5.0/scripts/bootstrap.sh \
   --target /chemin/absolu/vers/le-nouveau-projet \
   --class product \
   --profiles web
@@ -32,8 +32,8 @@ git clone --branch v0.4.0 --depth 1 \
 Le bootstrap ne crée pas le dépôt Git du projet, n'écrase rien et enregistre la
 source, le tag et le commit du socle dans `FOUNDATION.md`.
 
-Nimbus et `documentation-nimbus` sont toujours inclus. `--profiles` ne choisit
-que les profils supplémentaires.
+Nimbus, `documentation-nimbus`, `compose.yaml`, le checker Compose et la CI sont
+toujours inclus. `--profiles` ne choisit que les profils supplémentaires.
 
 ## Projet existant
 
@@ -120,3 +120,21 @@ Cette version ajoute l'invariant `P18` :
 Une dérogation locale ne peut pas annuler `P18`. Une tâche explicitement en
 lecture seule ou limitée au local, une interdiction supérieure, l'absence de
 remote ou un blocage externe documenté restent les seules exceptions.
+
+### Migration de v0.4.0 vers v0.5.0
+
+Cette version ajoute l'invariant `P19` et un prérequis Docker Compose :
+
+1. installer Docker et Docker Compose `2.20.0` ou plus récent en local et en CI ;
+2. remplacer `PRINCIPLES.md`, `DEFAULTS.md` et `DEFINITION-OF-DONE.md` depuis `v0.5.0` ;
+3. ajouter ou fusionner `compose.yaml` à la racine ;
+4. copier `scripts/check_compose.py` et appeler ce checker depuis `scripts/verify.sh` ;
+5. fusionner la baseline `.github/workflows/verify.yml` sans perdre les gates applicatives locales ;
+6. placer dans Compose chaque application et dépendance requise par le parcours local intégré ;
+7. épingler les images externes par digest, ajouter les healthchecks et étiqueter les commandes finies ;
+8. exécuter `python3 scripts/check_compose.py`, le parcours `docker compose up --build --wait`, puis `./scripts/verify.sh` ;
+9. committer et pousser snapshot, provenance, Compose, CI et adaptations dans une seule unité.
+
+Une dérogation locale ne peut retirer `compose.yaml`, son checker ou sa gate.
+Un check réellement indépendant du contenu du dépôt exige en complément que la
+plateforme rende le workflow de vérification obligatoire sur la branche.

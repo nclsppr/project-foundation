@@ -40,10 +40,10 @@ Choisir le pack avant de copier :
 | Critique | Critical | Full, `RUNBOOK.md`, preuve de livraison et profils risque |
 
 Tous les packs ajoutent aussi `DOCUMENTATION.md`, `documentation.json`,
-`DOCUMENTATION-CATALOG.md`, le scaffold `docs-nimbus/` et ses contrôles. Nimbus
-est obligatoire, y compris pour une exploration. Ces fichiers ne rendent pas
-tout le dépôt public : ils rendent chaque Markdown classé et découvrable dans
-la bonne audience.
+`DOCUMENTATION-CATALOG.md`, le scaffold `docs-nimbus/`, `compose.yaml`, la CI et
+leurs contrôles. Nimbus et Docker Compose sont obligatoires, y compris pour une
+exploration. Ces fichiers ne rendent pas tout le dépôt public : ils rendent
+chaque Markdown classé et découvrable dans la bonne audience.
 
 - [ ] Initialiser Git selon le default retenu ou la politique locale.
 - [ ] Copier uniquement le pack choisi.
@@ -57,6 +57,7 @@ la bonne audience.
 - [ ] Copier le noyau et les profils retenus sous `docs/foundation/`.
 - [ ] Classer les Markdown existants comme publics, internes, références ou archives.
 - [ ] Vérifier que le profil obligatoire `documentation-nimbus` est activé.
+- [ ] Vérifier que `compose.yaml`, `scripts/check_compose.py` et le workflow CI sont présents.
 
 Supprimer les sections non applicables plutôt que remplir une longue série de `N/A`. À la fin de cette phase, aucun marqueur de saisie ne doit rester dans les fichiers copiés.
 
@@ -117,11 +118,17 @@ Le bootstrap crée le dossier `docs/decisions/`, pas une décision vide. Copier
 
 - [ ] Épingler les versions et committer les lockfiles.
 - [ ] Documenter les prérequis.
+- [ ] Déclarer dans `compose.yaml` chaque application et dépendance du parcours local intégré.
+- [ ] Épingler chaque image externe par digest et construire localement uniquement depuis une source explicite.
+- [ ] Ajouter un healthcheck à chaque service long ; étiqueter une commande finie avec `foundation.lifecycle=job`.
+- [ ] Pour un pack Standard, Full ou Critical, remplacer la table `services` vide par au moins un service réel.
 - [ ] Fournir une installation propre depuis un nouveau clone lorsqu'une installation est nécessaire.
 - [ ] Fournir `verify` dans tous les cas, puis `dev`, `build`, `stop` et `reset` lorsqu'ils s'appliquent.
 - [ ] Décrire les variables sans fournir leur valeur secrète.
 - [ ] Vérifier l'environnement réellement vu par les processus lancés.
 - [ ] Faire exécuter `verify` par la CI.
+- [ ] Exécuter `python3 scripts/check_compose.py`, puis `docker compose up --build --wait` et les sondes applicables.
+- [ ] Vérifier que `docker compose down` préserve les volumes et documenter séparément toute réinitialisation destructive.
 - [ ] Installer Node `22.12.0` ou plus récent et npm pour le build Nimbus.
 - [ ] Déclarer les plateformes réellement supportées.
 

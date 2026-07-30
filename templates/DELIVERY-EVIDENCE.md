@@ -6,7 +6,7 @@ Ce document consigne ce qui a été observé pour une unité de travail. Il ne c
 
 | Couche | Rôle |
 | --- | --- |
-| Norme | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14` et les profils durables activés dans `FOUNDATION.md` |
+| Norme | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P18`, `P19` et les profils durables activés dans `FOUNDATION.md` |
 | Formulaire | Ce fichier structure le compte rendu et les limites de validation |
 | Preuve | Une commande, une sortie, un SHA, un digest, un fichier, une capture ou une observation datée dans l'environnement nommé |
 
@@ -109,6 +109,7 @@ Ne pas généraliser une preuve locale à la CI, au conteneur, à la production 
 - Changements sans rapport préservés : TODO.
 - Source, dérivés et consommateurs livrés ensemble : TODO ou non applicable.
 - Commit et push requis par `P18` : TODO SHA, remote et branche.
+- Parcours Compose requis par `P19` : TODO services, santé et sondes, ou pack Minimal sans processus local.
 - Déploiement requis par le périmètre : TODO ou non applicable.
 - Etat final du worktree : TODO.
 

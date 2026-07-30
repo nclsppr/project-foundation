@@ -24,6 +24,10 @@ Règles de maintenance de ce socle. Lire d'abord `README.md`, puis `PRINCIPLES.m
 - Les marqueurs de saisie vivent sous `templates/`. Le noyau ne contient aucune valeur à compléter.
 - Tout nouveau Markdown doit être classé exactement une fois dans `documentation.json`. Régénérer ensuite `DOCUMENTATION-CATALOG.md`.
 - Nimbus est obligatoire. Ne pas retirer `docs-nimbus/`, son lockfile ou sa gate de `verify` sans une ADR et une nouvelle version du socle.
+- Appliquer `P19` : conserver `compose.yaml`, déclarer tout service local dans
+  Compose avant d'en faire une dépendance, puis exécuter
+  `python3 scripts/check_compose.py`. Une commande hôte reste un raccourci, pas
+  le seul parcours intégré.
 - Appliquer `P18` : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur `main` si l'écriture directe est autorisée, sinon sur une branche dédiée.
 - Ne pas laisser une tranche terminée uniquement en local. Si le push est bloqué, conserver et annoncer le SHA local, la cible distante et le blocage exact.
 - La prose technique est en français, sobre et précise. Toute date mentionnée est absolue. Le code, les identifiants et les chemins restent en anglais. Ne pas utiliser de tiret cadratin ou demi-cadratin.
@@ -34,6 +38,7 @@ Règles de maintenance de ce socle. Lire d'abord `README.md`, puis `PRINCIPLES.m
 - Exécuter `python3 scripts/documentation_catalog.py --write`, puis contrôler le diff du catalogue.
 - Vérifier que les fichiers du noyau ne contiennent aucune valeur à compléter.
 - Vérifier que les règles ajoutées ne sont pas déjà présentes ailleurs.
+- Exécuter `python3 scripts/check_compose.py` et vérifier toute modification de `compose.yaml`.
 - Exécuter `git diff --check`.
 - Inspecter le diff complet et ne committer que le périmètre du socle.
 - Après le commit, pousser sans attendre une autre tranche et vérifier que le SHA existe sur le remote.

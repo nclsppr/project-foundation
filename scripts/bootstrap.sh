@@ -177,6 +177,8 @@ add_copy "${TEMPLATE_ROOT}/FOUNDATION.md" "FOUNDATION.md"
 add_copy "${TEMPLATE_ROOT}/CHANGELOG.md" "CHANGELOG.md"
 add_copy "${TEMPLATE_ROOT}/DOCUMENTATION.md" "DOCUMENTATION.md"
 add_copy "${TEMPLATE_ROOT}/documentation.json" "documentation.json"
+add_copy "${TEMPLATE_ROOT}/compose.yaml" "compose.yaml"
+add_copy "${TEMPLATE_ROOT}/.github/workflows/verify.yml" ".github/workflows/verify.yml"
 add_nimbus_scaffold
 
 case "${PROJECT_CLASS}" in
@@ -238,6 +240,7 @@ if [[ "${PROJECT_CLASS}" == "critical" ]]; then
 fi
 
 add_copy "${TEMPLATE_ROOT}/scripts/check_markdown.py" "scripts/check_markdown.py"
+add_copy "${FOUNDATION_ROOT}/scripts/check_compose.py" "scripts/check_compose.py"
 add_copy "${TEMPLATE_ROOT}/scripts/verify.sh" "scripts/verify.sh"
 add_copy "${FOUNDATION_ROOT}/scripts/documentation_catalog.py" "scripts/documentation_catalog.py"
 
@@ -333,6 +336,7 @@ mkdir -p "${STAGING}/docs/decisions"
 : > "${STAGING}/docs/decisions/.gitkeep"
 chmod +x \
   "${STAGING}/scripts/check_markdown.py" \
+  "${STAGING}/scripts/check_compose.py" \
   "${STAGING}/scripts/documentation_catalog.py" \
   "${STAGING}/scripts/verify.sh"
 
@@ -340,6 +344,8 @@ if [[ -n "${FOUNDATION_COMMIT}" ]]; then
   python3 - \
     "${STAGING}/FOUNDATION.md" \
     "${STAGING}/PROJECT.md" \
+    "${STAGING}/compose.yaml" \
+    "${TARGET_NAME}" \
     "${FOUNDATION_SOURCE}" \
     "${FOUNDATION_TAG}" \
     "${FOUNDATION_COMMIT}" \
@@ -348,12 +354,15 @@ if [[ -n "${FOUNDATION_COMMIT}" ]]; then
     "${PROFILE_LIST}" \
     "${PROJECT_PACK}" \
     "${PROJECT_CLASS_LABEL}" <<'PY'
+import re
 import sys
 from pathlib import Path
 
 path = Path(sys.argv[1])
 project_path = Path(sys.argv[2])
-source, tag, commit, adopted_on, actor, profiles_csv, project_pack, project_class_label = sys.argv[3:]
+compose_path = Path(sys.argv[3])
+target_name = sys.argv[4]
+source, tag, commit, adopted_on, actor, profiles_csv, project_pack, project_class_label = sys.argv[5:]
 profiles = [] if profiles_csv == "none" else profiles_csv.split(",")
 text = path.read_text(encoding="utf-8")
 replacements = {
@@ -386,6 +395,20 @@ if project_path.is_file():
         1,
     )
     project_path.write_text(project_text, encoding="utf-8")
+
+compose_text = compose_path.read_text(encoding="utf-8")
+compose_marker = "name: foundation-project"
+if compose_marker not in compose_text:
+    raise SystemExit(f"marqueur Compose absent : {compose_marker!r}")
+compose_name = re.sub(r"[^a-z0-9_-]+", "-", target_name.lower()).strip("-_")
+if not compose_name:
+    compose_name = "foundation-project"
+compose_text = compose_text.replace(
+    compose_marker,
+    f"name: {compose_name[:63]}",
+    1,
+)
+compose_path.write_text(compose_text, encoding="utf-8")
 PY
 else
   echo "Avertissement : aucun commit du socle n'est disponible ; remplir manuellement la version dans FOUNDATION.md." >&2

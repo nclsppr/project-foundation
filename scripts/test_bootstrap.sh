@@ -79,6 +79,7 @@ copy_foundation_fixture() {
     "${destination}/docs-nimbus"
   cp -p \
     "${SOURCE_FOUNDATION_ROOT}/scripts/bootstrap.sh" \
+    "${SOURCE_FOUNDATION_ROOT}/scripts/check_compose.py" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/documentation_catalog.py" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/sanitize_git_remote.py" \
     "${destination}/scripts/"
@@ -151,6 +152,7 @@ EXPLORATION_TARGET="${TEST_ROOT}/exploration-project"
   --profiles experiment,web >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/verify.yml" \
   "./AGENTS.md" \
   "./BRIEF.md" \
   "./CHANGELOG.md" \
@@ -158,6 +160,7 @@ printf '%s\n' \
   "./DOCUMENTATION.md" \
   "./FOUNDATION.md" \
   "./README.md" \
+  "./compose.yaml" \
   "./docs/decisions/.gitkeep" \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
@@ -166,6 +169,7 @@ printf '%s\n' \
   "./docs/foundation/profiles/experiment.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
+  "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/exploration.expected"
@@ -173,6 +177,7 @@ append_nimbus_expected "${TEST_ROOT}/exploration.expected"
 tree_files "${EXPLORATION_TARGET}" >"${TEST_ROOT}/exploration.actual"
 diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" || fail "arbre exploration inattendu."
 [[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "verify exploration non exécutable."
+[[ -x "${EXPLORATION_TARGET}/scripts/check_compose.py" ]] || fail "checker Compose exploration non exécutable."
 [[ -x "${EXPLORATION_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue exploration non exécutable."
 [[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "le bootstrap a initialisé Git."
 [[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "le pack minimal a reçu DESIGN.md."
@@ -181,6 +186,10 @@ grep -F '"@cloudflare/nimbus-docs": "0.8.2"' "${EXPLORATION_TARGET}/docs-nimbus/
 grep -F '"name": "nimbus"' "${EXPLORATION_TARGET}/documentation.json" >/dev/null || fail "renderer Nimbus absent du pack minimal."
 grep -F '## P18. Committer et pousser chaque tranche validée' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack minimal."
 grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack minimal."
+grep -F "## P19. Orchestrer l'environnement local avec Docker Compose" "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P19 absent du pack minimal."
+grep -F 'Conserver `compose.yaml` et sa gate' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P19 absente du pack minimal."
+grep -F 'name: exploration-project' "${EXPLORATION_TARGET}/compose.yaml" >/dev/null || fail "nom Compose exploration non initialisé."
+python3 "${EXPLORATION_TARGET}/scripts/check_compose.py" >"${TEST_ROOT}/exploration-compose.out"
 
 PRODUCT_TARGET="${TEST_ROOT}/product-project"
 USER='unsafe|actor' "${BOOTSTRAP}" \
@@ -189,6 +198,7 @@ USER='unsafe|actor' "${BOOTSTRAP}" \
   --profiles web,backend-data >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/verify.yml" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DESIGN.md" \
@@ -199,6 +209,7 @@ printf '%s\n' \
   "./README.md" \
   "./ROADMAP.md" \
   "./STATUS.md" \
+  "./compose.yaml" \
   "./docs/decisions/.gitkeep" \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
@@ -207,6 +218,7 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
+  "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/product.expected"
@@ -216,6 +228,64 @@ diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "a
 [[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue product non exécutable."
 grep -F '## P18. Committer et pousser chaque tranche validée' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack Product."
 grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack Product."
+grep -F "## P19. Orchestrer l'environnement local avec Docker Compose" "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P19 absent du pack Product."
+grep -F 'Conserver `compose.yaml` et sa gate' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P19 absente du pack Product."
+grep -F 'name: product-project' "${PRODUCT_TARGET}/compose.yaml" >/dev/null || fail "nom Compose Product non initialisé."
+grep -F 'Check Docker Compose' "${PRODUCT_TARGET}/.github/workflows/verify.yml" >/dev/null || fail "gate Compose absente de la CI générée."
+
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
+grep -F "le pack full exige au moins un service" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "pack Full vide non refusé."
+
+python3 - "${PRODUCT_TARGET}/compose.yaml" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    """name: product-project
+
+services:
+  contract-check:
+    image: node:24.18.0-bookworm@sha256:5711a0d445a1af54af9589066c646df387d1831a608226f4cd694fc59e745059
+    command: [\"node\", \"--version\"]
+    labels:
+      foundation.lifecycle: job
+""",
+    encoding="utf-8",
+)
+PY
+python3 "${PRODUCT_TARGET}/scripts/check_compose.py" >"${TEST_ROOT}/product-compose.out"
+cp -p "${PRODUCT_TARGET}/compose.yaml" "${TEST_ROOT}/product-compose.yaml"
+
+python3 - "${PRODUCT_TARGET}/compose.yaml" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+text = text.replace(
+    "@sha256:5711a0d445a1af54af9589066c646df387d1831a608226f4cd694fc59e745059",
+    "",
+)
+path.write_text(text, encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
+grep -F "image externe non épinglée par digest" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "image Compose non épinglée acceptée."
+cp -p "${TEST_ROOT}/product-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
+
+python3 - "${PRODUCT_TARGET}/compose.yaml" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8").replace(
+    "foundation.lifecycle: job",
+    "foundation.lifecycle: service",
+)
+path.write_text(text, encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
+grep -F "service long contract-check sans healthcheck" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "service long sans healthcheck accepté."
+cp -p "${TEST_ROOT}/product-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
 
 if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
   expected_source_line="$(printf '| Source | `%s` |' "${EXPECTED_FOUNDATION_SOURCE}")"
@@ -301,6 +371,21 @@ expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "fichier requis absent : docs-nimbus/package.json" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait du package Nimbus obligatoire non détecté."
 mv "${TEST_ROOT}/nimbus-package.json" "${PRODUCT_TARGET}/docs-nimbus/package.json"
 
+mv "${PRODUCT_TARGET}/compose.yaml" "${TEST_ROOT}/required-compose.yaml"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "fichier requis absent : compose.yaml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression de compose.yaml non détectée."
+mv "${TEST_ROOT}/required-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
+
+mv "${PRODUCT_TARGET}/scripts/check_compose.py" "${TEST_ROOT}/required-check-compose.py"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "fichier requis absent : scripts/check_compose.py" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du checker Compose non détectée."
+mv "${TEST_ROOT}/required-check-compose.py" "${PRODUCT_TARGET}/scripts/check_compose.py"
+
+mv "${PRODUCT_TARGET}/.github/workflows/verify.yml" "${TEST_ROOT}/required-workflow.yml"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "fichier requis absent : .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du workflow CI non détectée."
+mv "${TEST_ROOT}/required-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
+
 rm -f "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "fichier requis absent : docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du noyau non détectée."
@@ -338,6 +423,7 @@ PROTOTYPE_TARGET="${TEST_ROOT}/prototype-project"
   --profiles experiment,documentation-nimbus >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/verify.yml" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DOCUMENTATION-CATALOG.md" \
@@ -347,6 +433,7 @@ printf '%s\n' \
   "./README.md" \
   "./ROADMAP.md" \
   "./STATUS.md" \
+  "./compose.yaml" \
   "./docs/decisions/.gitkeep" \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
@@ -354,6 +441,7 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/experiment.md" \
   "./documentation.json" \
+  "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/prototype.expected"
@@ -370,6 +458,7 @@ CRITICAL_TARGET="${TEST_ROOT}/critical-project"
   --profiles infrastructure-production,dependency-change >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/verify.yml" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DELIVERY-EVIDENCE.md" \
@@ -381,6 +470,7 @@ printf '%s\n' \
   "./ROADMAP.md" \
   "./RUNBOOK.md" \
   "./STATUS.md" \
+  "./compose.yaml" \
   "./docs/decisions/.gitkeep" \
   "./docs/foundation/DEFAULTS.md" \
   "./docs/foundation/DEFINITION-OF-DONE.md" \
@@ -389,6 +479,7 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/infrastructure-production.md" \
   "./documentation.json" \
+  "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
   "./scripts/verify.sh" >"${TEST_ROOT}/critical.expected"

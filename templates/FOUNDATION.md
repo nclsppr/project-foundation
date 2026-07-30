@@ -47,6 +47,10 @@ Une dérogation à un invariant exige une portée limitée, un contrôle compens
 projet choisit entre push direct sur la branche canonique et branche dédiée,
 mais ne conserve pas une tranche terminée uniquement en local.
 
+`P19` ne peut pas être désactivé par une dérogation locale : `compose.yaml` et
+sa gate restent obligatoires. Seul un pack Minimal sans processus local peut
+conserver une table `services` vide.
+
 ## Challenger le socle
 
 Le snapshot `docs/foundation/` est en lecture seule dans ce projet.
@@ -74,6 +78,7 @@ Les fichiers suivants partent de la baseline du socle puis deviennent locaux et
 éditables :
 
 - `scripts/check_markdown.py`
+- `scripts/check_compose.py`
 - `scripts/documentation_catalog.py`
 - `scripts/verify.sh`
 

@@ -10,7 +10,7 @@ Moteur déclaré : `nimbus`.
 | --- | --- | ---: |
 | Guides publics | `public` | 9 |
 | Gouvernance interne | `internal` | 7 |
-| Décisions | `reference` | 4 |
+| Décisions | `reference` | 5 |
 | Profils | `reference` | 7 |
 | Templates | `reference` | 16 |
 | Exemples | `reference` | 1 |
@@ -44,6 +44,7 @@ Moteur déclaré : `nimbus`.
 - [docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md](docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md)
 - [docs/decisions/adr-0003-nimbus-obligatoire.md](docs/decisions/adr-0003-nimbus-obligatoire.md)
 - [docs/decisions/adr-0004-publication-git-obligatoire.md](docs/decisions/adr-0004-publication-git-obligatoire.md)
+- [docs/decisions/adr-0005-docker-compose-obligatoire.md](docs/decisions/adr-0005-docker-compose-obligatoire.md)
 
 ## Profils
 

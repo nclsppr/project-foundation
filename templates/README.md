@@ -7,13 +7,15 @@ TODO Décrire en une phrase la question explorée et le résultat observable rec
 ## Démarrage
 
 Prérequis du socle : Git, Python `3.9` ou plus récent, Node `22.12.0` ou plus
-récent et npm. Prérequis propres à l'exploration : TODO ou aucun.
+récent, npm, Docker et Docker Compose `2.20.0` ou plus récent. Prérequis propres
+à l'exploration : TODO ou aucun.
 
 | Action | Commande | Résultat attendu |
 | --- | --- | --- |
 | Installer | TODO ou non applicable | TODO |
 | Lancer | TODO | TODO URL, sortie ou fichier |
 | Vérifier | `./scripts/verify.sh` | Catalogue, Markdown et build Nimbus valides |
+| Vérifier Compose | `python3 scripts/check_compose.py` | Contrat Compose conforme à `P19` |
 | Arrêter ou nettoyer | TODO ou non applicable | TODO |
 
 Une commande absente est indiquée comme non applicable. Une commande future n'est pas présentée comme disponible.

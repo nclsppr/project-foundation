@@ -69,6 +69,14 @@ Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, san
 - adaptateurs, définition de done, bootstrap et adoption alignés ;
 - propagation vérifiée dans les packs générés.
 
+### Orchestration locale obligatoire livrée en v0.5.0
+
+- invariant `P19` pour rendre Docker Compose obligatoire ;
+- fichier, checker et workflow CI générés dans chaque pack ;
+- digests, healthchecks, cycles de vie et pack durable contrôlés ;
+- contournements structurels testés par le bootstrap ;
+- Parkventory choisi comme première montée de version réelle.
+
 ## Phase F02 : test d'adoption
 
 ### Objectif

@@ -8,9 +8,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  foundation:
-    runs-on: ubuntu-latest
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -28,12 +33,5 @@ jobs:
       - name: Check Docker Compose
         run: docker compose version
 
-      - name: Verify foundation
+      - name: Verify project
         run: ./scripts/verify.sh
-
-      - name: Verify documentation through Compose
-        run: docker compose run --rm documentation-check
-
-      - name: Verify annotated release tag
-        if: startsWith(github.ref, 'refs/tags/')
-        run: ./scripts/verify.sh --release
