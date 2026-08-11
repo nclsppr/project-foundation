@@ -1,6 +1,6 @@
 # STATUS.md
 
-Snapshot reviewed on 2026-08-11. Verification limits are listed below.
+Snapshot verified on 2026-08-11. Local verification limits are listed below.
 
 ## Reference
 
@@ -19,14 +19,14 @@ Snapshot reviewed on 2026-08-11. Verification limits are listed below.
 
 | Capability | Actual scope | Evidence | Known limit |
 | --- | --- | --- | --- |
-| Core | Twenty invariants, defaults, and definition of done | Cross-review, ADR-0004, ADR-0005, ADR-0006, catalog check, and Markdown check | Remote protections remain specific to each repository |
-| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, and atomic copy without overwrite | `scripts/test_bootstrap.sh` passes with a Docker command stub | GitHub Actions must provide the actual Docker evidence for the proposed commit |
+| Core | Twenty invariants, defaults, and definition of done | Cross-review, ADR-0004, ADR-0005, ADR-0006, and GitHub Actions run `31493111439` | Remote protections remain specific to each repository |
+| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, and atomic copy without overwrite | `scripts/test_bootstrap.sh` passes locally with a Docker command stub and remotely in run `31493111439` | Business content and services for a durable pack require completion |
 | Profiles | Mandatory Nimbus documentation; optional web, backend and data, infrastructure, experiment, generated-artifact, and dependency profiles | Snapshots and declarations verified | No native mobile or data-science profile |
 | Documentation | 47 classified Markdown files, 52 generated Nimbus pages, and 53 linted files | Catalog, tests, type checking, clean build, English-only Pagefind index, and lint | Do not publish the complete local build without an audience filter |
 | Upstream adoption | Separate official source, immutable snapshot, local exception, and foundation challenge | Parkventory adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8`; CI run `30526141976` is successful | Only one actual adoption observed |
 | Provenance | Audit of retained, rejected, and local rules | `AUDIT.md` | Dated snapshot |
 | Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and tests that remove the integration | Review is still required to detect a hidden process outside Compose |
-| Verification | Structure, links, anchors, style, placeholders, Nimbus, bootstrap security, and propagation of `P18`, `P19`, and `P20` | Catalog and Markdown checks, `npm run check --prefix docs-nimbus`, and bootstrap tests with a Docker command stub | Local `./scripts/verify.sh` stops at the Docker prerequisite; the checks do not establish formal conformance with ASD-STE100 |
+| Verification | Structure, links, anchors, style, placeholders, Nimbus, Compose, bootstrap security, and propagation of `P18`, `P19`, and `P20` | Local non-Docker checks and GitHub Actions run `31493111439` | The checks do not establish formal conformance with ASD-STE100 |
 
 ## Phase state
 
@@ -45,9 +45,9 @@ Snapshot reviewed on 2026-08-11. Verification limits are listed below.
 
 The local environment does not provide Docker. `./scripts/verify.sh` completes
 the catalog and Markdown checks, then stops at the Compose prerequisite. GitHub
-Actions must provide the complete verification for the proposed commit. A
-second adoption can extend the evidence, but it does not invalidate the F02
-exit.
+Actions run `31493111439` completed the full foundation verification and the
+documentation check through Docker Compose. A second adoption can extend the
+evidence, but it does not invalidate the F02 exit.
 
 ## Known drift
 
