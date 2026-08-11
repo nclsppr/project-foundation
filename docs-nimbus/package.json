@@ -11,6 +11,7 @@
     "sync": "node scripts/sync-content.mjs",
     "dev": "npm run sync && astro dev --host 127.0.0.1 --port 4321",
     "build": "npm run clean && npm run sync && astro build",
+    "build:publication": "npm run build && node scripts/rewrite-publication-base.mjs && node scripts/check-publication.mjs",
     "preview": "astro preview",
     "typecheck": "npm run sync && astro check",
     "lint:docs": "npm run sync && nimbus-docs lint",

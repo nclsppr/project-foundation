@@ -14,6 +14,10 @@ This file describes foundation versions. It is historical and non-normative.
 - Defines portable `DEBUG`, `INFO`, `WARN`, and `ERROR` semantics from operational effect. It requires one final failure record and prohibits message-text consumers.
 - Adds data-minimization, correlation, audit separation, sampling, volume-protection, and alerting boundaries.
 - Applies the logging contract to project templates, profiles, completion gates, bootstrap guidance, and generated-pack tests. ADR-0007 records the decision and external references.
+- Adds an audience-filtered Nimbus publication build and rejects content outside the authorized visibility set.
+- Publishes public and reference documentation through GitHub Pages with the correct repository base path. Internal and archive content remain excluded.
+- Clears Astro and Nimbus content caches before each build so a filtered publication cannot retain a page from a previous complete build.
+- Records the Project Foundation publication decision in ADR-0008 and links the deployed Nimbus site from the README.
 
 ## 0.5.2 - 2026-07-30
 

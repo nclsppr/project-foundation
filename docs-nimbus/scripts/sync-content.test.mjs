@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   convertSourceDocument,
   destinationFor,
+  parseVisibilityFilter,
 } from "./sync-content.mjs";
 
 test("converts a plain Markdown source into Nimbus content", () => {
@@ -54,4 +55,33 @@ test("links the root README to Nimbus' overview route", () => {
   );
 
   assert.match(result.content, /\[the overview\]\(\/overview\)/u);
+});
+
+test("parses an explicit publication audience", () => {
+  assert.deepEqual(
+    [...parseVisibilityFilter("public, reference")],
+    ["public", "reference"],
+  );
+  assert.equal(parseVisibilityFilter(""), null);
+  assert.throws(
+    () => parseVisibilityFilter("public,secret"),
+    /Unsupported NIMBUS_VISIBILITIES value: secret/u,
+  );
+});
+
+test("links an excluded document to its immutable source", () => {
+  const result = convertSourceDocument(
+    "# Project\n\nRead [the status](STATUS.md).\n",
+    "README.md",
+    "public",
+    new Set(["README.md"]),
+    "/project-foundation",
+    new Set(["README.md", "STATUS.md"]),
+    "https://github.com/example/project/blob/abc123",
+  );
+
+  assert.match(
+    result.content,
+    /\[the status\]\(https:\/\/github\.com\/example\/project\/blob\/abc123\/STATUS\.md\)/u,
+  );
 });

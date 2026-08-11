@@ -2,6 +2,8 @@
 
 A common foundation to start, resume, and develop a project without redefining the work rules each time.
 
+[Open the Nimbus documentation](https://nclsppr.github.io/project-foundation/).
+
 This repository is not a framework, a code generator, or a large `AGENTS.md` file to copy without review. It separates stable rules from choices that depend on the product, risk, and stack.
 
 ## Why this foundation has a separate repository

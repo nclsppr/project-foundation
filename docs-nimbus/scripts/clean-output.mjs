@@ -1,7 +1,11 @@
 import { rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-const outputDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
+const outputDirectories = ["../dist/", "../.astro/", "../.nimbus/"].map(
+  (directory) => fileURLToPath(new URL(directory, import.meta.url)),
+);
 
-await rm(outputDirectory, { recursive: true, force: true });
-process.stdout.write("Nimbus output directory removed.\n");
+for (const directory of outputDirectories) {
+  await rm(directory, { recursive: true, force: true });
+}
+process.stdout.write("Nimbus output and build caches removed.\n");
