@@ -1,9 +1,9 @@
 # ADR-0009: Continuous Foundation release verification
 
 - Status: accepted
-- Implementation status: delivered locally
+- Implementation status: delivered
 - Date: 2026-08-11
-- Last verification: 2026-08-11, complete local verification with eleven synchronizer integration tests and four generated packs; Docker execution pending in GitHub Actions
+- Last verification: 2026-08-11, complete local verification with eleven synchronizer integration tests and four generated packs; GitHub Actions run `31518800954` passed with Docker Compose
 - Owner: Nicolas Pieper
 - Supersedes: none
 - Superseded by: none

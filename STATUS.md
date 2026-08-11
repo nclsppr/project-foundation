@@ -20,13 +20,13 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 | Capability | Actual scope | Evidence | Known limit |
 | --- | --- | --- | --- |
 | Core | Twenty-two invariants, defaults, and definition of done | ADR-0004 through ADR-0009, local checks, and generated-pack propagation | Remote protections remain specific to each repository |
-| Bootstrap | Four packs, mandatory Nimbus, Compose, Foundation lock, pre-commit hook, synchronizer, and independent CI check | `scripts/test_bootstrap.sh` passes locally with a Docker command stub | Business content and services for a durable pack require completion |
+| Bootstrap | Four packs, mandatory Nimbus, Compose, Foundation lock, pre-commit hook, synchronizer, and independent CI check | `scripts/test_bootstrap.sh` passes locally and in GitHub Actions run `31518800954` | Business content and services for a durable pack require completion |
 | Foundation synchronization | Stable annotated-tag resolution, complete commit verification, SHA-256 integrity, controlled update, and collision stop | Eleven integration tests in `scripts/test_foundation_sync.py` pass | A project on an earlier release needs one reviewed migration to `v0.6.0` before `P22` can enforce itself |
 | Profiles | Mandatory Nimbus documentation; optional web, backend and data, infrastructure, experiment, generated-artifact, and dependency profiles | Snapshots and declarations verified | No native mobile or data-science profile |
 | Documentation | 50 classified Markdown files, 55 generated Nimbus pages, and an audience-filtered publication path | Catalog generation, Markdown checks, type checking, and a clean Nimbus build | GitHub Pages source selection remains an external repository setting |
 | Upstream adoption | Separate official source, stable tag, complete commit, hashed snapshot, local exception, and Foundation challenge | Parkventory still adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8` | Parkventory has not completed the one-time `v0.6.0` migration |
-| Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and bypass tests | Local Compose execution uses a parser stub because Docker is unavailable |
-| Verification | Structure, links, anchors, style, version, placeholders, Nimbus, Compose, synchronization security, bootstrap security, and propagation of `P18` through `P22` | `./scripts/verify.sh` passes locally with the narrow Docker command stub | Real Docker and remote GitHub Actions evidence remain pending for this branch |
+| Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, bypass tests, and the Docker path in GitHub Actions run `31518800954` | Local Compose execution uses a parser stub because Docker is unavailable |
+| Verification | Structure, links, anchors, style, version, placeholders, Nimbus, Compose, synchronization security, bootstrap security, and propagation of `P18` through `P22` | `./scripts/verify.sh` passes locally; GitHub Actions run `31518800954` passes with Docker Compose | Required branch rules remain an external repository setting |
 
 ## Phase state
 
@@ -34,7 +34,7 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 | --- | --- | --- |
 | `F01` | `done`: versioned core, bootstrap, and prior releases exist | Maintain the foundation without reopening the phase |
 | `F02` | `done`: Parkventory is independent, pushed, and verified from a public clone | Migrate the consumer separately after `v0.6.0` is published |
-| `F03` | `done`: controlled update prepares an explicit diff and preserves unrelated local files | Confirm the same tests in remote CI |
+| `F03` | `done`: controlled update prepares an explicit diff and preserves unrelated local files | Merge the reviewed release candidate |
 | `F04` | `done`: local and CI checks detect obsolete releases, moved tags, unavailable sources, and drift | Require the CI result in each consuming repository |
 
 ## Target not delivered
@@ -47,8 +47,8 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 
 The local environment does not provide Docker. A narrow Docker command stub
 parses `compose.yaml` and permits structural verification of the Compose gate.
-This stub does not execute a container. GitHub Actions must provide the final
-Docker Compose evidence for the release candidate.
+This stub does not execute a container. GitHub Actions run `31518800954`
+completed the real Docker Compose path for the release candidate.
 
 ## Known drift
 
