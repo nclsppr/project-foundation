@@ -33,6 +33,14 @@ jobs:
       - name: Verify foundation
         run: ./scripts/verify.sh
 
+      - name: Verify public documentation artifact
+        env:
+          NIMBUS_BASE_PATH: /project-foundation
+          NIMBUS_SITE_ORIGIN: https://nclsppr.github.io
+          NIMBUS_SOURCE_URL: https://github.com/nclsppr/project-foundation/blob/${{ github.sha }}
+          NIMBUS_VISIBILITIES: public,reference
+        run: npm run build:publication --prefix docs-nimbus
+
       - name: Verify documentation through Compose
         run: docker compose run --rm documentation-check
 

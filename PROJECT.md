@@ -130,7 +130,7 @@ A project adopts a local snapshot of the required files and records its version 
 | Verify a release | `./scripts/verify.sh --release` | Clean worktree, consistent version, and annotated tag on HEAD |
 | Regenerate navigation | `python3 scripts/documentation_catalog.py --write` | Catalog aligned with the manifest and Markdown files |
 | Build documentation | `npm run build --prefix docs-nimbus` | Static Nimbus site generated from classified Markdown files |
-| Deploy | Not applicable | The repository is consumed through a versioned copy |
+| Deploy documentation | Push to `main` or dispatch `.github/workflows/pages.yml` | Public and reference Nimbus content is available on GitHub Pages |
 
 ## Data and security
 

@@ -57,3 +57,14 @@ The local build includes all audiences to make the corpus navigable.
 By default, you cannot publish this build as is. A publication process defines
 and verifies an explicit filter so that it never exposes an internal collection.
 ADR-0003 defines this decision.
+
+Set `NIMBUS_VISIBILITIES` to the comma-separated visibility values that the
+publication authorizes. Set `NIMBUS_SITE_ORIGIN`, `NIMBUS_BASE_PATH`, and
+`NIMBUS_SOURCE_URL` for the target. Then run
+`npm run build:publication --prefix docs-nimbus`. This command builds the
+static site, applies the deployment base path, and rejects content outside the
+authorized audience.
+
+Project Foundation publishes `public` and `reference` content through GitHub
+Pages. It excludes `internal` and `archive` content. ADR-0008 authorizes this
+surface and records the hosting decision.

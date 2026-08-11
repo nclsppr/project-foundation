@@ -22,6 +22,41 @@ function normalizeBasePath(value = "/") {
   return raw === "/" ? "" : raw.replace(/\/+$/u, "");
 }
 
+const supportedVisibilities = new Set([
+  "public",
+  "internal",
+  "reference",
+  "archive",
+]);
+
+export function parseVisibilityFilter(value = "") {
+  const requested = value
+    .split(",")
+    .map((visibility) => visibility.trim())
+    .filter(Boolean);
+  if (requested.length === 0) return null;
+
+  const unknown = requested.filter(
+    (visibility) => !supportedVisibilities.has(visibility),
+  );
+  if (unknown.length > 0) {
+    throw new Error(
+      `Unsupported NIMBUS_VISIBILITIES value: ${unknown.join(", ")}`,
+    );
+  }
+  return new Set(requested);
+}
+
+function normalizeSourceUrl(value = "") {
+  const sourceUrl = value.trim().replace(/\/+$/u, "");
+  if (!sourceUrl) return "";
+  const parsed = new URL(sourceUrl);
+  if (parsed.protocol !== "https:") {
+    throw new Error("NIMBUS_SOURCE_URL must use HTTPS.");
+  }
+  return sourceUrl;
+}
+
 function cleanTitle(value) {
   return value
     .replace(/\[([^\]]+)\]\([^)]*\)/gu, "$1")
@@ -85,7 +120,14 @@ function routeForSourcePath(sourcePath, basePath = "") {
   return slug ? `${basePath}/${slug}` : `${basePath || ""}/`;
 }
 
-function convertLinks(body, sourcePath, sourcePaths, basePath) {
+function convertLinks(
+  body,
+  sourcePath,
+  sourcePaths,
+  basePath,
+  allSourcePaths = sourcePaths,
+  sourceUrl = "",
+) {
   const sourceDirectory = path.posix.dirname(sourcePath);
   let activeFence = null;
 
@@ -115,9 +157,13 @@ function convertLinks(body, sourcePath, sourcePaths, basePath) {
             const rootTarget = path.posix.basename(target);
             if (sourcePaths.has(rootTarget)) target = rootTarget;
           }
-          return sourcePaths.has(target)
-            ? `](${routeForSourcePath(target, basePath)}${fragment})`
-            : match;
+          if (sourcePaths.has(target)) {
+            return `](${routeForSourcePath(target, basePath)}${fragment})`;
+          }
+          if (allSourcePaths.has(target) && sourceUrl) {
+            return `](${sourceUrl}/${target}${fragment})`;
+          }
+          return match;
         },
       );
 
@@ -173,6 +219,8 @@ export function convertSourceDocument(
   visibility,
   sourcePaths,
   basePath = "",
+  allSourcePaths = sourcePaths,
+  sourceUrl = "",
 ) {
   const { frontmatter, body } = splitFrontmatter(source, sourcePath);
   const extracted = extractTitle(body, frontmatter, sourcePath);
@@ -200,6 +248,8 @@ export function convertSourceDocument(
     sourcePath,
     sourcePaths,
     basePath,
+    allSourcePaths,
+    sourceUrl,
   );
 
   return {
@@ -208,19 +258,27 @@ export function convertSourceDocument(
   };
 }
 
-function loadInventory() {
+function loadInventory(allowedVisibilities) {
   const raw = execFileSync("python3", [catalogScript, "--json"], {
     cwd: repositoryRoot,
     encoding: "utf8",
   });
   const inventory = JSON.parse(raw);
-  const entries = inventory.collections.flatMap((collection) =>
+  const allEntries = inventory.collections.flatMap((collection) =>
     collection.files.map((sourcePath) => ({
       sourcePath,
       visibility: collection.visibility,
     })),
   );
-  return { entries, inventory };
+  const entries = allowedVisibilities
+    ? allEntries.filter(({ visibility }) =>
+        allowedVisibilities.has(visibility),
+      )
+    : allEntries;
+  if (entries.length === 0) {
+    throw new Error("NIMBUS_VISIBILITIES selected no documentation files.");
+  }
+  return { allEntries, entries, inventory };
 }
 
 async function writeSyntheticIndexes(entries, metadata, basePath) {
@@ -304,8 +362,15 @@ export async function syncContent() {
   }
 
   const basePath = normalizeBasePath(process.env.NIMBUS_BASE_PATH || "/");
-  const { entries } = loadInventory();
+  const allowedVisibilities = parseVisibilityFilter(
+    process.env.NIMBUS_VISIBILITIES || "",
+  );
+  const sourceUrl = normalizeSourceUrl(process.env.NIMBUS_SOURCE_URL || "");
+  const { allEntries, entries } = loadInventory(allowedVisibilities);
   const sourcePaths = new Set(entries.map((entry) => entry.sourcePath));
+  const allSourcePaths = new Set(
+    allEntries.map((entry) => entry.sourcePath),
+  );
   const destinations = new Set();
   const metadata = new Map();
 
@@ -329,6 +394,8 @@ export async function syncContent() {
       entry.visibility,
       sourcePaths,
       basePath,
+      allSourcePaths,
+      sourceUrl,
     );
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, converted.content, "utf8");
