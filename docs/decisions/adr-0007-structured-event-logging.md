@@ -3,7 +3,7 @@
 - Status: accepted
 - Implementation status: delivered
 - Date: 2026-08-11
-- Last verification: 2026-08-11, catalog, Markdown, Nimbus, and generated-pack propagation verified locally with a Docker command stub; real Docker unavailable locally
+- Last verification: 2026-08-11, catalog, Markdown, Nimbus, Compose, and generated-pack propagation verified in GitHub Actions run `31499654216`; local generated-pack verification used a Docker command stub
 - Owner: Nicolas Pieper
 - Supersedes: none
 - Superseded by: none

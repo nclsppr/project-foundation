@@ -19,14 +19,14 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 
 | Capability | Actual scope | Evidence | Known limit |
 | --- | --- | --- | --- |
-| Core | Twenty-one invariants, defaults, and definition of done | Cross-review, ADR-0004 through ADR-0007, local checks, and GitHub Actions run `31493111439` for the controlled-English base | Remote P21 verification is pending |
-| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, atomic copy without overwrite, and P21 propagation | `scripts/test_bootstrap.sh` passes locally with a Docker command stub; the controlled-English base passes remotely in run `31493111439` | Remote P21 verification is pending; business content and services for a durable pack require completion |
+| Core | Twenty-one invariants, defaults, and definition of done | Cross-review, ADR-0004 through ADR-0007, local checks, and GitHub Actions run `31499654216` | Remote protections remain specific to each repository |
+| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, atomic copy without overwrite, and P21 propagation | `scripts/test_bootstrap.sh` passes locally with a Docker command stub and remotely in run `31499654216` | Business content and services for a durable pack require completion |
 | Profiles | Mandatory Nimbus documentation; optional web, backend and data, infrastructure, experiment, generated-artifact, and dependency profiles | Snapshots and declarations verified | No native mobile or data-science profile |
 | Documentation | 48 classified Markdown files, 53 generated Nimbus pages, and 54 linted files | Catalog, tests, type checking, clean build, English-only Pagefind index, and lint | Do not publish the complete local build without an audience filter |
 | Upstream adoption | Separate official source, immutable snapshot, local exception, and foundation challenge | Parkventory adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8`; CI run `30526141976` is successful | Only one actual adoption observed |
 | Provenance | Audit of retained, rejected, and local rules | `AUDIT.md` | Dated snapshot |
 | Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and tests that remove the integration | Review is still required to detect a hidden process outside Compose |
-| Verification | Structure, links, anchors, style, placeholders, Nimbus, Compose, bootstrap security, and propagation of `P18` through `P21` | Local checks with a Docker command stub; run `31493111439` verifies the controlled-English base | Remote P21 verification is pending; the checks do not establish formal conformance with ASD-STE100, OpenTelemetry, or OWASP |
+| Verification | Structure, links, anchors, style, placeholders, Nimbus, Compose, bootstrap security, and propagation of `P18` through `P21` | Local checks with a Docker command stub and GitHub Actions run `31499654216` | The checks do not establish formal conformance with ASD-STE100, OpenTelemetry, or OWASP |
 
 ## Phase state
 
@@ -47,10 +47,9 @@ The local environment does not provide Docker. `./scripts/verify.sh` completes
 the catalog and Markdown checks, then stops at the Compose prerequisite. With a
 narrow Docker command stub, `scripts/test_bootstrap.sh` verifies the generated
 packs and P21 propagation. The complete Nimbus check also passes locally.
-GitHub Actions run `31493111439` completed the full verification of the
-controlled-English base through Docker Compose. Remote verification of P21 is
-pending. A second adoption can extend the evidence, but it does not invalidate
-the F02 exit.
+GitHub Actions run `31499654216` completed the full verification of P21 and the
+documentation check through Docker Compose. A second adoption can extend the
+evidence, but it does not invalidate the F02 exit.
 
 ## Known drift
 
