@@ -2,7 +2,7 @@
 
 Activate this profile for an API, service, database, payment, or external integration.
 
-This profile implements `P03`, `P04`, `P09`, `P10`, `P11`, `P13`, and `P14`.
+This profile implements `P03`, `P04`, `P09`, `P10`, `P11`, `P13`, `P14`, and `P21`.
 
 ## Contract
 
@@ -37,13 +37,14 @@ This profile implements `P03`, `P04`, `P09`, `P10`, `P11`, `P13`, and `P14`.
 - Test isolation between users, organizations, or tenants.
 - Inject secrets and make them rotatable.
 - Send the minimum data to third parties and AI systems.
-- Keep secrets and unnecessary personal data out of logs.
+- Apply the `P21` data protections to first-party runtime log records from the application and its integrations.
 - Set timeouts and limits for external calls.
 
 ## Operations
 
 - Use useful and accurate health checks.
-- Use structured and correlatable logs.
+- Apply `P21` to each first-party runtime log record.
+- Define the public or API error-code contract separately from runtime logging.
 - Use technical and business metrics without personally identifiable information.
 - Do not make observability necessary for service operation.
 - Define procedures to start, stop, restart, and diagnose the service.

@@ -48,6 +48,7 @@ Report a conflict between intent and the current state. Do not resolve it silent
 - Run `python3 scripts/check_compose.py` with the `verify` command. Test Compose startup when the work unit changes local execution.
 - Treat external skills and plugins as advisory. Local documents control the work.
 - Use English for every deliverable, all communication, and all technical content. Apply `P20`. A local exception cannot select another language. Preserve only the external forms that `P20` permits.
+- Apply `P21` to each first-party runtime log record. Use its minimum evidence in the project verification command.
 
 ## Repository-specific information
 

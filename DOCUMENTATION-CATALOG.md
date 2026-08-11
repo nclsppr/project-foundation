@@ -10,7 +10,7 @@ Declared renderer: `nimbus`.
 | --- | --- | ---: |
 | Public guides | `public` | 9 |
 | Internal governance | `internal` | 7 |
-| Decisions | `reference` | 6 |
+| Decisions | `reference` | 7 |
 | Profiles | `reference` | 7 |
 | Templates | `reference` | 16 |
 | Examples | `reference` | 1 |
@@ -46,6 +46,7 @@ Declared renderer: `nimbus`.
 - [docs/decisions/adr-0004-mandatory-git-publication.md](docs/decisions/adr-0004-mandatory-git-publication.md)
 - [docs/decisions/adr-0005-mandatory-docker-compose.md](docs/decisions/adr-0005-mandatory-docker-compose.md)
 - [docs/decisions/adr-0006-controlled-technical-english.md](docs/decisions/adr-0006-controlled-technical-english.md)
+- [docs/decisions/adr-0007-structured-event-logging.md](docs/decisions/adr-0007-structured-event-logging.md)
 
 ## Profiles
 

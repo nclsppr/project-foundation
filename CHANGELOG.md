@@ -9,6 +9,11 @@ This file describes foundation versions. It is historical and non-normative.
 - Propagates the rule to adapters, documentation gates, and generated-pack tests.
 - Migrates maintained documentation, templates, validation messages, and the Nimbus locale from French to English.
 - Documents the invariant, its limited preservation cases, and its verification in ADR-0006.
+- Adds `P21` to require safe, structured, and actionable first-party runtime log records.
+- Requires a stable event name for machines and a short controlled-English message for people. It keeps public error codes separate from internal event names.
+- Defines portable `DEBUG`, `INFO`, `WARN`, and `ERROR` semantics from operational effect. It requires one final failure record and prohibits message-text consumers.
+- Adds data-minimization, correlation, audit separation, sampling, volume-protection, and alerting boundaries.
+- Applies the logging contract to project templates, profiles, completion gates, bootstrap guidance, and generated-pack tests. ADR-0007 records the decision and external references.
 
 ## 0.5.2 - 2026-07-30
 

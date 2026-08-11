@@ -82,6 +82,7 @@ A new project must explicitly decide:
 - its branch, review, version, and release policy;
 - its environments and deployment method;
 - its availability, backup, restoration, and observability requirements;
+- its logging schema mapping, production threshold, sinks, sampling, retention, audit applicability, and alert ownership;
 - its test matrix;
 - its design system and brand constraints;
 - its license, data rights, and use of AI;
@@ -95,6 +96,22 @@ A new project must explicitly decide:
 - Use Nimbus in all projects as specified by `P16` and `profiles/documentation-nimbus.md`.
 - Pin Nimbus, test its adapter, and add its build to `verify`.
 - Another engine can provide supplementary output. It cannot replace the canonical Nimbus build.
+
+## D09. Runtime logging implementation
+
+`P21` controls first-party runtime log records. This default selects a portable implementation. It cannot disable the invariant.
+
+- Use the OpenTelemetry log data model semantics for timestamps, severity, event names, message bodies, resource context, trace context, attributes, and exceptions. This choice does not declare OpenTelemetry conformance.
+- Use an existing OpenTelemetry semantic convention before a project-specific name. Namespace a project-specific event name or attribute. Use lowercase names with dot-delimited namespaces.
+- Record the adopted OpenTelemetry specification and semantic-convention versions in the local schema mapping. Pin implementation packages when they apply.
+- Use a native structured logging interface. Do not manually assemble JSON. Use JSON Lines when a text stream is the transport and no platform-native structured transport exists.
+- Preserve the same fields in local human-readable output. A development renderer can change presentation, but it does not change the record contract.
+- Use `INFO` as the default production threshold. Enable output that maps to `DEBUG` under `P21` only through controlled, time-limited configuration.
+- Write container logs to the standard streams. Let the execution platform collect, protect, route, and retain them.
+- Prefer metrics and traces to repetitive status logs. Document any sampling or rate limit. Do not let diagnostic log export create an unbounded queue or change the reported business result.
+- Keep the event-name definitions close to their implementation or generate a catalog from one canonical source. Do not maintain a second manual list.
+
+The project defines its actual schema mapping, sink, retention, access, redaction, volume budget, and security or audit stream and failure behavior in its canonical operations source.
 
 ## Override a default
 

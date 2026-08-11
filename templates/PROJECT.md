@@ -67,6 +67,7 @@ Do not present a target as an achieved result.
 | Configuration | `compose.yaml` and TODO additional configuration | operational | Compose provides the integrated local path required by `P19` |
 | Delivered code | TODO | operational | |
 | Operations | TODO | normative | |
+| Runtime logging | `PROJECT.md#runtime-logging` and TODO implementation source | normative and operational | `P21` schema mapping and controls |
 | Decisions | `docs/decisions/` | normative | |
 | Documentation | `DOCUMENTATION.md`, `documentation.json`, `docs-nimbus/`, and the generated catalog | normative and derived | Each Markdown file has an audience and passes through Nimbus |
 | Generated artifacts | TODO | derived | Identify their source |
@@ -126,7 +127,25 @@ TODO
 - Isolation: TODO
 - Retention: TODO
 - Backup and restore: TODO
-- Logging without sensitive data: TODO
+- Logging without sensitive data: See `PROJECT.md#runtime-logging`.
+
+## Runtime logging
+
+`P21` applies when the project emits first-party runtime log records. Complete this table without copying the invariant. If the project emits no such log records, record that fact under Applicability and keep the remaining rows not applicable.
+
+| Decision | Local value | Canonical source or evidence |
+| --- | --- | --- |
+| Applicability | TODO applicable log-record sources, or emits no first-party runtime log records | TODO |
+| Schema and platform mapping | TODO OpenTelemetry semantics or documented equivalent | TODO code, configuration, or ADR |
+| Event-name definitions | TODO constants or another single source | TODO source or generated catalog |
+| Resource and correlation enrichment | TODO service, revision, environment, trace, span, or trusted correlation | TODO |
+| Production threshold and temporary debug control | TODO | TODO configuration |
+| Sinks and exporter failure behavior | TODO | TODO |
+| Sampling and volume protection | TODO | TODO |
+| Access, retention, and deletion | TODO | TODO policy |
+| Security and audit applicability | TODO separate streams and failure behavior, or not applicable | TODO |
+| Alert ownership and runbooks | TODO | TODO |
+| Verification | TODO schema, failure ownership, correlation, and synthetic sensitive-data tests | TODO command |
 
 ## Quality
 
@@ -153,7 +172,7 @@ remain documented as a shortcut. It cannot be the only reproducible procedure.
 - Deployment: TODO
 - Rollback: TODO
 - Final verification: TODO
-- Observability: TODO
+- Observability: `PROJECT.md#runtime-logging` and TODO metrics and tracing source.
 - Escalation: TODO
 
 ## Responsibilities

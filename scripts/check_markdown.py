@@ -52,6 +52,7 @@ REQUIRED_PATHS = (
     "docs/decisions/adr-0004-mandatory-git-publication.md",
     "docs/decisions/adr-0005-mandatory-docker-compose.md",
     "docs/decisions/adr-0006-controlled-technical-english.md",
+    "docs/decisions/adr-0007-structured-event-logging.md",
     "docs-nimbus/AGENT.md",
     "docs-nimbus/.env.example",
     "docs-nimbus/astro.config.ts",

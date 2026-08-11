@@ -36,6 +36,12 @@ A local project can make the foundation requirements stronger. It does not copy 
 
 A host command can provide a shortcut. The common integrated path remains `docker compose up --build --wait`. The `verify` command rejects removal of the contract or its gate.
 
+## Runtime logging
+
+[`P21`](PRINCIPLES.md#p21-emit-safe-structured-and-actionable-log-records) is the sole universal rule for first-party runtime log records. It selects both a stable event name for machines and a short English message for people. It does not use an opaque numeric code as a replacement for the message.
+
+[ADR-0007](docs/decisions/adr-0007-structured-event-logging.md) records the alternatives and rationale. `D09` provides the reversible implementation default. A project records its platform and operating choices in its canonical operations source.
+
 ## Documentation contract
 
 Each maintained Markdown file is part of the project documentation, but it is not necessarily public. `documentation.json` classifies each `.md` file exactly once as public, internal, reference, or archive. [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) provides complete navigation. The `verify` command rejects orphan files.

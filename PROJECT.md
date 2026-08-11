@@ -37,6 +37,7 @@ A new repository can adopt a consistent core, select its profiles, document its 
 | Common development | A foundation challenge returns to the foundation repository before an upgrade | `ADOPTION.md` and `templates/FOUNDATION.md` |
 | Permanently delivered work | Each verified work unit has a resumable remote SHA | `P18`, `AGENTS.md` adapters, and the definition of done |
 | Contractual local environment | Each pack has Compose, and each durable project declares a checked service | `P19`, `compose.yaml`, `scripts/check_compose.py`, and bootstrap tests |
+| Actionable runtime logs | Each project that emits first-party runtime log records inherits `P21` | `P21`, adapters, and bootstrap tests |
 
 ## Scope
 
@@ -53,6 +54,7 @@ A new repository can adopt a consistent core, select its profiles, document its 
 - adoption, upstream contribution, and upgrade procedure;
 - universal discipline for commits and pushes of verified work units;
 - mandatory and checked Docker Compose local orchestration;
+- structured, correlatable, and safe first-party runtime log records;
 - CI workflow copied to each pack;
 - definition of done and origin audit;
 - local and CI verification of the foundation.
@@ -99,6 +101,9 @@ A new repository can adopt a consistent core, select its profiles, document its 
 | Adoption and upstream contribution | `ADOPTION.md` | normative |
 | Templates | `templates/` | derived and reusable |
 | Local orchestration | `compose.yaml` and `scripts/check_compose.py` | operational and checked |
+| Runtime logging invariant | `PRINCIPLES.md`, `P21` | normative |
+| Runtime logging implementation default | `DEFAULTS.md`, `D09` | normative and reversible |
+| Runtime logging decision history | `docs/decisions/adr-0007-structured-event-logging.md` | decision record |
 
 ## Architecture
 
