@@ -1,116 +1,108 @@
-# Defaults de nouveau projet
+# New Project Defaults
 
-Ces choix accélèrent le démarrage. Ils ne sont pas universels. Un projet peut les remplacer dans `PROJECT.md` ou par ADR, avec une raison et les conséquences du changement.
+These choices make project initialization faster. They are not universal. A project can replace them in `PROJECT.md` or with an ADR. The change must include a reason and its consequences.
 
-## D01. Documentation et langage
+## D01. Documentation style
 
-- Documentation de travail en français.
-- Code, identifiants, schémas, logs et commentaires de code en anglais.
-- Ton sobre, précis et direct.
-- Dates absolues au format `YYYY-MM-DD`. Éviter les dates relatives.
-- Pas de tiret cadratin ou demi-cadratin dans la prose.
-- Une commande canonique par opération. La documentation ne recopie pas son implémentation.
-- `README.md` oriente. `PROJECT.md` décrit le contrat stable. `STATUS.md` décrit l'état vérifié. `ROADMAP.md` porte le séquencement. `CHANGELOG.md` trace les changements livrés. `AGENTS.md` décrit le mode d'intervention. Les ADR portent les décisions.
+- `P20` controls the language of all technical content. It is not a reversible default.
+- Use a restrained, precise, and direct tone.
+- Use absolute dates in `YYYY-MM-DD` format. Do not use relative dates.
+- Do not use em dashes or en dashes in prose.
+- Define one canonical command for each operation. Documentation does not copy its implementation.
+- `README.md` provides direction. `PROJECT.md` defines the stable contract. `STATUS.md` defines the verified state. `ROADMAP.md` defines the sequence. `CHANGELOG.md` records delivered changes. `AGENTS.md` defines the change method. ADRs contain decisions.
 
-## D02. Git et livraison
+## D02. Git and delivery
 
-`P18` impose le commit et le push de chaque tranche cohérente et vérifiée. Ce
-default choisit seulement la destination et le mode de revue ; il ne permet pas
-de conserver une tranche terminée uniquement en local.
+`P18` requires a commit and a push for each coherent and verified work unit. This default selects only the destination and review method. It does not permit a completed work unit to remain only in the local repository.
 
-Pour un dépôt personnel ou à propriétaire unique :
+For a personal repository or a repository with one owner:
 
-- branche canonique `main` ;
-- push direct sur `main` lorsque la plateforme l'autorise ;
-- branche dédiée lorsque `main` est protégée ou qu'une revue est exigée ;
-- message impératif préfixé par le périmètre ;
-- pas de pull request obligatoire.
+- use `main` as the canonical branch;
+- push directly to `main` when the platform permits it;
+- use a dedicated branch when `main` is protected or review is required;
+- use an imperative commit message with a scope prefix;
+- do not require a pull request.
 
-Pour un dépôt d'équipe, public, réglementé ou à risque élevé, définir une politique de revue et de protection de branche. Le workflow Git est toujours local au projet.
+For a team, public, regulated, or high-risk repository, define a review and branch-protection policy. The Git workflow is always local to the project.
 
-Ces choix décrivent un workflow par défaut. Ils ne peuvent pas élargir
-l'autorité de la tâche à un déploiement ou une autre mutation externe sans
-rapport avec le dépôt.
+These choices define a default workflow. They cannot extend task authority to a deployment or another external mutation that is outside the repository scope.
 
-## D03. Architecture et dépendances
+## D03. Architecture and dependencies
 
-- Commencer par le minimum exploitable, pas par l'architecture cible complète.
-- Préférer une dépendance en moins tant qu'un besoin concret ne justifie pas son coût.
-- Utiliser un gestionnaire de versions et des lockfiles.
-- Utiliser le gestionnaire de versions pour les outils hôte et Docker Compose,
-  imposé par `P19`, pour les services et dépendances exécutables.
-- Épingler les images et artefacts de production par version immuable ou digest.
-- Centraliser la configuration. Ne pas disperser de fallback de domaine, port, clé ou environnement dans le code.
-- Séparer clairement développement, build, CI et production.
+- Start with the minimum usable system. Do not start with the complete target architecture.
+- Prefer one less dependency until a specific need justifies its cost.
+- Use a version manager and lockfiles.
+- Use the version manager for host tools. Use Docker Compose, as required by `P19`, for executable services and dependencies.
+- Pin production images and artifacts to an immutable version or digest.
+- Centralize configuration. Do not distribute fallback domain names, ports, keys, or environments in the code.
+- Clearly separate development, build, CI, and production.
 
-## D04. Commandes
+## D04. Commands
 
-Chaque projet expose autant que possible :
+Each project provides these commands when possible:
 
 ```text
-install   installe exactement les dépendances attendues
-dev       lance l'environnement de développement
-verify    exécute tous les contrôles obligatoires
-build     produit l'artefact livrable
-stop      arrête proprement les services
-reset     réinitialise uniquement l'état de développement documenté
+install   installs the exact required dependencies
+dev       starts the development environment
+verify    runs all mandatory checks
+build     produces the deliverable artifact
+stop      stops services correctly
+reset     resets only the documented development state
 ```
 
-Les noms peuvent varier. La capacité ne doit pas dépendre d'un outil d'agent particulier.
+The names can differ. The capability must not depend on a specific agent tool.
 
-`dev`, `stop` et `reset` pilotent le `compose.yaml` canonique lorsqu'ils
-s'appliquent. `reset` nomme précisément les volumes ou données supprimés et ne
-devient jamais un alias implicite de `docker compose down --volumes`.
+When applicable, `dev`, `stop`, and `reset` control the canonical `compose.yaml` file. `reset` identifies the exact volumes or data that it deletes. It must not be an implicit alias for `docker compose down --volumes`.
 
-## D05. Qualité
+## D05. Quality
 
-- Automatiser les contrôles déterministes.
-- Garder une vérification humaine ou visuelle lorsque le résultat est perceptif.
-- Faire appeler la même commande `verify` par les hooks locaux et la CI.
-- Tester la surface finale : navigateur, API, image, PDF, conteneur ou URL publique selon le changement.
-- Corriger ou documenter un contrôle obsolète. Ne pas le présenter comme une garantie.
+- Automate deterministic checks.
+- Keep a human or visual check when the result requires perception.
+- Make local hooks and CI call the same `verify` command.
+- Test the final surface. Depending on the change, this can be a browser, API, image, PDF, container, or public URL.
+- Correct or document an obsolete check. Do not present it as a control.
 
 ## D06. Interface
 
-- Activer `profiles/web.md` pour toute interface web destinée à des utilisateurs.
-- Définir l'intention visuelle dans `DESIGN.md` avant une refonte significative.
-- Utiliser par défaut le niveau WCAG AA. Une cible différente est une dérogation explicite.
-- L'identité, les budgets et la matrice de validation restent locaux au projet.
+- Enable `profiles/web.md` for each user-facing web interface.
+- Define the visual intent in `DESIGN.md` before a significant redesign.
+- Use WCAG AA as the default level. A different target requires an explicit exception.
+- Keep the identity, budgets, and verification matrix local to the project.
 
-## D07. Décisions obligatoirement locales
+## D07. Mandatory local decisions
 
-Un nouveau projet doit trancher explicitement :
+A new project must explicitly decide:
 
-- expérimentation, prototype, produit ou système critique ;
-- utilisateurs et données manipulées ;
-- langues produit et documentation ;
-- plateformes de développement et production ;
-- architecture et stack ;
-- contrat ou schéma canonique ;
-- politique de branches, revue, version et release ;
-- environnements et méthode de déploiement ;
-- exigences de disponibilité, sauvegarde, restauration et observabilité ;
-- matrice de tests ;
-- design system et contraintes de marque ;
-- licence, droits sur les données et usages de l'IA ;
-- propriétaire et procédure d'escalade.
+- whether it is an experiment, prototype, product, or critical system;
+- its users and processed data;
+- any externally required terms and documented exceptions to `P20`;
+- its development and production platforms;
+- its architecture and stack;
+- its canonical contract or schema;
+- its branch, review, version, and release policy;
+- its environments and deployment method;
+- its availability, backup, restoration, and observability requirements;
+- its test matrix;
+- its design system and brand constraints;
+- its license, data rights, and use of AI;
+- its owner and escalation procedure.
 
-## D08. Documentation navigable
+## D08. Navigable documentation
 
-- Fournir `documentation.json` et un catalogue exhaustif dans tous les packs.
-- Classer les Markdown publics, internes, de référence et archivés avant de les publier.
-- Garder les Markdown comme sources éditoriales et les rendus comme dérivés.
-- Utiliser Nimbus dans tous les projets conformément à `P16` et à `profiles/documentation-nimbus.md`.
-- Épingler Nimbus, tester son adaptateur et intégrer son build à `verify`.
-- Un autre moteur peut fournir une sortie complémentaire, sans remplacer le build Nimbus canonique.
+- Provide `documentation.json` and a complete catalog in all packs.
+- Classify Markdown files as public, internal, reference, or archive before publication.
+- Keep Markdown files as editorial sources and renderings as derived artifacts.
+- Use Nimbus in all projects as specified by `P16` and `profiles/documentation-nimbus.md`.
+- Pin Nimbus, test its adapter, and add its build to `verify`.
+- Another engine can provide supplementary output. It cannot replace the canonical Nimbus build.
 
-## Révoquer un default
+## Override a default
 
-Un default peut être changé sans débat cérémoniel si l'impact reste local et évident. Une ADR est requise quand le changement :
+A default can change without a formal discussion when its effect is local and clear. An ADR is required when the change:
 
-- structure plusieurs modules ;
-- introduit une dépendance durable ;
-- modifie un contrat public ou des données ;
-- change la sécurité, la disponibilité ou le déploiement ;
-- rend un retour arrière coûteux ;
-- devient une nouvelle règle pour les contributions futures.
+- structures multiple modules;
+- adds a durable dependency;
+- changes a public contract or data;
+- changes security, availability, or deployment;
+- makes rollback costly;
+- becomes a new rule for future contributions.

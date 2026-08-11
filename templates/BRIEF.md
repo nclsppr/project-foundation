@@ -1,68 +1,68 @@
 # BRIEF.md
 
-Contrat léger d'une exploration. Les règles communes restent dans le snapshot déclaré par [`FOUNDATION.md`](FOUNDATION.md).
+Lightweight contract for an exploration. The common rules remain in the snapshot declared by [`FOUNDATION.md`](FOUNDATION.md).
 
-## Identité
+## Identity
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Nom | TODO |
-| Propriétaire | TODO |
-| Classe | Exploration |
-| Statut | TODO non commencée, en cours ou conclue |
-| Début | TODO YYYY-MM-DD |
-| Limite | TODO date, durée ou budget |
+| Name | TODO |
+| Owner | TODO |
+| Class | Exploration |
+| Status | TODO not started, in progress, or concluded |
+| Start | TODO YYYY-MM-DD |
+| Limit | TODO date, duration, or budget |
 
 ## Question
 
-TODO Formuler une seule question à laquelle l'exploration doit répondre.
+TODO Write one question that the exploration must answer.
 
-## Contexte et utilisateur
+## Context and user
 
-TODO Nommer la situation observée, la personne concernée et la raison de tester maintenant. Ne pas transformer une hypothèse utilisateur en fait.
+TODO Identify the observed situation, the affected person, and the reason to test now. Do not present a user assumption as a fact.
 
-## Preuve attendue
+## Expected evidence
 
-TODO Décrire l'observation, la mesure ou le prototype qui permettra de conclure.
+TODO Describe the observation, measurement, or prototype that will support a conclusion.
 
-## Périmètre
+## Scope
 
-### Inclus
-
-- TODO
-
-### Exclu
+### Included
 
 - TODO
 
-## Faits et hypothèses
+### Excluded
 
-| Type | Affirmation | Source ou prochaine vérification |
+- TODO
+
+## Facts and assumptions
+
+| Type | Statement | Source or next verification |
 | --- | --- | --- |
-| Fait | TODO | TODO |
-| Hypothèse | TODO | TODO |
+| Fact | TODO | TODO |
+| Assumption | TODO | TODO |
 
-## Contraintes
+## Constraints
 
-- Données et confidentialité : TODO données synthétiques, anonymisées, réelles ou aucune.
-- Accès et secrets : TODO ou aucun.
-- Temps et coût maximum : TODO.
-- Profils activés : voir [`FOUNDATION.md`](FOUNDATION.md), source unique.
+- Data and confidentiality: TODO synthetic, anonymized, real, or no data.
+- Access and secrets: TODO or none.
+- Maximum time and cost: TODO.
+- Activated profiles: See [`FOUNDATION.md`](FOUNDATION.md), the single source.
 
-## Conditions de conclusion
+## Conclusion conditions
 
-- Succès : TODO preuve suffisante pour répondre oui.
-- Échec : TODO preuve suffisante pour répondre non.
-- Arrêt : TODO échéance, coût ou risque qui interrompt le travail.
+- Success: TODO evidence sufficient to answer yes.
+- Failure: TODO evidence sufficient to answer no.
+- Stop: TODO deadline, cost, or risk that stops the work.
 
-## État vérifié et conclusion
+## Verified state and conclusion
 
-- Vérifié le : TODO YYYY-MM-DD.
-- Environnement ou artefact : TODO.
-- Observations : TODO, ou aucune preuve disponible si le travail n'a pas commencé.
-- Conclusion : TODO non conclue, hypothèse soutenue ou hypothèse rejetée.
-- Limites de la preuve : TODO.
+- Verified on: TODO YYYY-MM-DD.
+- Environment or artifact: TODO.
+- Observations: TODO, or no available evidence if work has not started.
+- Conclusion: TODO not concluded, assumption supported, or assumption rejected.
+- Evidence limitations: TODO.
 
-## Décision suivante
+## Next decision
 
-TODO Choisir arrêter, prolonger avec une nouvelle limite, ou promouvoir vers un bootstrap standard. Une promotion crée les documents durables nécessaires au lieu d'étendre silencieusement ce brief.
+TODO Select one action: stop, extend with a new limit, or promote to the standard bootstrap process. A promotion creates the required durable documents. Do not silently extend this brief.

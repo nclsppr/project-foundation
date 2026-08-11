@@ -1,176 +1,146 @@
 # Project Foundation
 
-Socle commun pour démarrer, reprendre et faire évoluer un projet sans réinventer les règles de travail à chaque fois.
+A common foundation to start, resume, and develop a project without redefining the work rules each time.
 
-Ce dépôt n'est ni un framework, ni un générateur de code, ni un méga `AGENTS.md` à copier sans réfléchir. Il sépare ce qui doit rester stable de ce qui dépend du produit, du risque et de la stack.
+This repository is not a framework, a code generator, or a large `AGENTS.md` file to copy without review. It separates stable rules from choices that depend on the product, risk, and stack.
 
-## Pourquoi un dépôt autonome
+## Why this foundation has a separate repository
 
-Le socle concerne tous les projets. Il ne doit donc pas vivre dans un dépôt d'infrastructure, un projet applicatif ou la configuration d'un agent particulier.
+The foundation applies to all projects. It must not be in an infrastructure repository, an application project, or the configuration of a specific agent.
 
-Un dépôt autonome apporte :
+A separate repository provides:
 
-- un historique versionné ;
-- une source canonique unique ;
-- une utilisation locale, sur un VPS ou en CI sans couplage à un projet ;
-- des évolutions relisibles et réversibles ;
-- des adaptateurs minces pour Codex, Claude Code ou un autre outil.
+- versioned history;
+- one canonical source;
+- local, VPS, or CI use without coupling to one project;
+- changes that can be reviewed and reverted;
+- small adapters for Codex, Claude Code, or another tool.
 
-La décision de ne pas placer ce socle sous `vps/ai` est documentée dans [`AUDIT.md`](AUDIT.md). Le principe durable est simple : les règles multi-projets restent séparées de l'exploitation d'un serveur. Les règles de production VPS sont un profil du socle, pas son conteneur.
+The decision not to put this foundation in `vps/ai` is documented in [`AUDIT.md`](AUDIT.md). The permanent principle is simple. Rules that apply to multiple projects remain separate from server operations. VPS production rules are a foundation profile, not the container for the foundation.
 
-## Les trois niveaux
+## The three levels
 
-1. **Invariants** : règles qui s'appliquent à tout projet, dans [`PRINCIPLES.md`](PRINCIPLES.md).
-2. **Defaults** : choix de départ raisonnables, révocables par une décision explicite, dans [`DEFAULTS.md`](DEFAULTS.md).
-3. **Profils locaux** : politiques durables activées pour les contextes que le projet doit encadrer, dans [`profiles/`](profiles/). Leurs gates ne s'appliquent ensuite qu'aux unités concernées.
+1. **Invariants**: Rules that apply to every project. They are in [`PRINCIPLES.md`](PRINCIPLES.md).
+2. **Defaults**: Initial choices that an explicit decision can override. They are in [`DEFAULTS.md`](DEFAULTS.md).
+3. **Local profiles**: Permanent policies enabled for the contexts that the project must control. They are in [`profiles/`](profiles/). Their gates apply only to applicable work units.
 
-Un projet local peut renforcer le socle. Il ne le copie pas intégralement et ne le contredit pas silencieusement.
+A local project can make the foundation requirements stronger. It does not copy the complete foundation and does not silently contradict it.
 
-## Discipline de livraison
+## Delivery discipline
 
-`P18` rend la publication Git obligatoire pour toute tranche dont la tâche
-autorise la modification : vérifier, committer une unité cohérente, puis la
-pousser immédiatement. La branche canonique reçoit le push direct lorsqu'elle
-l'autorise ; une branche dédiée prend le relais lorsqu'elle est protégée ou
-soumise à revue. Une livraison terminée ne reste pas uniquement en local.
+`P18` makes Git publication mandatory for each work unit when the task permits repository changes. Verify the work unit, commit it, and push it immediately. Push directly to the canonical branch when its policy permits this. Use a dedicated branch when the canonical branch is protected or requires review. Do not keep a completed delivery only in the local repository.
 
-## Orchestration locale
+## Local orchestration
 
-`P19` rend Docker Compose obligatoire. Chaque projet reçoit un `compose.yaml`
-racine, un checker et un workflow CI. Les packs Standard, Full et Critical
-restent rouges tant qu'ils ne déclarent pas au moins un service réel. Les
-images externes sont épinglées par digest, les services longs ont un
-healthcheck et les commandes finies sont étiquetées comme jobs.
+`P19` makes Docker Compose mandatory. Each project receives a root `compose.yaml` file, a checker, and a CI workflow. Standard, Full, and Critical packs fail verification until they declare at least one actual service. External images are pinned by digest. Long-running services have a health check. Finite commands are identified as jobs.
 
-Une commande hôte peut servir de raccourci, mais le parcours intégré commun
-reste `docker compose up --build --wait`. `verify` refuse la suppression du
-contrat ou de sa gate.
+A host command can provide a shortcut. The common integrated path remains `docker compose up --build --wait`. The `verify` command rejects removal of the contract or its gate.
 
-## Contrat documentaire
+## Documentation contract
 
-Tout fichier Markdown maintenu fait partie de la documentation du projet, mais
-tout fichier Markdown n'est pas forcément public. `documentation.json` classe
-chaque `.md` exactement une fois comme public, interne, référence ou archive.
-[`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) fournit la navigation
-exhaustive et la commande `verify` refuse les fichiers orphelins.
+Each maintained Markdown file is part of the project documentation, but it is not necessarily public. `documentation.json` classifies each `.md` file exactly once as public, internal, reference, or archive. [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) provides complete navigation. The `verify` command rejects orphan files.
 
-Les Markdown restent les sources éditoriales. Nimbus est le moteur obligatoire
-de tous les projets via
-[`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md). Le
-scaffold, la version épinglée et le lockfile sont copiés par tous les packs, y
-compris Minimal. Le contrat complet vit dans
-[`DOCUMENTATION.md`](DOCUMENTATION.md).
+Markdown files remain the editorial sources. Nimbus is the mandatory engine for all projects through [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md). All packs copy the scaffold, pinned version, and lockfile, including the Minimal pack. The complete contract is in [`DOCUMENTATION.md`](DOCUMENTATION.md).
 
-## Contenu
+## Contents
 
-| Fichier | Rôle |
+| File | Purpose |
 | --- | --- |
-| [`PROJECT.md`](PROJECT.md) | Contrat stable de ce dépôt |
-| [`STATUS.md`](STATUS.md) | État réellement vérifié de ce dépôt |
-| [`ROADMAP.md`](ROADMAP.md) | Séquencement de ce dépôt |
-| [`VERSION`](VERSION) | Version courante canonique |
-| [`CHANGELOG.md`](CHANGELOG.md) | Historique de chaque changement livré et de son impact |
-| [`PRINCIPLES.md`](PRINCIPLES.md) | Invariants universels et preuve minimale attendue |
-| [`DEFAULTS.md`](DEFAULTS.md) | Valeurs de départ et décisions à rendre explicites |
-| [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md) | Séquence pour créer un projet de zéro |
-| [`DEFINITION-OF-DONE.md`](DEFINITION-OF-DONE.md) | Critères de fin communs et gates par type de changement |
-| [`VERSIONING.md`](VERSIONING.md) | Compatibilité, releases et mise à niveau d'un snapshot |
-| [`ADOPTION.md`](ADOPTION.md) | Inclusion dans un projet et contribution au socle amont |
-| [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classement, audiences et rendu de tous les Markdown |
-| [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Navigation exhaustive générée depuis le manifeste |
-| [`docs-nimbus/`](docs-nimbus/) | Scaffold Nimbus obligatoire, adaptateur, configuration et lockfile |
-| `compose.yaml` | Parcours Compose du socle avec image épinglée |
-| `scripts/check_compose.py` | Contrôle générique de `P19` |
-| [`AUDIT.md`](AUDIT.md) | Origine des règles, exclusions et dérives observées |
-| [`templates/AGENTS.md`](templates/AGENTS.md) | Contrat local, court et découvrable par les agents |
-| [`templates/PROJECT.md`](templates/PROJECT.md) | Fiche produit, sources de vérité et commandes |
-| [`templates/STATUS.md`](templates/STATUS.md) | Snapshot daté de l'état réellement vérifié |
-| [`templates/ROADMAP.md`](templates/ROADMAP.md) | Autorité de séquencement et critères de sortie |
-| [`templates/FOUNDATION.md`](templates/FOUNDATION.md) | Version du socle adoptée, profils et dérogations |
-| `templates/compose.yaml` | Contrat Compose initial de tous les packs |
-| `templates/.github/workflows/verify.yml` | CI de vérification copiée dans chaque projet |
-| [`templates/README.md`](templates/README.md) | Entrée d'un projet minimal |
-| [`templates/README-standard.md`](templates/README-standard.md) | Entrée d'un prototype ou produit |
-| [`templates/CHANGELOG.md`](templates/CHANGELOG.md) | Historique obligatoire des changements livrés |
-| [`templates/BRIEF.md`](templates/BRIEF.md) | Contrat léger d'une exploration |
-| [`templates/AGENTS-minimal.md`](templates/AGENTS-minimal.md) | Adaptateur court pour une exploration |
-| [`templates/ADR.md`](templates/ADR.md) | Décision structurante versionnée |
-| [`templates/DESIGN.md`](templates/DESIGN.md) | Contrat visuel et UX pour une interface |
-| [`templates/RUNBOOK.md`](templates/RUNBOOK.md) | Procédure opératoire avec checkpoints et rollback |
-| [`templates/DELIVERY-EVIDENCE.md`](templates/DELIVERY-EVIDENCE.md) | Preuves datées d'une unité de travail |
-| [`profiles/web.md`](profiles/web.md) | Web, accessibilité, responsive, SEO et performance |
-| [`profiles/backend-data.md`](profiles/backend-data.md) | API, données, migrations et intégrations |
-| [`profiles/infrastructure-production.md`](profiles/infrastructure-production.md) | Production, secrets, sauvegardes et changements risqués |
-| [`profiles/experiment.md`](profiles/experiment.md) | Prototype isolé, honnête et supprimable |
-| [`profiles/generated-artifacts.md`](profiles/generated-artifacts.md) | Sources, dérivés, provenance et consommateurs |
-| [`profiles/dependency-change.md`](profiles/dependency-change.md) | Besoin, licence, supply chain, coût et retrait d'un tiers |
-| [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md) | Documentation Nimbus obligatoire, dérivée, versionnée et vérifiée |
-| [`examples/minimal-web/`](examples/minimal-web/) | Exemple narratif fictif du parcours Minimal, pas un dépôt généré |
+| [`PROJECT.md`](PROJECT.md) | Stable contract for this repository |
+| [`STATUS.md`](STATUS.md) | Verified state of this repository |
+| [`ROADMAP.md`](ROADMAP.md) | Sequence for this repository |
+| [`VERSION`](VERSION) | Canonical current version |
+| [`CHANGELOG.md`](CHANGELOG.md) | History of each delivered change and its effect |
+| [`PRINCIPLES.md`](PRINCIPLES.md) | Universal invariants and required minimum evidence |
+| [`DEFAULTS.md`](DEFAULTS.md) | Initial values and decisions that must become explicit |
+| [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md) | Procedure to create a project from zero |
+| [`DEFINITION-OF-DONE.md`](DEFINITION-OF-DONE.md) | Common completion criteria and gates for each change type |
+| [`VERSIONING.md`](VERSIONING.md) | Compatibility, releases, and snapshot upgrades |
+| [`ADOPTION.md`](ADOPTION.md) | Project inclusion and contribution to the upstream foundation |
+| [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classification, audiences, and rendering for all Markdown files |
+| [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Complete navigation generated from the manifest |
+| [`docs-nimbus/`](docs-nimbus/) | Mandatory Nimbus scaffold, adapter, configuration, and lockfile |
+| `compose.yaml` | Foundation Compose path with a pinned image |
+| `scripts/check_compose.py` | Generic check for `P19` |
+| [`AUDIT.md`](AUDIT.md) | Origin of rules, exclusions, and observed drift |
+| [`templates/AGENTS.md`](templates/AGENTS.md) | Short local contract that agents can find |
+| [`templates/PROJECT.md`](templates/PROJECT.md) | Product record, sources of truth, and commands |
+| [`templates/STATUS.md`](templates/STATUS.md) | Dated snapshot of the verified state |
+| [`templates/ROADMAP.md`](templates/ROADMAP.md) | Sequence authority and exit criteria |
+| [`templates/FOUNDATION.md`](templates/FOUNDATION.md) | Adopted foundation version, profiles, and exceptions |
+| `templates/compose.yaml` | Initial Compose contract for all packs |
+| `templates/.github/workflows/verify.yml` | Verification CI copied to each project |
+| [`templates/README.md`](templates/README.md) | Entry point for a minimal project |
+| [`templates/README-standard.md`](templates/README-standard.md) | Entry point for a prototype or product |
+| [`templates/CHANGELOG.md`](templates/CHANGELOG.md) | Mandatory history of delivered changes |
+| [`templates/BRIEF.md`](templates/BRIEF.md) | Small contract for an exploration |
+| [`templates/AGENTS-minimal.md`](templates/AGENTS-minimal.md) | Short adapter for an exploration |
+| [`templates/ADR.md`](templates/ADR.md) | Versioned structural decision |
+| [`templates/DESIGN.md`](templates/DESIGN.md) | Visual and user experience contract for an interface |
+| [`templates/RUNBOOK.md`](templates/RUNBOOK.md) | Operating procedure with checkpoints and rollback |
+| [`templates/DELIVERY-EVIDENCE.md`](templates/DELIVERY-EVIDENCE.md) | Dated evidence for a work unit |
+| [`profiles/web.md`](profiles/web.md) | Web, accessibility, responsive design, SEO, and performance |
+| [`profiles/backend-data.md`](profiles/backend-data.md) | APIs, data, migrations, and integrations |
+| [`profiles/infrastructure-production.md`](profiles/infrastructure-production.md) | Production, secrets, backups, and risky changes |
+| [`profiles/experiment.md`](profiles/experiment.md) | Isolated, truthful, and removable prototype |
+| [`profiles/generated-artifacts.md`](profiles/generated-artifacts.md) | Sources, derived artifacts, provenance, and consumers |
+| [`profiles/dependency-change.md`](profiles/dependency-change.md) | Need, license, supply chain, cost, and third-party removal |
+| [`profiles/documentation-nimbus.md`](profiles/documentation-nimbus.md) | Mandatory, derived, versioned, and verified Nimbus documentation |
+| [`examples/minimal-web/`](examples/minimal-web/) | Fictional description of the Minimal path, not a generated repository |
 
-## Démarrer un projet
+## Start a project
 
-Cloner une release du [dépôt officiel](https://github.com/nclsppr/project-foundation),
-lire [`ADOPTION.md`](ADOPTION.md) et [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md),
-puis choisir un pack proportionné :
+Clone a release from the [official repository](https://github.com/nclsppr/project-foundation). Read [`ADOPTION.md`](ADOPTION.md) and [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md). Then select a proportional pack:
 
-| Pack | Usage | Documents locaux |
+| Pack | Use | Local documents |
 | --- | --- | --- |
-| Minimal | Exploration courte | README, brief, changelog, adaptateur agent, version du socle |
-| Standard | Prototype | Contrat projet, statut vérifié, roadmap, changelog, adaptateur agent, version du socle |
-| Full | Produit durable | Standard, ADR pour les décisions structurantes, design selon besoin |
-| Critical | Données sensibles, argent ou production critique | Full, runbook, preuve de livraison et profils renforcés |
+| Minimal | Short exploration | README, brief, changelog, agent adapter, foundation version |
+| Standard | Prototype | Project contract, verified status, roadmap, changelog, agent adapter, foundation version |
+| Full | Durable product | Standard, an ADR for each structural decision, and design documentation when necessary |
+| Critical | Sensitive data, money, or critical production | Full, runbook, delivery evidence, and stronger profiles |
 
-La commande de bootstrap copie le pack, le snapshot du noyau et les profils sélectionnés sans écraser de fichier :
+The bootstrap command copies the pack, core snapshot, and selected profiles without overwriting a file:
 
 ```bash
 ./scripts/bootstrap.sh \
-  --target /chemin/absolu/vers/le-projet \
+  --target /absolute/path/to/project \
   --class prototype \
   --profiles web,experiment
 ```
 
-Prérequis du bootstrap : Git, Bash 3.2 ou plus récent et Python 3.9 ou plus
-récent, sans package Python tiers. La vérification du projet exige aussi Node
-22.12.0 ou plus récent, npm, Docker et Docker Compose 2.20.0 ou plus récent.
+The bootstrap requires Git, Bash 3.2 or later, and Python 3.9 or later. It does not require a third-party Python package. Project verification also requires Node 22.12.0 or later, npm, Docker, and Docker Compose 2.20.0 or later.
 
-Utiliser `--dry-run` pour voir les cibles avant toute écriture. Le parcours manuel reste documenté dans `PROJECT-BOOTSTRAP.md`.
+Use `--dry-run` to list the targets before a write. `PROJECT-BOOTSTRAP.md` documents the manual procedure.
 
-Un bootstrap réel exige une version du socle commitée et un worktree propre. La provenance enregistre le commit complet et un remote nettoyé de ses credentials, jamais le contenu non commité.
+An actual bootstrap requires a committed foundation version and a clean worktree. Provenance records the complete commit and a remote URL without credentials. It never records uncommitted content.
 
-Le projet ne dépend pas de ce dépôt au runtime et ne requiert aucun chemin relatif vers un clone voisin. Le snapshot vendorisé est versionné avec le projet. Il n'est pas édité localement : les dérogations vivent dans `FOUNDATION.md`, `PROJECT.md` ou une ADR. Une mise à jour remplace le snapshot depuis une nouvelle version du socle et fait l'objet d'un diff relu.
+The project does not depend on this repository at runtime and does not require a relative path to another clone. The vendored snapshot is versioned with the project. Do not edit it locally. Put exceptions in `FOUNDATION.md`, `PROJECT.md`, or an ADR. An upgrade replaces the snapshot with a new foundation version and requires review of the diff.
 
-Cette frontière est volontaire. Si une règle ne convient qu'à un projet, le
-projet documente une dérogation. Si la règle générale doit être challengée, le
-changement se fait dans le Git officiel de Project Foundation, avec ses tests et
-une nouvelle release ; le projet consommateur adopte ensuite ce tag et ce SHA.
-Modifier directement `docs/foundation/` créerait un fork silencieux.
+This boundary is intentional. If a rule applies only to one project, that project documents an exception. If a general rule must change, make the change in the official Project Foundation Git repository. Include its tests and create a new release. The consuming project then adopts this tag and SHA. A direct change to `docs/foundation/` creates a silent fork.
 
-Les profils déclarés dans `FOUNDATION.md` sont des politiques durables ; une preuve de livraison n'en active que le sous-ensemble pertinent pour son unité. Les scripts de vérification copiés sont des adaptateurs locaux : lors d'une mise à niveau, comparer leur nouvelle baseline et fusionner les corrections sans écraser les gates du projet.
+Profiles declared in `FOUNDATION.md` are permanent policies. Delivery evidence enables only the applicable subset for its work unit. Copied verification scripts are local adapters. During an upgrade, compare their new baseline and merge corrections without overwriting project gates.
 
-## Hiérarchie de vérité
+## Truth hierarchy
 
-Il faut distinguer la vérité normative de la vérité opérationnelle :
+Separate normative truth from operational truth:
 
-- les ADR acceptées et les documents canoniques disent ce qui est voulu ;
-- le code, la configuration exécutable et le système réellement lancé disent ce qui existe ;
-- les artefacts générés, archives, changelogs et audits datés sont des preuves ou un historique, pas une norme actuelle.
+- accepted ADRs and canonical documents define the intended state;
+- code, executable configuration, and the running system define the actual state;
+- generated artifacts, archives, changelogs, and dated audits provide evidence or history. They are not a current rule.
 
-Si ces couches divergent, on ne choisit pas silencieusement la version la plus pratique. On décrit l'écart, on vérifie son impact, puis on aligne la documentation et l'implémentation dans une unité de travail explicite.
+If these layers differ, do not silently select the most convenient version. Describe the difference and verify its effect. Then align the documentation and implementation in an explicit work unit.
 
-## Faire évoluer le socle
+## Develop the foundation
 
-Une nouvelle règle doit répondre à quatre questions :
+A new rule must answer four questions:
 
-1. Quel problème récurrent évite-t-elle ?
-2. Est-elle universelle, un default ou un profil ?
-3. Comment prouve-t-on qu'elle est respectée ?
-4. Comment et pourquoi peut-on y déroger ?
+1. Which recurring problem does it prevent?
+2. Is it an invariant, a default, or a profile?
+3. What evidence proves that the project follows it?
+4. How and why can the project make an exception?
 
-Une règle sans raison, sans contrôle possible ou sans frontière claire ne doit pas entrer dans le noyau.
+Do not add a rule to the core if it has no reason, no possible check, or no clear boundary.
 
-Le protocole de contribution amont et de mise à niveau est détaillé dans
-[`ADOPTION.md`](ADOPTION.md).
+[`ADOPTION.md`](ADOPTION.md) describes the upstream contribution and upgrade procedure.
 
-Le dépôt est public mais n'accorde actuellement aucune licence de
-réutilisation. L'ajout d'un fichier `LICENSE` reste une décision explicite du
-propriétaire.
+The repository is public, but it does not currently grant a reuse license. Adding a `LICENSE` file remains an explicit owner decision.

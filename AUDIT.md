@@ -1,144 +1,144 @@
-# Audit d'origine du socle
+# Foundation source audit
 
-Snapshot réalisé le 2026-07-26 à partir de l'état local des projets `surplasse`, `personal`, `papersempire` et `vps`, avec la configuration `Developer/.claude` comme évidence auxiliaire.
+Snapshot created on 2026-07-26 from the local state of the `surplasse`, `personal`, `papersempire`, and `vps` projects. The `Developer/.claude` configuration provided supporting evidence.
 
-Ce fichier explique la synthèse. Il n'est pas une source normative et ne remplace pas la relecture des dépôts.
+This file explains the synthesis. It is not a normative source and does not replace a review of the repositories.
 
-## Méthode
+## Method
 
-L'audit a croisé :
+The audit compared:
 
-- les `AGENTS.md`, `CLAUDE.md`, README et systèmes de design ;
-- les ADR, roadmaps, documents d'architecture, développement et opérations ;
-- les scripts, hooks, commandes de package et workflows CI ;
-- l'état Git et les fichiers réellement présents ;
-- les runbooks et règles de production ;
-- les différences entre ce qui est écrit, automatisé et actuellement exécutable.
+- the `AGENTS.md`, `CLAUDE.md`, README, and design systems;
+- the ADRs, roadmaps, and architecture, development, and operations documents;
+- the scripts, hooks, package commands, and CI workflows;
+- the Git state and the files that were present;
+- the runbooks and production rules;
+- the differences between the documented, automated, and currently executable behavior.
 
-Les changelogs et audits datés ont été utilisés comme historique, jamais comme norme actuelle.
+The audit used changelogs and dated audits only as historical records. It never used them as current requirements.
 
-## Manifeste des snapshots
+## Snapshot manifest
 
-| Zone locale | Branche ou statut | Révision | État au moment de l'audit | Sources principales |
+| Local area | Branch or status | Revision | State at the time of the audit | Primary sources |
 | --- | --- | --- | --- | --- |
-| `surplasse/` | `main` | `fab494ad2940f9ee46bf9a186ec7fb2735185367` | 6 entrées de worktree, principalement non suivies, dont le `AGENTS.md` racine obsolète | `docs/AGENTS.md`, `CLAUDE.md`, README, ADR, produit, architecture, développement, opérations, scripts et workflows |
-| `personal/` | `codex/design-review-evolution` | `3a040e8c2a099e4a0647c7f27aeb8e080de09d97` | propre | `AGENTS.md`, `DESIGN.md`, README, infos, scripts, hooks et changelog |
-| `papersempire/` | `master` | `0591dea0ad7ec53c27eaa3965ccb8de642b6d16b` | propre | README, `docs/`, package, tree réel et workflow |
-| `vps/` | hors Git | SHA-256 `b641843c9ba39b4471dd5a35bcbc9dbc9194142e0149873610c6e405cfda7f97` | `VPS-SETUP.md`, mtime `2026-07-15T11:14:12+0200` | runbook complet |
-| `Developer/.claude/` | hors Git, évidence auxiliaire | `settings.json` SHA-256 `da59b3240683c662c57ab59717e0e6910810e7967053babb7c335d193acb9cfb`, `settings.local.json` SHA-256 `502ec9ca623a1bd044a97e842113f3f6da30c06ba693d055a2c61d270ccd5199` | mtimes `2026-07-18T05:28:20+0200` et `2026-07-16T00:19:16+0200` | hooks et permissions propres à Claude |
+| `surplasse/` | `main` | `fab494ad2940f9ee46bf9a186ec7fb2735185367` | 6 worktree entries, mainly untracked, including the obsolete root `AGENTS.md` | `docs/AGENTS.md`, `CLAUDE.md`, README, ADRs, product, architecture, development, operations, scripts, and workflows |
+| `personal/` | `codex/design-review-evolution` | `3a040e8c2a099e4a0647c7f27aeb8e080de09d97` | clean | `AGENTS.md`, `DESIGN.md`, README, information files, scripts, hooks, and changelog |
+| `papersempire/` | `master` | `0591dea0ad7ec53c27eaa3965ccb8de642b6d16b` | clean | README, `docs/`, package, actual tree, and workflow |
+| `vps/` | outside Git | SHA-256 `b641843c9ba39b4471dd5a35bcbc9dbc9194142e0149873610c6e405cfda7f97` | `VPS-SETUP.md`, mtime `2026-07-15T11:14:12+0200` | complete runbook |
+| `Developer/.claude/` | outside Git, supporting evidence | `settings.json` SHA-256 `da59b3240683c662c57ab59717e0e6910810e7967053babb7c335d193acb9cfb`, `settings.local.json` SHA-256 `502ec9ca623a1bd044a97e842113f3f6da30c06ba693d055a2c61d270ccd5199` | mtimes `2026-07-18T05:28:20+0200` and `2026-07-16T00:19:16+0200` | Claude-specific hooks and permissions |
 
-Les états Git et dates restent historiques. Ils doivent être revérifiés avant toute correction dans les dépôts sources.
+The Git states and dates are historical. Verify them again before you correct a source repository.
 
-## Règles récurrentes retenues
+## Selected recurring rules
 
-Les quatre zones convergent sur :
+The four areas have these rules in common:
 
-1. comprendre le produit et le contexte avant la stack ;
-2. ne rien inventer et signaler l'incertitude ;
-3. identifier une source de vérité par concept ;
-4. documenter les choix structurants ;
-5. préserver les changements sans rapport ;
-6. vérifier une unité de travail avant de la livrer ;
-7. rendre les commandes reproductibles ;
-8. garder les secrets hors Git et hors sortie ;
-9. prévoir rollback, sauvegarde et restauration ;
-10. valider la surface finale, pas seulement le code ;
-11. traiter accessibilité, performance et résilience comme des contraintes produit ;
-12. isoler les expériences et documenter leur retrait ;
-13. committer les sources et dérivés atomiquement ;
-14. rester proche de l'environnement de production.
+1. Understand the product and context before you examine the technology stack.
+2. Do not invent information. Identify uncertainty.
+3. Identify one source of truth for each concept.
+4. Document structural decisions.
+5. Preserve unrelated changes.
+6. Verify a unit of work before delivery.
+7. Make commands reproducible.
+8. Keep secrets out of Git and output.
+9. Plan rollback, backup, and restore procedures.
+10. Validate the final surface, not only the code.
+11. Treat accessibility, performance, and resilience as product constraints.
+12. Isolate experiments and document their removal.
+13. Commit sources and derived files atomically.
+14. Keep the environment close to the production environment.
 
-## Choix volontairement non promus en invariants
+## Decisions that are not invariants
 
-Les règles suivantes peuvent être des defaults personnels ou des profils, mais ne sont pas des invariants :
+The following rules can be personal defaults or profiles, but they are not invariants:
 
-- branche `main` ou `master`, direct push ou pull request ;
-- langue de la documentation et convention de commit ;
-- interdiction des tirets longs ;
-- architecture statique, React, Quarkus, PostgreSQL, Docker ou Caddy ;
-- Retype, Nimbus, GitHub Pages ou Infomaniak ;
-- nombre de langues et stratégie i18n ;
-- détails de marque, palettes, polices et iconographie ;
-- absence ou présence d'une suite automatisée particulière ;
-- chemins, ports, domaines et réseaux du VPS ;
-- politique de publication automatique d'un dépôt précis.
+- the `main` or `master` branch, direct push or pull request;
+- the documentation language and commit convention;
+- a prohibition on em dashes;
+- static architecture, React, Quarkus, PostgreSQL, Docker, or Caddy;
+- Retype, Nimbus, GitHub Pages, or Infomaniak;
+- the number of languages and the i18n strategy;
+- brand details, color palettes, fonts, and iconography;
+- the absence or presence of a specific automated test suite;
+- VPS paths, ports, domains, and networks;
+- the automatic publication policy of a specific repository.
 
-Le socle en conserve la forme de décision, pas la valeur contextuelle.
+The foundation preserves the form of the decision, not its contextual value.
 
-## Dérives observées
+## Observed deviations
 
-### Duplication des règles
+### Rule duplication
 
-Dans `surplasse`, les règles sont répétées entre `AGENTS.md`, `CLAUDE.md` et `docs/AGENTS.md`. Elles ont dérivé sur la phase produit, le moteur documentaire et les commandes.
+In `surplasse`, rules are repeated in `AGENTS.md`, `CLAUDE.md`, and `docs/AGENTS.md`. They diverged on the product phase, documentation engine, and commands.
 
-Dans `personal`, vérité du contenu, parité, génération d'artefacts et publication sont répétées entre README, `AGENTS.md`, `DESIGN.md` et le playbook d'article.
+In `personal`, content authority, parity, artifact generation, and publication are repeated in the README, `AGENTS.md`, `DESIGN.md`, and the article playbook.
 
-**Enseignement.** Une règle doit avoir une source unique. Les fichiers compatibles avec un outil restent des pointeurs minces.
+**Lesson.** A rule must have one source. Tool-compatible files remain small pointers.
 
-### Documentation différente de l'exécutable
+### Documentation differs from executable behavior
 
-Dans `papersempire`, plusieurs documents affirment à la fois la présence et l'absence de tests. Le tree actuel ne contient pas le dossier de tests décrit et `package.json` n'expose plus les commandes annoncées. Le nom et les numéros de version divergent aussi entre plusieurs fichiers.
+In `papersempire`, several documents state both that tests are present and that tests are absent. The current tree does not contain the documented test directory, and `package.json` no longer provides the documented commands. The name and version numbers also differ between several files.
 
-Dans `surplasse`, un document racine décrit encore un projet sans code et un ancien moteur documentaire, alors que le dépôt et les ADR montrent un état plus récent.
+In `surplasse`, a root document still describes a project without code and an old documentation engine. The repository and ADRs show a more recent state.
 
-**Enseignement.** L'intention documentaire et l'état opérationnel sont deux vérités différentes. Un écart doit être audité puis corrigé explicitement.
+**Lesson.** Documented intent and operational state are different sources of truth. Audit and then correct a difference explicitly.
 
-Le template du socle sépare donc `PROJECT.md`, contrat relativement stable, de `STATUS.md`, snapshot daté, et de `ROADMAP.md`, autorité de séquencement.
+Therefore, the foundation template separates `PROJECT.md`, a relatively stable contract, from `STATUS.md`, a dated snapshot, and from `ROADMAP.md`, the sequencing authority.
 
-### Contrôles propres à un agent présentés comme protections générales
+### Agent-specific controls presented as general protections
 
-Dans `personal`, les « hooks git » sont en réalité des hooks Claude `PreToolUse`. Ils ne protègent ni un terminal externe, ni Codex, ni une GUI Git, ni la CI. Certains contrôles couvrent aussi un périmètre plus étroit que la règle écrite.
+In `personal`, the “Git hooks” are actually Claude `PreToolUse` hooks. They do not protect an external terminal, Codex, a Git GUI, or CI. Some controls also cover a smaller scope than the written rule.
 
-La configuration globale sous `Developer/.claude` lance des contrôles propres à un projet lors d'actions sur d'autres projets.
+The global configuration in `Developer/.claude` runs project-specific controls during actions on other projects.
 
-**Enseignement.** Les règles critiques vivent dans une commande neutre et dans la CI. Les hooks d'agent restent des raccourcis locaux et scope-aware.
+**Lesson.** Critical rules belong in an agent-neutral command and in CI. Agent hooks remain local, scope-aware shortcuts.
 
-### Recettes copiées
+### Copied procedures
 
-Dans `personal`, la recette PDF est décrite manuellement dans le README alors qu'un script canonique existe déjà. Les deux ont divergé.
+In `personal`, the README describes the PDF procedure manually, although a canonical script already exists. The two procedures diverged.
 
-**Enseignement.** La documentation explique l'intention et appelle une commande. Le script porte les détails exécutables.
+**Lesson.** Documentation explains the intent and calls a command. The script contains the executable details.
 
-### Runbook historique pris pour état courant
+### Historical runbook used as the current state
 
-Le runbook `vps/VPS-SETUP.md` décrit une cible Papers Empire différente du dépôt et du déploiement actuels. Il contient aussi des tensions entre interdiction d'afficher des secrets et copie d'une clé privée, entre protection des sauvegardes et politique de rétention, et entre prudence destructive et `rsync --delete`.
+The `vps/VPS-SETUP.md` runbook describes a Papers Empire target that differs from the current repository and deployment. It also contains conflicts between the prohibition on displaying secrets and copying a private key, between backup protection and the retention policy, and between destructive-operation safeguards and `rsync --delete`.
 
-**Enseignement.** Un runbook doit porter un statut, une date de dernière vérification et des checkpoints. Une cible future ne doit pas être présentée comme le système courant.
+**Lesson.** A runbook must contain a status, a last verification date, and checkpoints. Do not present a future target as the current system.
 
-### Plugins de design en conflit avec le projet
+### Design plugins conflict with the project
 
-Des skills UI installées sous un dépôt peuvent imposer un vocabulaire visuel, une bibliothèque d'icônes ou une motion incompatible avec son design system.
+UI skills installed in a repository can require visual terminology, an icon library, or motion that conflicts with its design system.
 
-**Enseignement.** Les skills et plugins conseillent. Le design system et les contraintes locales du projet décident.
+**Lesson.** Skills and plugins provide recommendations. The design system and local project constraints determine the decision.
 
-## Index d'évidence ciblé
+## Targeted evidence index
 
-Les lignes ci-dessous se lisent dans les snapshots indiqués par le manifeste :
+Read the following lines in the snapshots that the manifest identifies:
 
-| Constat | Évidence |
+| Finding | Evidence |
 | --- | --- |
-| Surplasse racine obsolète | `surplasse/AGENTS.md:3,7,17-21`, fichier non suivi ; état plus récent dans `surplasse/CLAUDE.md:3` et remplacement documentaire dans `surplasse/docs/decisions/adr-0038-nimbus-documentation-canonique.md:31-50` |
-| Surplasse, source et dérivés | `surplasse/docs/AGENTS.md:301-311` |
-| Papers Empire, tests contradictoires | `papersempire/docs/AGENTS.md:32-33`, `papersempire/docs/DOCUMENTATION.md:29-39,75-78`, `papersempire/docs/accessibility.md:23-26`, `papersempire/package.json:5-10` |
-| Papers Empire, versions divergentes | `papersempire/package.json:2-3`, `papersempire/retype.yml:10-12`, `papersempire/docs/RELEASE_NOTES.md:3-23`, `papersempire/docs/README.md:24-35` |
-| Site personnel, hooks propres à Claude | `personal/.claude/settings.json:2`, `personal/.claude/hooks/check-i18n-parity.py:12,49-56` |
-| Site personnel, règle PDF et contrôle différents | `personal/AGENTS.md:47`, `personal/scripts/generate-cv-pdf.sh:51`, `personal/.claude/hooks/check-cv-pdf.py:64` |
-| VPS, secret affiché puis interdit | `vps/VPS-SETUP.md:370-377,513-516` |
-| VPS, rétention et règle de sauvegarde en tension | `vps/VPS-SETUP.md:462-474,507-509` |
-| VPS, synchronisation destructive sans release atomique | `vps/VPS-SETUP.md:395-404,506-516` |
-| Configuration d'agent globale trop couplée | `Developer/.claude/settings.json:2-13`, `Developer/.claude/settings.local.json:14-33` |
+| Obsolete Surplasse root file | `surplasse/AGENTS.md:3,7,17-21`, untracked file; more recent state in `surplasse/CLAUDE.md:3` and documentation replacement in `surplasse/docs/decisions/adr-0038-nimbus-documentation-canonique.md:31-50` |
+| Surplasse sources and derived files | `surplasse/docs/AGENTS.md:301-311` |
+| Papers Empire contradictory test information | `papersempire/docs/AGENTS.md:32-33`, `papersempire/docs/DOCUMENTATION.md:29-39,75-78`, `papersempire/docs/accessibility.md:23-26`, `papersempire/package.json:5-10` |
+| Papers Empire inconsistent versions | `papersempire/package.json:2-3`, `papersempire/retype.yml:10-12`, `papersempire/docs/RELEASE_NOTES.md:3-23`, `papersempire/docs/README.md:24-35` |
+| Personal site, Claude-specific hooks | `personal/.claude/settings.json:2`, `personal/.claude/hooks/check-i18n-parity.py:12,49-56` |
+| Personal site, different PDF rule and control | `personal/AGENTS.md:47`, `personal/scripts/generate-cv-pdf.sh:51`, `personal/.claude/hooks/check-cv-pdf.py:64` |
+| VPS, secret displayed and then prohibited | `vps/VPS-SETUP.md:370-377,513-516` |
+| VPS, conflict between retention and backup rule | `vps/VPS-SETUP.md:462-474,507-509` |
+| VPS, destructive synchronization without an atomic release | `vps/VPS-SETUP.md:395-404,506-516` |
+| Global agent configuration has excessive coupling | `Developer/.claude/settings.json:2-13`, `Developer/.claude/settings.local.json:14-33` |
 
-## Décision d'emplacement
+## Location decision
 
-`vps/ai` n'a pas été retenu :
+The project did not select `vps/ai`:
 
-- `vps` n'est pas un dépôt Git ;
-- il contient un runbook d'infrastructure spécifique ;
-- le runbook désigne déjà un autre dépôt comme source canonique du serveur ;
-- les règles multi-projets doivent rester utilisables hors du VPS.
+- `vps` is not a Git repository;
+- it contains an infrastructure-specific runbook;
+- the runbook already identifies another repository as the canonical server source;
+- multi-project rules must remain usable outside the VPS.
 
-Le socle vit donc dans `project-foundation`, dépôt autonome et agent-neutral. Les règles VPS sont regroupées dans `profiles/infrastructure-production.md`.
+Therefore, the foundation is in `project-foundation`, an autonomous and agent-neutral repository. VPS rules are grouped in `profiles/infrastructure-production.md`.
 
-## Limites
+## Limitations
 
-Cet audit ne corrige pas les dérives trouvées dans les projets sources. Elles doivent être traitées dépôt par dépôt, avec leur propre validation et sans mélanger leurs worktrees.
+This audit does not correct deviations in the source projects. Correct them one repository at a time. Use each repository's verification process and do not mix their worktrees.

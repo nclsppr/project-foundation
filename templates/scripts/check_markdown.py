@@ -15,7 +15,7 @@ from urllib.parse import unquote
 if sys.version_info < (3, 9):
     detected = ".".join(str(part) for part in sys.version_info[:3])
     print(
-        f"Python >= 3.9 est requis (version détectée : {detected}).",
+        f"Python >= 3.9 is required. Detected version: {detected}.",
         file=sys.stderr,
     )
     raise SystemExit(2)
@@ -64,8 +64,8 @@ PACK_REQUIRED_PATHS = {
 PACK_CLASS_LABELS = {
     "minimal": "Exploration",
     "standard": "Prototype",
-    "full": "Produit",
-    "critical": "Critique",
+    "full": "Product",
+    "critical": "Critical",
 }
 LINK_PATTERN = re.compile(
     r"!?\[[^\]]*\]\(\s*(?P<target><[^>]+>|[^\s)]+)"
@@ -183,12 +183,12 @@ def split_target(raw_target: str) -> tuple[str, str]:
 def check_structure(errors: list[str]) -> None:
     for relative in REQUIRED_PATHS:
         if not (ROOT / relative).is_file():
-            errors.append(f"fichier requis absent : {relative}")
+            errors.append(f"required file is missing: {relative}")
 
     for relative, pattern in REQUIRED_COMPOSE_WIRING:
         path = ROOT / relative
         if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
-            errors.append(f"gate Compose non câblée : {relative}")
+            errors.append(f"Compose gate is not connected: {relative}")
 
     foundation = ROOT / "FOUNDATION.md"
     if not foundation.is_file():
@@ -197,32 +197,32 @@ def check_structure(errors: list[str]) -> None:
     text = foundation.read_text(encoding="utf-8")
     metadata_patterns = {
         "Source": r"(?m)^\| Source \| `[^`|\r\n]+` \|$",
-        "Version lisible": (
-            r"(?m)^\| Version lisible \| `(?:v[0-9]+\.[0-9]+\.[0-9]+|unreleased)` \|$"
+        "Readable version": (
+            r"(?m)^\| Readable version \| `(?:v[0-9]+\.[0-9]+\.[0-9]+|unreleased)` \|$"
         ),
-        "Commit immuable": (
-            r"(?m)^\| Commit immuable \| `(?:[0-9a-f]{40}|[0-9a-f]{64})` \|$"
+        "Immutable commit": (
+            r"(?m)^\| Immutable commit \| `(?:[0-9a-f]{40}|[0-9a-f]{64})` \|$"
         ),
-        "Adoptée par": r"(?m)^\| Adoptée par \| [^|\r\n]+ \|$",
+        "Adopted by": r"(?m)^\| Adopted by \| [^|\r\n]+ \|$",
     }
     for field, pattern in metadata_patterns.items():
         if not re.search(pattern, text):
-            errors.append(f"FOUNDATION.md : métadonnée absente ou invalide : {field}")
+            errors.append(f"FOUNDATION.md has missing or invalid metadata: {field}")
 
     adopted_date = re.search(
-        r"(?m)^\| Adoptée le \| ([0-9]{4}-[0-9]{2}-[0-9]{2}) \|$",
+        r"(?m)^\| Adopted on \| ([0-9]{4}-[0-9]{2}-[0-9]{2}) \|$",
         text,
     )
     if not adopted_date:
-        errors.append("FOUNDATION.md : métadonnée absente ou invalide : Adoptée le")
+        errors.append("FOUNDATION.md has missing or invalid metadata: Adopted on")
     else:
         try:
             date.fromisoformat(adopted_date.group(1))
         except ValueError:
-            errors.append("FOUNDATION.md : date d'adoption invalide")
+            errors.append("FOUNDATION.md has an invalid adoption date")
 
     pack_match = re.search(
-        r"(?m)^\| Pack adopté \| `([a-z-]+)` \|$",
+        r"(?m)^\| Adopted pack \| `([a-z-]+)` \|$",
         text,
     )
     adopted_pack: str | None = None
@@ -230,13 +230,13 @@ def check_structure(errors: list[str]) -> None:
         adopted_pack = pack_match.group(1)
         if adopted_pack not in PACK_REQUIRED_PATHS:
             errors.append(
-                f"FOUNDATION.md : pack adopté inconnu : {adopted_pack}"
+                f"FOUNDATION.md has an unknown adopted pack: {adopted_pack}"
             )
         else:
             for relative in PACK_REQUIRED_PATHS[adopted_pack]:
                 if not (ROOT / relative).is_file():
                     errors.append(
-                        f"fichier requis pour le pack {adopted_pack} absent : {relative}"
+                        f"required file for the {adopted_pack} pack is missing: {relative}"
                     )
             class_document = (
                 ROOT / "BRIEF.md"
@@ -245,30 +245,30 @@ def check_structure(errors: list[str]) -> None:
             )
             if class_document.is_file():
                 expected_class = (
-                    f"| Classe | {PACK_CLASS_LABELS[adopted_pack]} |"
+                    f"| Class | {PACK_CLASS_LABELS[adopted_pack]} |"
                 )
                 if expected_class not in class_document.read_text(encoding="utf-8"):
                     errors.append(
-                        f"{class_document.name} : classe différente du pack {adopted_pack}"
+                        f"{class_document.name}: class differs from the {adopted_pack} pack"
                     )
-    elif "TODO minimal, standard, full ou critical" not in text:
-        errors.append("FOUNDATION.md : pack adopté absent")
+    elif "TODO minimal, standard, full, or critical" not in text:
+        errors.append("FOUNDATION.md has no adopted pack")
 
     section = re.search(
-        r"(?ms)^## Profils activés\s*$\n(?P<body>.*?)(?=^##\s|\Z)",
+        r"(?ms)^## Activated profiles\s*$\n(?P<body>.*?)(?=^##\s|\Z)",
         text,
     )
     if not section:
-        errors.append("FOUNDATION.md : section Profils activés absente")
+        errors.append("FOUNDATION.md has no Activated profiles section")
         return
 
     body = section.group("body")
     declared = set(re.findall(r"(?m)^- `([a-z0-9-]+)`\s*$", body))
-    declares_none = bool(re.search(r"(?m)^- aucun\s*$", body))
+    declares_none = bool(re.search(r"(?m)^- none\s*$", body))
     if declared and declares_none:
-        errors.append("FOUNDATION.md : profils déclarés avec la valeur aucun")
+        errors.append("FOUNDATION.md declares profiles and the none value")
     if not declared and not declares_none and "TODO" not in body:
-        errors.append("FOUNDATION.md : déclarer les profils activés ou aucun")
+        errors.append("FOUNDATION.md must declare activated profiles or none")
 
     profile_directory = ROOT / "docs/foundation/profiles"
     present = (
@@ -278,22 +278,22 @@ def check_structure(errors: list[str]) -> None:
     )
     for profile in sorted(declared - present):
         errors.append(
-            f"profil déclaré sans snapshot : docs/foundation/profiles/{profile}.md"
+            f"declared profile has no snapshot: docs/foundation/profiles/{profile}.md"
         )
     for profile in sorted(present - declared):
         errors.append(
-            f"snapshot de profil non déclaré dans FOUNDATION.md : {profile}"
+            f"profile snapshot is not declared in FOUNDATION.md: {profile}"
         )
 
     if "documentation-nimbus" not in declared:
-        errors.append("le profil obligatoire documentation-nimbus n'est pas déclaré")
+        errors.append("the required documentation-nimbus profile is not declared")
 
     if (
         adopted_pack == "critical"
         and not {"backend-data", "infrastructure-production"} & declared
     ):
         errors.append(
-            "le pack critical exige backend-data ou infrastructure-production"
+            "the critical pack requires backend-data or infrastructure-production"
         )
 
     if (
@@ -301,7 +301,7 @@ def check_structure(errors: list[str]) -> None:
         and adopted_pack in {"full", "critical"}
         and not (ROOT / "DESIGN.md").is_file()
     ):
-        errors.append("fichier requis avec le profil web absent : DESIGN.md")
+        errors.append("required file for the web profile is missing: DESIGN.md")
 
 
 def check_file(path: Path, errors: list[str]) -> None:
@@ -312,17 +312,17 @@ def check_file(path: Path, errors: list[str]) -> None:
 
     for match in re.finditer(r"\bTODO\b", text):
         errors.append(
-            f"{relative}:{line_number(text, match.start())} : marqueur TODO non résolu"
+            f"{relative}:{line_number(text, match.start())}: unresolved TODO marker"
         )
 
     if relative.parts[:2] == ("docs", "decisions"):
         for pattern, label in (
-            (r"\bADR-NNNN\b", "identifiant ADR non résolu"),
-            (r"(?m)^- Date\s*:\s*YYYY-MM-DD\s*$", "date ADR non résolue"),
+            (r"\bADR-NNNN\b", "unresolved ADR identifier"),
+            (r"(?m)^- Date\s*:\s*YYYY-MM-DD\s*$", "unresolved ADR date"),
         ):
             for match in re.finditer(pattern, text):
                 errors.append(
-                    f"{relative}:{line_number(text, match.start())} : {label}"
+                    f"{relative}:{line_number(text, match.start())}: {label}"
                 )
 
     for match in LINK_PATTERN.finditer(prose):
@@ -332,25 +332,25 @@ def check_file(path: Path, errors: list[str]) -> None:
         if lower.startswith(ALLOWED_EXTERNAL_SCHEMES):
             continue
         if URI_SCHEME_PATTERN.match(raw):
-            errors.append(f"{location} : schéma de lien non autorisé : {raw}")
+            errors.append(f"{location}: unauthorized link scheme: {raw}")
             continue
         target, anchor = split_target(raw)
         target_path = Path(target) if target else Path(".")
         if target_path.is_absolute() or raw.startswith("//"):
-            errors.append(f"{location} : lien local absolu interdit : {raw}")
+            errors.append(f"{location}: absolute local link is forbidden: {raw}")
             continue
         resolved = (path.parent / target_path).resolve()
         if not resolved.is_relative_to(ROOT):
-            errors.append(f"{location} : lien hors du dépôt interdit : {raw}")
+            errors.append(f"{location}: link outside the repository is forbidden: {raw}")
             continue
         if not resolved.exists():
-            errors.append(f"{location} : lien local absent : {raw}")
+            errors.append(f"{location}: local link target is missing: {raw}")
             continue
         if anchor:
             if not resolved.is_file() or resolved.suffix.lower() not in (".md", ".markdown"):
-                errors.append(f"{location} : ancre sur une cible non Markdown : {raw}")
+                errors.append(f"{location}: anchor targets a non-Markdown file: {raw}")
             elif unquote(anchor).lower() not in markdown_anchors(resolved, anchors):
-                errors.append(f"{location} : ancre locale absente : {raw}")
+                errors.append(f"{location}: local anchor is missing: {raw}")
 
 
 def main() -> int:
@@ -370,7 +370,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("Markdown du projet valide.")
+    print("Project Markdown is valid.")
     return 0
 
 

@@ -1,152 +1,148 @@
 # PROJECT.md
 
-## Identité
+## Identity
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Nom | Project Foundation |
-| Propriétaire | Nicolas Pieper |
-| Classe | Produit interne |
-| Surface de production | Aucune |
+| Name | Project Foundation |
+| Owner | Nicolas Pieper |
+| Class | Internal product |
+| Production surface | None |
 | Version | 0.5.2 |
-| Licence | Dépôt public, aucune licence accordée |
+| License | Public repository, no license granted |
 
-## Problème
+## Problem
 
-Les projets créés au fil du temps accumulent de bonnes règles, mais celles-ci restent dispersées, dupliquées et trop liées à une stack ou à un outil d'agent.
+Projects accumulate useful rules over time. These rules remain distributed, duplicated, and too closely related to one stack or agent tool.
 
-## Utilisateurs
+## Users
 
-| Utilisateur | Situation | Besoin | Risque principal |
+| User | Situation | Need | Primary risk |
 | --- | --- | --- | --- |
-| Nicolas | Démarre ou reprend un projet | Retrouver un cadre commun immédiatement | Repartir de zéro ou copier des règles obsolètes |
-| Agent de développement | Intervient dans un dépôt | Découvrir les sources, limites et gates locales | Inventer le contexte ou appliquer un conseil générique |
+| Nicolas | Starts or resumes a project | Find the common foundation immediately | Start again from zero or copy obsolete rules |
+| Development agent | Changes a repository | Find local sources, limits, and gates | Invent context or apply generic advice |
 
-## Résultat attendu
+## Expected result
 
-Un nouveau dépôt peut adopter un noyau cohérent, choisir ses profils, documenter ses dérogations et rester autonome après copie du snapshot.
+A new repository can adopt a consistent core, select its profiles, document its exceptions, and remain independent after it copies the snapshot.
 
-### Preuves de succès
+### Success evidence
 
-| Preuve | Cible | Source |
+| Evidence | Target | Source |
 | --- | --- | --- |
-| Bootstrap compréhensible | Un nouveau projet peut remplir les documents sans contexte caché | `PROJECT-BOOTSTRAP.md` et templates |
-| Socle cohérent | Liens valides, fichiers requis présents, aucune valeur à compléter dans le noyau | `./scripts/verify.sh` |
-| Adoption traçable | Version, profils et dérogations enregistrés | `templates/FOUNDATION.md` |
-| Documentation exhaustive | Chaque Markdown est classé une fois, possède une audience et passe dans Nimbus | `documentation.json`, catalogue, build Nimbus et `./scripts/verify.sh` |
-| Évolution commune | Un challenge général remonte dans le dépôt du socle avant mise à niveau | `ADOPTION.md` et `templates/FOUNDATION.md` |
-| Travail durablement livré | Chaque tranche vérifiée possède un SHA distant reprenable | `P18`, adaptateurs `AGENTS.md` et définition de done |
-| Environnement local contractuel | Tout pack possède Compose et tout projet durable déclare un service contrôlé | `P19`, `compose.yaml`, `scripts/check_compose.py` et tests du bootstrap |
+| Clear bootstrap | A new project can complete the documents without hidden context | `PROJECT-BOOTSTRAP.md` and templates |
+| Consistent foundation | Valid links, required files present, and no incomplete value in the core | `./scripts/verify.sh` |
+| Traceable adoption | Recorded version, profiles, and exceptions | `templates/FOUNDATION.md` |
+| Complete documentation | Each Markdown file has one classification, has an audience, and passes Nimbus checks | `documentation.json`, catalog, Nimbus build, and `./scripts/verify.sh` |
+| Common development | A foundation challenge returns to the foundation repository before an upgrade | `ADOPTION.md` and `templates/FOUNDATION.md` |
+| Permanently delivered work | Each verified work unit has a resumable remote SHA | `P18`, `AGENTS.md` adapters, and the definition of done |
+| Contractual local environment | Each pack has Compose, and each durable project declares a checked service | `P19`, `compose.yaml`, `scripts/check_compose.py`, and bootstrap tests |
 
-## Périmètre
+## Scope
 
-### Inclus
+### Included
 
-- principes de travail universels ;
-- defaults révocables ;
-- profils web, backend et données, production et expérience ;
-- profils d'artefacts générés et de changement de dépendance ;
-- moteur Nimbus obligatoire, scaffold officiel, adaptateur et lockfile ;
-- templates de contrat, statut, roadmap, agents, ADR et design ;
-- templates de runbook et de preuve de livraison ;
-- manifeste et catalogue documentaires communs à tous les packs ;
-- procédure d'adoption, de contribution amont et de mise à niveau ;
-- discipline universelle de commit et push des tranches validées ;
-- orchestration locale Docker Compose obligatoire et contrôlée ;
-- workflow CI copié dans chaque pack ;
-- définition de done et audit d'origine ;
-- vérification locale et CI du socle.
+- universal work principles;
+- reversible defaults;
+- profiles for web, backend and data, production, and experiments;
+- profiles for generated artifacts and dependency changes;
+- mandatory Nimbus engine, official scaffold, adapter, and lockfile;
+- templates for the contract, status, roadmap, agents, ADR, and design;
+- runbook and delivery-evidence templates;
+- documentation manifest and catalog common to all packs;
+- adoption, upstream contribution, and upgrade procedure;
+- universal discipline for commits and pushes of verified work units;
+- mandatory and checked Docker Compose local orchestration;
+- CI workflow copied to each pack;
+- definition of done and origin audit;
+- local and CI verification of the foundation.
 
-### Non-objectifs
+### Out of scope
 
-- imposer une stack applicative, un hébergeur Git ou un modèle unique de revue ;
-- fournir un framework applicatif ;
-- synchroniser automatiquement les dépôts existants ;
-- devenir une dépendance runtime ;
-- remplacer les décisions locales ou les instructions de sécurité.
+- require an application stack, Git hosting provider, or one review model;
+- provide an application framework;
+- automatically synchronize existing repositories;
+- become a runtime dependency;
+- replace local decisions or security instructions.
 
-### Conditions de réévaluation
+### Review conditions
 
-- un principe produit des exceptions dans plusieurs projets ;
-- le snapshot vendorisé devient trop coûteux à mettre à jour ;
-- un générateur apporte une réduction mesurable des erreurs de bootstrap ;
-- une nouvelle catégorie de projet nécessite un profil distinct.
+- one principle causes exceptions in multiple projects;
+- the cost to update the vendored snapshot becomes too high;
+- a generator measurably reduces bootstrap errors;
+- a new project category requires a separate profile.
 
-## État et séquencement
+## State and sequence
 
-- L'état vérifié vit dans [`STATUS.md`](STATUS.md).
-- L'ordre de livraison vit dans [`ROADMAP.md`](ROADMAP.md).
-- Les choix structurants vivent dans `docs/decisions/`.
+- The verified state is in [`STATUS.md`](STATUS.md).
+- The delivery order is in [`ROADMAP.md`](ROADMAP.md).
+- Structural decisions are in `docs/decisions/`.
 
-## Sources de vérité
+## Sources of truth
 
-| Concept | Source canonique | Type |
+| Concept | Canonical source | Type |
 | --- | --- | --- |
-| But et périmètre | `PROJECT.md` | normative |
-| Version courante | `VERSION` | normative |
-| État courant | `STATUS.md` | snapshot opérationnel |
-| Séquencement | `ROADMAP.md` | normative |
+| Purpose and scope | `PROJECT.md` | normative |
+| Current version | `VERSION` | normative |
+| Current state | `STATUS.md` | operational snapshot |
+| Sequence | `ROADMAP.md` | normative |
 | Invariants | `PRINCIPLES.md` | normative |
-| Defaults | `DEFAULTS.md` | normative révocable |
+| Defaults | `DEFAULTS.md` | normative and reversible |
 | Gates | `DEFINITION-OF-DONE.md` | normative |
-| Profils | `profiles/` | normative, Nimbus obligatoire et autres profils opt-in |
-| Décisions | `docs/decisions/` | normative |
-| Historique de versions | `CHANGELOG.md` | historique |
-| Politique de version | `VERSIONING.md` | normative |
-| Origine des règles | `AUDIT.md` | snapshot historique |
-| Contrat documentaire | `DOCUMENTATION.md` et `documentation.json` | normative |
-| Navigation documentaire | `DOCUMENTATION-CATALOG.md` | dérivée |
-| Adoption et contribution amont | `ADOPTION.md` | normative |
-| Templates | `templates/` | dérivée et copiable |
-| Orchestration locale | `compose.yaml` et `scripts/check_compose.py` | opérationnelle et contrôlée |
+| Profiles | `profiles/` | normative, mandatory Nimbus and other optional profiles |
+| Decisions | `docs/decisions/` | normative |
+| Version history | `CHANGELOG.md` | historical |
+| Version policy | `VERSIONING.md` | normative |
+| Origin of rules | `AUDIT.md` | historical snapshot |
+| Documentation contract | `DOCUMENTATION.md` and `documentation.json` | normative |
+| Documentation navigation | `DOCUMENTATION-CATALOG.md` | derived |
+| Adoption and upstream contribution | `ADOPTION.md` | normative |
+| Templates | `templates/` | derived and reusable |
+| Local orchestration | `compose.yaml` and `scripts/check_compose.py` | operational and checked |
 
 ## Architecture
 
-Le dépôt est composé de Markdown portable, de scripts Bash 3.2 ou plus récent,
-de contrôles Python 3.9 ou plus récent, d'un site Nimbus sous `docs-nimbus/` et
-d'un contrat Docker Compose. Git porte l'historique, la provenance et les
-contrôles de diff.
-Un projet adopte un snapshot local des fichiers nécessaires et enregistre sa
-version dans `FOUNDATION.md`. Le manifeste `documentation.json` classe tous les
-Markdown ; Nimbus les rend avec Node 22.12 ou plus récent.
+The repository contains portable Markdown, Bash 3.2 or later scripts, Python 3.9 or later checks, a Nimbus site in `docs-nimbus/`, and a Docker Compose contract. Git provides history, provenance, and diff checks.
 
-## Environnements
+A project adopts a local snapshot of the required files and records its version in `FOUNDATION.md`. The `documentation.json` manifest classifies all Markdown files. Nimbus renders them with Node 22.12 or later.
 
-| Environnement | Support | Vérification |
+## Environments
+
+| Environment | Support | Verification |
 | --- | --- | --- |
-| macOS | Référence locale, Git, Bash 3.2, Python 3.9, Node 22.12 ou plus et Docker Compose 2.20 ou plus | `./scripts/verify.sh` |
-| Linux | Supporté, mêmes prérequis | `./scripts/verify.sh` et workflow CI |
-| Windows | Via WSL2 avec les mêmes prérequis | `./scripts/verify.sh` |
+| macOS | Local reference with Git, Bash 3.2, Python 3.9, Node 22.12 or later, and Docker Compose 2.20 or later | `./scripts/verify.sh` |
+| Linux | Supported with the same prerequisites | `./scripts/verify.sh` and CI workflow |
+| Windows | Supported through WSL2 with the same prerequisites | `./scripts/verify.sh` |
 
-## Commandes canoniques
+## Canonical commands
 
-| Action | Commande | Résultat attendu |
+| Action | Command | Expected result |
 | --- | --- | --- |
-| Prérequis | `git --version && bash --version && python3 --version && node --version && npm --version && docker compose version` | Git, Bash 3.2, Python 3.9, Node 22.12, npm et Docker Compose 2.20 disponibles |
-| Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build, lint Nimbus et bootstrap valides |
-| Vérifier Compose | `python3 scripts/check_compose.py` | Contrat Compose, digests et cycles de vie valides |
-| Vérifier Nimbus dans Compose | `docker compose run --rm documentation-check` | Contrôles Nimbus exécutés dans l'image épinglée |
-| Vérifier une release | `./scripts/verify.sh --release` | Worktree propre, version cohérente et tag annoté sur HEAD |
-| Régénérer la navigation | `python3 scripts/documentation_catalog.py --write` | Catalogue aligné sur le manifeste et les Markdown |
-| Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |
-| Déployer | Non applicable | Le dépôt est consommé par copie versionnée |
+| Check prerequisites | `git --version && bash --version && python3 --version && node --version && npm --version && docker compose version` | Git, Bash 3.2, Python 3.9, Node 22.12, npm, and Docker Compose 2.20 are available |
+| Verify | `./scripts/verify.sh` | Valid catalog, Markdown, tests, type checking, Nimbus build and lint, and bootstrap |
+| Verify Compose | `python3 scripts/check_compose.py` | Valid Compose contract, digests, and lifecycles |
+| Verify Nimbus in Compose | `docker compose run --rm documentation-check` | Nimbus checks run in the pinned image |
+| Verify a release | `./scripts/verify.sh --release` | Clean worktree, consistent version, and annotated tag on HEAD |
+| Regenerate navigation | `python3 scripts/documentation_catalog.py --write` | Catalog aligned with the manifest and Markdown files |
+| Build documentation | `npm run build --prefix docs-nimbus` | Static Nimbus site generated from classified Markdown files |
+| Deploy | Not applicable | The repository is consumed through a versioned copy |
 
-## Données et sécurité
+## Data and security
 
-- Aucune donnée personnelle ou secret n'est nécessaire.
-- Les exemples ne doivent contenir aucune valeur réelle sensible.
-- Le dépôt public n'accorde aucune licence de réutilisation tant qu'un fichier `LICENSE` n'est pas décidé.
+- The repository requires no personal data or secret.
+- Examples must not contain actual sensitive values.
+- The public repository grants no reuse license until the owner approves a `LICENSE` file.
 
-## Livraison
+## Delivery
 
-- Branche canonique : `main`, publiée sur `origin`.
-- Un changement de principe explique sa raison, sa preuve et son niveau.
-- Chaque version met à jour `CHANGELOG.md`.
-- Les versions stables portent un tag.
-- Dépôt officiel : `https://github.com/nclsppr/project-foundation.git`.
+- Canonical branch: `main`, published on `origin`.
+- A principle change states its reason, evidence, and level.
+- Each version updates `CHANGELOG.md`.
+- Stable versions have a tag.
+- Official repository: `https://github.com/nclsppr/project-foundation.git`.
 
-## Responsabilité
+## Responsibility
 
-| Zone | Propriétaire | Reprise |
+| Area | Owner | Recovery source |
 | --- | --- | --- |
-| Socle et décisions | Nicolas Pieper | Documentation et historique Git |
+| Foundation and decisions | Nicolas Pieper | Documentation and Git history |

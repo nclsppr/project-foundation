@@ -1,114 +1,114 @@
 # DESIGN.md
 
-Contrat visuel et UX du projet. `AGENTS.md` garde la priorité sur le mode d'intervention.
+Visual and user experience contract for the project. `AGENTS.md` has priority for work rules.
 
-## Intention
+## Intent
 
-### Impression recherchée
+### Target impression
 
 TODO
 
-### Différenciation liée au produit
+### Product-specific differentiation
 
-TODO Expliquer comment le langage visuel sert attention, compréhension, confiance ou conversion.
+TODO Explain how the visual language supports attention, comprehension, trust, or conversion.
 
-### Anti-objectifs
+### Anti-goals
 
 - TODO
 
-## Principes
+## Principles
 
 1. TODO
 
 ## Tokens
 
-La source exécutable des tokens est : TODO.
+The executable source for the tokens is: TODO.
 
-### Couleurs
+### Colors
 
-| Rôle | Token | Clair | Sombre | Contraste requis |
+| Role | Token | Light | Dark | Required contrast |
 | --- | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO | TODO |
 
-### Typographie
+### Typography
 
-| Rôle | Police | Mesure | Usage |
+| Role | Font | Measure | Use |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-### Espacement, rayons et ombres
+### Spacing, radii, and shadows
 
 TODO
 
-## Mise en page
+## Layout
 
-- Largeur de lecture : TODO
-- Grille desktop : TODO
-- Composition mobile : TODO
-- Breakpoints motivés par le contenu : TODO
-- Débordements autorisés : TODO
+- Reading width: TODO
+- Desktop grid: TODO
+- Mobile composition: TODO
+- Content-based breakpoints: TODO
+- Permitted overflow: TODO
 
-## Composants
+## Components
 
-| Composant | Usage | Variantes | États obligatoires |
+| Component | Use | Variants | Required states |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | default, hover, focus, active, disabled, loading, error |
 
-## Interaction et mouvement
+## Interaction and motion
 
-- Feedback utile : TODO
-- Surfaces rares pouvant porter du delight : TODO
-- Durée maximale UI : TODO
-- Propriétés animées : TODO
-- Comportement avec `prefers-reduced-motion` : TODO
-- Hovers limités aux pointeurs compatibles : TODO
+- Useful feedback: TODO
+- Limited surfaces that can use decorative motion: TODO
+- Maximum UI duration: TODO
+- Animated properties: TODO
+- Behavior with `prefers-reduced-motion`: TODO
+- Hovers limited to compatible pointers: TODO
 
-## Accessibilité
+## Accessibility
 
-- Niveau visé : WCAG AA
-- Contrastes : TODO
-- Focus : TODO
-- Navigation clavier : TODO
-- Cibles tactiles : TODO
-- ARIA dynamique : TODO
-- Alternatives textuelles : TODO
-- États non portés uniquement par la couleur : TODO
+- Target level: WCAG AA
+- Contrast: TODO
+- Focus: TODO
+- Keyboard navigation: TODO
+- Touch targets: TODO
+- Dynamic ARIA: TODO
+- Text alternatives: TODO
+- States not communicated only by color: TODO
 
-## Images et médias
+## Images and media
 
-| Famille | Fonction | Style | Format | Provenance |
+| Family | Function | Style | Format | Provenance |
 | --- | --- | --- | --- | --- |
-| TODO | information ou narration | TODO | TODO | TODO |
+| TODO | information or narrative | TODO | TODO | TODO |
 
-Règles :
+Rules:
 
-- Le texte fonctionnel reste dans le document, pas dans une image générée.
-- Les dimensions, poids, transparence et variantes sont définis.
-- Une source ou un prompt canonique évite la dérive visuelle.
-- Une image générée est liée à son usage et à sa provenance.
+- Keep functional text in the document, not in a generated image.
+- Define dimensions, file size, transparency, and variants.
+- Use a canonical source or prompt to prevent visual drift.
+- Link each generated image to its use and provenance.
 
 ## Performance
 
-- Budget image : TODO
-- Budget JavaScript : TODO
-- Budget rendu ou animation : TODO
-- Appareil et réseau de référence : TODO
-- Fallback sans enrichissement : TODO
+- Image budget: TODO
+- JavaScript budget: TODO
+- Rendering or animation budget: TODO
+- Reference device and network: TODO
+- Fallback without enhancement: TODO
 
-## Zones gelées
+## Frozen areas
 
-Éléments qui ne changent pas sans décision explicite :
+Items that do not change without an explicit decision:
 
 - TODO
 
-## Matrice de validation
+## Verification matrix
 
-| Dimension | Valeurs |
+| Dimension | Values |
 | --- | --- |
 | Viewports | TODO mobile, desktop |
-| Thèmes | TODO |
-| Entrées | clavier, tactile, souris |
-| Mouvement | normal, réduit |
-| Contenu | court, long, vide, erreur |
-| Navigateurs | TODO |
-| Appareils réels requis | TODO |
+| Themes | TODO |
+| Inputs | keyboard, touch, mouse |
+| Motion | normal, reduced |
+| Content | short, long, empty, error |
+| Browsers | TODO |
+| Required physical devices | TODO |

@@ -143,7 +143,7 @@ function convertLinks(body, sourcePath, sourcePaths, basePath) {
 
       return directoriesConverted.replace(
         /\[([^\]]+)\]\((?![a-z][a-z0-9+.-]*:|#|\/)([^)\s/.]+)\)/giu,
-        (_match, label, target) => `\`${label}\` (source : \`${target}\`)`,
+        (_match, label, target) => `\`${label}\` (source: \`${target}\`)`,
       );
     })
     .join("\n");
@@ -266,7 +266,7 @@ async function writeSyntheticIndexes(entries, metadata, basePath) {
         href: routeForSourcePath(`${child}/index.md`, basePath),
       })),
     ]
-      .sort((left, right) => left.label.localeCompare(right.label, "fr"))
+      .sort((left, right) => left.label.localeCompare(right.label, "en"))
       .map(({ label, href }) => `- [${label}](${href})`)
       .join("\n");
     const title = directory

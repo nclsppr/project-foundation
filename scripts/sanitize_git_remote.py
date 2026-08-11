@@ -42,7 +42,7 @@ def main() -> int:
     try:
         sanitized = sanitize(sys.argv[1])
     except (ValueError, UnicodeError) as error:
-        print(f"remote refusé : {error}", file=sys.stderr)
+        print(f"Rejected remote: {error}", file=sys.stderr)
         return 1
     print(sanitized)
     return 0

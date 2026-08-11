@@ -1,59 +1,59 @@
-# Contrat documentaire
+# Documentation contract
 
-Tous les fichiers Markdown maintenus dans ce dépôt appartiennent au système de
-documentation du projet. Aucun `.md` ne reste orphelin dans le tree.
+All maintained Markdown files in this repository belong to the project
+documentation system. No `.md` file remains unclassified in the tree.
 
-## Sources de vérité
+## Sources of truth
 
-- `documentation.json` classe les fichiers par collection et visibilité.
-- `DOCUMENTATION-CATALOG.md` est la navigation exhaustive générée.
-- les fichiers Markdown classés restent les sources éditoriales ;
-- Nimbus est le moteur obligatoire et consomme une collection dérivée, jamais une seconde source.
+- `documentation.json` classifies files by collection and visibility.
+- `DOCUMENTATION-CATALOG.md` is the generated, exhaustive navigation catalog.
+- The classified Markdown files remain the editorial sources.
+- Nimbus is the mandatory engine. It uses a derived collection and never uses a second source.
 
-## Visibilités
+## Visibility levels
 
-| Visibilité | Usage |
+| Visibility | Use |
 | --- | --- |
-| `public` | Peut être rendu sur une documentation publique |
-| `internal` | Reste accessible dans la documentation interne ou le dépôt |
-| `reference` | Règle, template, décision ou matériau de référence |
-| `archive` | Historique conservé, explicitement non courant |
+| `public` | Can be rendered in public documentation |
+| `internal` | Remains available in the internal documentation or repository |
+| `reference` | A rule, template, decision, or reference material |
+| `archive` | Preserved history that is explicitly not current |
 
-Un fichier interne, sensible ou opératoire appartient toujours au catalogue,
-mais n'est pas publié sur une surface publique. Le moteur de rendu doit respecter
-cette frontière.
+An internal, sensitive, or operational file always belongs to the catalog,
+but it is not published on a public surface. The rendering engine must enforce
+this boundary.
 
-Ces visibilités pilotent le rendu documentaire, pas les droits d'accès Git. Dans
-un dépôt public comme Project Foundation, tout fichier commité reste lisible
-publiquement, même s'il est classé `internal`. Un secret ou un contenu réellement
-confidentiel ne doit jamais entrer dans Git.
+These visibility levels control documentation rendering, not Git access rights.
+In a public repository such as Project Foundation, each committed file remains
+publicly readable, even if its classification is `internal`. Never add a secret
+or actual confidential content to Git.
 
-## Cycle de modification
+## Change cycle
 
-Après l'ajout, le déplacement ou la suppression d'un Markdown :
+After you add, move, or remove a Markdown file:
 
-1. ajuster sa collection dans `documentation.json` si aucun glob existant ne le couvre ;
-2. lancer `python3 scripts/documentation_catalog.py --write` ;
-3. relire le catalogue et la visibilité attribuée ;
-4. lancer `./scripts/verify.sh` ;
-5. vérifier le rendu Nimbus final et l'audience de la surface destinée à être publiée.
+1. Adjust its collection in `documentation.json` if no existing glob covers it.
+2. Run `python3 scripts/documentation_catalog.py --write`.
+3. Review the catalog and the assigned visibility.
+4. Run `./scripts/verify.sh`.
+5. Check the final Nimbus output and the audience of the surface that you plan to publish.
 
-Les chemins ignorés du manifeste sont réservés aux dépendances et sorties
-générées. Ils portent toujours une raison explicite.
+Manifest ignore paths are reserved for dependencies and generated output.
+Each ignore path always has an explicit reason.
 
-## Moteur obligatoire
+## Mandatory engine
 
-Nimbus est obligatoire dans Project Foundation et dans chaque projet adopté.
-Le scaffold officiel, `nimbus.json`, la version épinglée et le lockfile sont
-vendorisés avec le projet. Node `22.12.0` ou plus récent et npm sont donc des
-prérequis de `verify`.
+Nimbus is mandatory in Project Foundation and in each adopted project.
+The official scaffold, `nimbus.json`, the pinned version, and the lockfile are
+vendored with the project. Therefore, Node `22.12.0` or later and npm are
+prerequisites for `verify`.
 
-Le catalogue reste la preuve exhaustive indépendante du rendu. L'adaptateur
-génère `docs-nimbus/src/content/docs/` depuis les sources classées, puis Nimbus
-exécute ses tests, son typecheck, son build et son lint. Cette collection est
-ignorée par Git et n'est jamais éditée.
+The catalog remains the exhaustive proof that is independent of rendering. The
+adapter generates `docs-nimbus/src/content/docs/` from the classified sources.
+Nimbus then runs its tests, type check, build, and lint. Git ignores this
+collection. Never edit it.
 
-Le build local regroupe toutes les audiences pour rendre le corpus navigable.
-Il n'est pas publiable tel quel par défaut. Une publication définit un filtre
-explicite et vérifié pour ne jamais exposer une collection interne. La décision
-est détaillée dans l'ADR-0003.
+The local build includes all audiences to make the corpus navigable.
+By default, you cannot publish this build as is. A publication process defines
+and verifies an explicit filter so that it never exposes an internal collection.
+ADR-0003 defines this decision.

@@ -1,48 +1,48 @@
-# Profil expérience
+# Experiment profile
 
-Activer ce profil pour une exploration visuelle, une stack alternative, une démo, un prototype ou une fonctionnalité dont l'adoption n'est pas décidée.
+Activate this profile for a visual exploration, an alternative technology stack, a demonstration, a prototype, or a feature that has no adoption decision.
 
-Ce profil opérationnalise `P02`, `P03`, `P06`, `P07`, `P08` et `P12`.
+This profile implements `P02`, `P03`, `P06`, `P07`, `P08`, and `P12`.
 
-## Contrat d'expérience
+## Experiment contract
 
-Documenter avant de commencer :
+Document these items before work starts:
 
-| Champ | Question |
+| Field | Question |
 | --- | --- |
-| Hypothèse | Qu'apprend-on ? |
-| Propriétaire | Qui conclut ? |
-| Durée | Quand réévalue-t-on ? |
-| Budget | Quel temps, coût et infrastructure maximum ? |
-| Données | Synthétiques, anonymisées ou réelles ? |
-| Surface | Où l'expérience est-elle visible ? |
-| Succès | Quelle preuve justifie une promotion ? |
-| Arrêt | Quelle preuve ou échéance provoque le retrait ? |
+| Assumption | What will we learn? |
+| Owner | Who makes the conclusion? |
+| Duration | When will we review it? |
+| Budget | What are the maximum time, cost, and infrastructure? |
+| Data | Is the data synthetic, anonymized, or real? |
+| Surface | Where is the experiment visible? |
+| Success | What evidence justifies promotion? |
+| Stop | What evidence or deadline causes removal? |
 
 ## Isolation
 
-- Répertoire, route, environnement ou branche clairement séparé.
-- Aucun remplacement silencieux du canon.
-- Aucune migration irréversible pour une simple comparaison.
-- Pas de secret ou donnée de production par défaut.
-- Données synthétiques annoncées dans l'interface.
-- `noindex` pour une surface publique non destinée aux moteurs.
-- Dépendances expérimentales absentes du chemin de build canonique lorsque possible.
+- Use a clearly separate directory, route, environment, or branch.
+- Do not silently replace the canonical implementation.
+- Do not use an irreversible migration for a simple comparison.
+- Do not use secrets or production data by default.
+- Identify synthetic data in the interface.
+- Use `noindex` for a public surface that is not for search engines.
+- Keep experimental dependencies out of the canonical build path when possible.
 
-## Réversibilité
+## Reversibility
 
-- Une commande ou procédure de stop.
-- Une liste exacte des fichiers, routes, services et données à supprimer.
-- Aucun contrat partagé modifié sans décision distincte.
-- Un retour vers la surface canonique vérifié.
-- Les artefacts utiles à l'apprentissage sont conservés, pas l'infrastructure inutile.
+- Provide a stop command or procedure.
+- Provide an exact list of files, routes, services, and data to remove.
+- Do not modify a shared contract without a separate decision.
+- Verify a return to the canonical surface.
+- Retain artifacts that support learning. Do not retain unnecessary infrastructure.
 
 ## Conclusion
 
-À la date prévue, choisir explicitement :
+On the planned date, explicitly select one action:
 
-- **promouvoir** : écrire une ADR, intégrer au canon et appliquer les profils produit ;
-- **prolonger** : justifier un nouveau budget et une nouvelle date ;
-- **arrêter** : retirer l'expérience et consigner la conclusion.
+- **promote**: Write an ADR, integrate the change into the canonical implementation, and apply product profiles.
+- **extend**: Justify a new budget and date.
+- **stop**: Remove the experiment and record the conclusion.
 
-Une expérience sans conclusion devient une dépendance non assumée.
+An experiment without a conclusion becomes an unmanaged dependency.

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if (( BASH_VERSINFO[0] < 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] < 2) )); then
-  echo "Bash >= 3.2 est requis." >&2
+  echo "Bash >= 3.2 is required." >&2
   exit 1
 fi
 
@@ -14,20 +14,20 @@ usage() {
   cat <<'USAGE'
 Usage:
   ./scripts/bootstrap.sh \
-    --target /chemin/absolu/nouveau-projet \
+    --target /absolute/path/new-project \
     --class exploration|prototype|product|critical \
     --profiles web,backend-data,infrastructure-production,experiment,generated-artifacts,dependency-change|none \
     [--dry-run]
 
-Le chemin cible doit être absolu, son dossier parent doit déjà exister et la
-cible ne doit pas exister. Le bootstrap ne remplace aucun fichier, n'initialise
-pas Git et ne publie rien. Le profil documentation-nimbus est toujours actif ;
---profiles sélectionne uniquement les profils supplémentaires.
+The target path must be absolute. Its parent directory must exist. The target
+must not exist. The bootstrap does not replace files, initialize Git, or publish
+content. The documentation-nimbus profile is always active. --profiles selects
+only additional profiles.
 USAGE
 }
 
 fail() {
-  echo "Erreur : $*" >&2
+  echo "Error: $*" >&2
   exit 1
 }
 
@@ -39,17 +39,17 @@ DRY_RUN=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --target)
-      [[ $# -ge 2 ]] || fail "--target attend une valeur."
+      [[ $# -ge 2 ]] || fail "--target requires a value."
       TARGET_INPUT="$2"
       shift 2
       ;;
     --class)
-      [[ $# -ge 2 ]] || fail "--class attend une valeur."
+      [[ $# -ge 2 ]] || fail "--class requires a value."
       PROJECT_CLASS="$2"
       shift 2
       ;;
     --profiles)
-      [[ $# -ge 2 ]] || fail "--profiles attend une valeur CSV ou 'none'."
+      [[ $# -ge 2 ]] || fail "--profiles requires a CSV value or 'none'."
       PROFILE_CSV="$2"
       shift 2
       ;;
@@ -62,16 +62,16 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     *)
-      fail "option inconnue : $1"
+      fail "unknown option: $1"
       ;;
   esac
 done
 
-[[ -n "${TARGET_INPUT}" ]] || fail "--target est requis."
-[[ -n "${PROJECT_CLASS}" ]] || fail "--class est requis."
-[[ -n "${PROFILE_CSV}" ]] || fail "--profiles est requis ; utiliser 'none' si nécessaire."
-[[ "${TARGET_INPUT}" = /* ]] || fail "--target doit être un chemin absolu."
-[[ "${TARGET_INPUT}" != *$'\n'* ]] || fail "--target ne peut pas contenir de saut de ligne."
+[[ -n "${TARGET_INPUT}" ]] || fail "--target is required."
+[[ -n "${PROJECT_CLASS}" ]] || fail "--class is required."
+[[ -n "${PROFILE_CSV}" ]] || fail "--profiles is required. Use 'none' when necessary."
+[[ "${TARGET_INPUT}" = /* ]] || fail "--target must be an absolute path."
+[[ "${TARGET_INPUT}" != *$'\n'* ]] || fail "--target cannot contain a line break."
 
 case "${PROJECT_CLASS}" in
   exploration)
@@ -83,20 +83,20 @@ case "${PROJECT_CLASS}" in
     PROJECT_PACK="standard"
     ;;
   product)
-    PROJECT_CLASS_LABEL="Produit"
+    PROJECT_CLASS_LABEL="Product"
     PROJECT_PACK="full"
     ;;
   critical)
-    PROJECT_CLASS_LABEL="Critique"
+    PROJECT_CLASS_LABEL="Critical"
     PROJECT_PACK="critical"
     ;;
-  *) fail "classe invalide : ${PROJECT_CLASS}" ;;
+  *) fail "invalid class: ${PROJECT_CLASS}" ;;
 esac
 
-command -v python3 >/dev/null 2>&1 || fail "Python >= 3.9 est requis."
+command -v python3 >/dev/null 2>&1 || fail "Python >= 3.9 is required."
 python3 -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 9) else 1)' || {
   detected_version="$(python3 -c 'import platform; print(platform.python_version())')"
-  fail "Python >= 3.9 est requis (version détectée : ${detected_version})."
+  fail "Python >= 3.9 is required. Detected version: ${detected_version}."
 }
 
 TARGET="$(python3 - "${TARGET_INPUT}" <<'PY'
@@ -107,25 +107,25 @@ print(Path(sys.argv[1]).expanduser().resolve(strict=False))
 PY
 )"
 
-[[ "${TARGET}" != "/" ]] || fail "la racine du système est une cible interdite."
+[[ "${TARGET}" != "/" ]] || fail "the system root is a forbidden target."
 case "${TARGET}" in
   /Applications|/Library|/System|/Users|/Volumes|/bin|/dev|/etc|/home|/opt|/private|/private/tmp|/proc|/root|/run|/sbin|/srv|/tmp|/usr|/var)
-    fail "cible système ou trop large interdite : ${TARGET}"
+    fail "system target or broad target is forbidden: ${TARGET}"
     ;;
 esac
 
 case "${FOUNDATION_ROOT}/" in
-  "${TARGET}/"*) fail "la cible ne peut pas contenir Project Foundation." ;;
+  "${TARGET}/"*) fail "the target cannot contain Project Foundation." ;;
 esac
 case "${TARGET}/" in
-  "${FOUNDATION_ROOT}/"*) fail "la cible ne peut pas être dans Project Foundation." ;;
+  "${FOUNDATION_ROOT}/"*) fail "the target cannot be inside Project Foundation." ;;
 esac
 
-[[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "la cible existe déjà ; aucun écrasement n'est autorisé : ${TARGET}"
+[[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "the target already exists. Overwrite is not allowed: ${TARGET}"
 TARGET_PARENT="$(dirname -- "${TARGET}")"
 TARGET_NAME="$(basename -- "${TARGET}")"
-[[ -d "${TARGET_PARENT}" ]] || fail "le dossier parent doit déjà exister : ${TARGET_PARENT}"
-[[ "${TARGET_NAME}" != "." && "${TARGET_NAME}" != ".." && -n "${TARGET_NAME}" ]] || fail "nom de cible invalide."
+[[ -d "${TARGET_PARENT}" ]] || fail "the parent directory must already exist: ${TARGET_PARENT}"
+[[ "${TARGET_NAME}" != "." && "${TARGET_NAME}" != ".." && -n "${TARGET_NAME}" ]] || fail "invalid target name."
 
 PROFILES=("documentation-nimbus")
 if [[ "${PROFILE_CSV}" != "none" ]]; then
@@ -133,14 +133,14 @@ if [[ "${PROFILE_CSV}" != "none" ]]; then
   IFS=','
   read -r -a requested_profiles <<< "${PROFILE_CSV}"
   IFS="${old_ifs}"
-  [[ ${#requested_profiles[@]} -gt 0 ]] || fail "liste de profils vide."
+  [[ ${#requested_profiles[@]} -gt 0 ]] || fail "the profile list is empty."
 
   for raw_profile in "${requested_profiles[@]}"; do
     profile="$(printf '%s' "${raw_profile}" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
     case "${profile}" in
       web|backend-data|infrastructure-production|experiment|generated-artifacts|dependency-change|documentation-nimbus) ;;
-      "") fail "profil vide dans --profiles." ;;
-      *) fail "profil inconnu : ${profile}" ;;
+      "") fail "--profiles contains an empty profile." ;;
+      *) fail "unknown profile: ${profile}" ;;
     esac
 
     duplicate=0
@@ -236,7 +236,7 @@ if [[ "${PROJECT_CLASS}" == "critical" ]]; then
       has_critical_profile=1
     fi
   done
-  [[ ${has_critical_profile} -eq 1 ]] || fail "un projet critical doit sélectionner backend-data ou infrastructure-production."
+  [[ ${has_critical_profile} -eq 1 ]] || fail "a critical project must select backend-data or infrastructure-production."
 fi
 
 add_copy "${TEMPLATE_ROOT}/scripts/check_markdown.py" "scripts/check_markdown.py"
@@ -245,10 +245,10 @@ add_copy "${TEMPLATE_ROOT}/scripts/verify.sh" "scripts/verify.sh"
 add_copy "${FOUNDATION_ROOT}/scripts/documentation_catalog.py" "scripts/documentation_catalog.py"
 
 for source in "${SOURCES[@]}"; do
-  [[ -f "${source}" ]] || fail "source de bootstrap absente : ${source#${FOUNDATION_ROOT}/}"
+  [[ -f "${source}" ]] || fail "bootstrap source is missing: ${source#${FOUNDATION_ROOT}/}"
 done
 
-FOUNDATION_SOURCE="$("${SCRIPT_DIR}/sanitize_git_remote.py" "${FOUNDATION_ROOT}")" || fail "le chemin du socle ne peut pas être injecté dans FOUNDATION.md en sécurité."
+FOUNDATION_SOURCE="$("${SCRIPT_DIR}/sanitize_git_remote.py" "${FOUNDATION_ROOT}")" || fail "cannot safely insert the Foundation path into FOUNDATION.md."
 FOUNDATION_COMMIT=""
 FOUNDATION_TAG="unreleased"
 FOUNDATION_DIRTY=0
@@ -285,37 +285,37 @@ else
   PROFILE_LIST="$(IFS=,; echo "${PROFILES[*]}")"
 fi
 
-echo "Bootstrap ${PROJECT_CLASS} vers ${TARGET}"
+echo "Bootstrap ${PROJECT_CLASS} to ${TARGET}"
 if [[ ${#PROFILES[@]} -eq 0 ]]; then
-  echo "Profils : aucun"
+  echo "Profiles: none"
 else
-  echo "Profils : $(IFS=,; echo "${PROFILES[*]}")"
+  echo "Profiles: $(IFS=,; echo "${PROFILES[*]}")"
 fi
 
 if [[ ${DRY_RUN} -eq 1 ]]; then
-  echo "Mode dry-run : aucune écriture."
+  echo "Dry-run mode: no writes."
   for index in "${!SOURCES[@]}"; do
     echo "COPY ${SOURCES[${index}]#${FOUNDATION_ROOT}/} -> ${TARGET}/${DESTINATIONS[${index}]}"
   done
   echo "MKDIR ${TARGET}/docs/decisions"
   if [[ -z "${FOUNDATION_COMMIT}" ]]; then
-    echo "WARNING aucun commit du socle disponible ; les champs de version resteront à compléter."
+    echo "WARNING: no Foundation commit is available. Version fields will remain incomplete."
   else
     echo "FOUNDATION source=${FOUNDATION_SOURCE} tag=${FOUNDATION_TAG} commit=${FOUNDATION_COMMIT} profiles=${PROFILE_LIST}"
   fi
   if [[ ${FOUNDATION_DIRTY} -eq 1 ]]; then
-    echo "WARNING le worktree du socle est sale ; un bootstrap réel serait refusé."
+    echo "WARNING: the Foundation worktree is dirty. A real bootstrap would fail."
   fi
   if [[ -n "${FOUNDATION_GIT_ROOT}" && "${FOUNDATION_GIT_ROOT}" != "${FOUNDATION_ROOT}" ]]; then
-    echo "WARNING Project Foundation n'est pas la racine Git ; un bootstrap réel serait refusé."
+    echo "WARNING: Project Foundation is not the Git root. A real bootstrap would fail."
   fi
   exit 0
 fi
 
-[[ "${FOUNDATION_GIT_ROOT}" == "${FOUNDATION_ROOT}" ]] || fail "Project Foundation doit être la racine de son propre dépôt Git."
-[[ -n "${FOUNDATION_COMMIT}" ]] || fail "le socle doit posséder un commit avant un bootstrap réel."
+[[ "${FOUNDATION_GIT_ROOT}" == "${FOUNDATION_ROOT}" ]] || fail "Project Foundation must be its own Git repository root."
+[[ -n "${FOUNDATION_COMMIT}" ]] || fail "the Foundation must have a commit before a real bootstrap."
 if [[ ${FOUNDATION_DIRTY} -eq 1 ]]; then
-  fail "le worktree du socle est sale ; committer ou retirer les changements avant le bootstrap."
+  fail "the Foundation worktree is dirty. Commit or remove changes before bootstrap."
 fi
 
 STAGING="$(mktemp -d "${TARGET_PARENT}/.${TARGET_NAME}.foundation.XXXXXX")"
@@ -366,32 +366,32 @@ source, tag, commit, adopted_on, actor, profiles_csv, project_pack, project_clas
 profiles = [] if profiles_csv == "none" else profiles_csv.split(",")
 text = path.read_text(encoding="utf-8")
 replacements = {
-    "| Source | TODO URL ou chemin d'origine |": f"| Source | `{source}` |",
-    "| Version lisible | TODO tag |": f"| Version lisible | `{tag}` |",
-    "| Commit immuable | TODO SHA complet |": f"| Commit immuable | `{commit}` |",
-    "| Pack adopté | TODO minimal, standard, full ou critical |": (
-        f"| Pack adopté | `{project_pack}` |"
+    "| Source | TODO origin URL or path |": f"| Source | `{source}` |",
+    "| Readable version | TODO tag |": f"| Readable version | `{tag}` |",
+    "| Immutable commit | TODO full SHA |": f"| Immutable commit | `{commit}` |",
+    "| Adopted pack | TODO minimal, standard, full, or critical |": (
+        f"| Adopted pack | `{project_pack}` |"
     ),
-    "| Adoptée le | TODO YYYY-MM-DD |": f"| Adoptée le | {adopted_on} |",
-    "| Adoptée par | TODO |": f"| Adoptée par | {actor} |",
-    "## Profils activés\n\n- TODO": (
-        "## Profils activés\n\n- aucun" if not profiles else "## Profils activés\n\n" + "\n".join(f"- `{profile}`" for profile in profiles)
+    "| Adopted on | TODO YYYY-MM-DD |": f"| Adopted on | {adopted_on} |",
+    "| Adopted by | TODO |": f"| Adopted by | {actor} |",
+    "## Activated profiles\n\n- TODO": (
+        "## Activated profiles\n\n- none" if not profiles else "## Activated profiles\n\n" + "\n".join(f"- `{profile}`" for profile in profiles)
     ),
 }
 for old, new in replacements.items():
     if old not in text:
-        raise SystemExit(f"marqueur FOUNDATION absent : {old!r}")
+        raise SystemExit(f"missing FOUNDATION marker: {old!r}")
     text = text.replace(old, new, 1)
 path.write_text(text, encoding="utf-8")
 
 if project_path.is_file():
     project_text = project_path.read_text(encoding="utf-8")
-    marker = "| Classe | TODO exploration, prototype, produit ou critique |"
+    marker = "| Class | TODO exploration, prototype, product, or critical |"
     if marker not in project_text:
-        raise SystemExit(f"marqueur PROJECT absent : {marker!r}")
+        raise SystemExit(f"missing PROJECT marker: {marker!r}")
     project_text = project_text.replace(
         marker,
-        f"| Classe | {project_class_label} |",
+        f"| Class | {project_class_label} |",
         1,
     )
     project_path.write_text(project_text, encoding="utf-8")
@@ -399,7 +399,7 @@ if project_path.is_file():
 compose_text = compose_path.read_text(encoding="utf-8")
 compose_marker = "name: foundation-project"
 if compose_marker not in compose_text:
-    raise SystemExit(f"marqueur Compose absent : {compose_marker!r}")
+    raise SystemExit(f"missing Compose marker: {compose_marker!r}")
 compose_name = re.sub(r"[^a-z0-9_-]+", "-", target_name.lower()).strip("-_")
 if not compose_name:
     compose_name = "foundation-project"
@@ -411,15 +411,15 @@ compose_text = compose_text.replace(
 compose_path.write_text(compose_text, encoding="utf-8")
 PY
 else
-  echo "Avertissement : aucun commit du socle n'est disponible ; remplir manuellement la version dans FOUNDATION.md." >&2
+  echo "Warning: no Foundation commit is available. Complete the version in FOUNDATION.md manually." >&2
 fi
 
 python3 "${STAGING}/scripts/documentation_catalog.py" --write >/dev/null
 
-[[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "la cible est apparue pendant le bootstrap ; publication annulée."
+[[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "the target appeared during bootstrap. Publication is canceled."
 mv "${STAGING}" "${TARGET}"
 STAGING=""
 trap - EXIT INT TERM
 
-echo "Bootstrap créé sans initialiser Git : ${TARGET}"
-echo "Remplir les marqueurs de saisie, initialiser Git, puis lancer ./scripts/verify.sh."
+echo "Bootstrap created without Git initialization: ${TARGET}"
+echo "Complete the input markers, initialize Git, and then run ./scripts/verify.sh."

@@ -1,78 +1,86 @@
 # Changelog
 
-Ce fichier décrit les versions du socle. Il reste historique et non normatif.
+This file describes foundation versions. It is historical and non-normative.
+
+## Unreleased
+
+- Adds `P20` to require English for all deliverables, communications, documentation, code comments, logs, and other technical content.
+- Applies the principles of ASD-STE100 and applicable ISO/IEC/IEEE 24765 terminology without declaring formal conformance with ASD-STE100.
+- Propagates the rule to adapters, documentation gates, and generated-pack tests.
+- Migrates maintained documentation, templates, validation messages, and the Nimbus locale from French to English.
+- Documents the invariant, its limited preservation cases, and its verification in ADR-0006.
 
 ## 0.5.2 - 2026-07-30
 
-- Exécute `scripts/check_compose.py` directement dans les workflows Foundation et projet généré, avant la gate canonique.
-- Refuse par le checker documentaire le retrait du câblage Compose dans `scripts/verify.sh` ou `.github/workflows/verify.yml`.
-- Ajoute deux tests adversariaux qui retirent successivement ces appels dans un projet généré.
-- Maintient la frontière de confiance explicite : seule une règle GitHub rendant le workflow requis protège contre la modification simultanée du contrôle et du workflow.
+- Runs `scripts/check_compose.py` directly in the Foundation workflow and the generated project workflows before the canonical gate.
+- Makes the documentation checker reject removal of the Compose integration from `scripts/verify.sh` or `.github/workflows/verify.yml`.
+- Adds two adversarial tests that remove each call from a generated project.
+- Keeps the trust boundary explicit. Only a GitHub rule that makes the workflow required prevents simultaneous changes to the check and workflow.
 
 ## 0.5.1 - 2026-07-30
 
-- Exécute le job Compose de documentation dans un workspace anonyme et monte les sources en lecture seule.
-- Empêche le job exécuté comme root de laisser des fichiers impossibles à remplacer par l'utilisateur du runner lors de la vérification du tag.
-- Remplace `v0.5.0` comme version recommandée ; son run `main` est vert mais son run tag a révélé cette erreur de permissions Linux.
+- Runs the Compose documentation job in an anonymous workspace and mounts source files as read-only.
+- Prevents the job that runs as root from leaving files that the runner user cannot replace during tag verification.
+- Replaces `v0.5.0` as the recommended version. Its `main` run passes, but its tag run identified this Linux permission error.
 
 ## 0.5.0 - 2026-07-30
 
-- Ajoute `P19`, invariant qui impose un `compose.yaml` racine et Docker Compose comme chemin canonique d'exécution locale intégrée.
-- Ajoute `scripts/check_compose.py` pour refuser les fichiers absents, packs durables vides, images externes sans digest et services longs sans healthcheck.
-- Génère `compose.yaml`, le checker Compose et un workflow GitHub Actions dans les quatre packs.
-- Ajoute un service fini épinglé par digest pour vérifier la documentation du socle lui-même sous Compose.
-- Teste les contournements par suppression du fichier, du checker ou du workflow, ainsi que les images mutables et healthchecks absents.
-- Documente la décision dans l'ADR-0005 et la migration depuis `v0.4.0`.
-- Consigne la première adoption réelle : Parkventory utilise le snapshot `v0.4.0`, reste autonome depuis un clone public propre et passe sa gate CI au SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`.
-- Marque la phase F02 de test d'adoption `done` avant la montée de Parkventory vers cette release.
+- Adds `P19`, an invariant that requires a root `compose.yaml` file and Docker Compose as the canonical path for integrated local execution.
+- Adds `scripts/check_compose.py` to reject missing files, empty durable packs, external images without a digest, and long-running services without a health check.
+- Generates `compose.yaml`, the Compose checker, and a GitHub Actions workflow in all four packs.
+- Adds a finite service that is pinned by digest to verify the foundation documentation in Compose.
+- Tests bypass attempts that remove the file, checker, or workflow. Also tests mutable images and missing health checks.
+- Documents the decision in ADR-0005 and the migration from `v0.4.0`.
+- Records the first actual adoption. Parkventory uses the `v0.4.0` snapshot, remains independent after a clean public clone, and passes its CI gate at SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`.
+- Marks adoption-test phase F02 as `done` before the Parkventory upgrade to this release.
 
 ## 0.4.0 - 2026-07-30
 
-- Ajoute `P18`, invariant qui impose de committer puis pousser chaque tranche cohérente et vérifiée dès que la tâche autorise la modification du dépôt.
-- Impose `main` comme cible directe lorsqu'elle est accessible, ou une branche dédiée lorsque la branche canonique est protégée ou soumise à revue.
-- Empêche une dérogation locale de conserver silencieusement un travail terminé uniquement dans le worktree ou l'historique local.
-- Aligne les adaptateurs `AGENTS.md`, la définition de done, le bootstrap, la preuve de livraison, l'adoption et le processus de release sur cette discipline.
-- Ajoute un test de bootstrap qui vérifie la propagation de `P18` et de sa traduction opérationnelle dans tous les packs.
-- Documente la décision dans l'ADR-0004 et la migration depuis `v0.3.1`.
+- Adds `P18`, an invariant that requires a commit and push for each coherent and verified work unit when the task permits repository changes.
+- Requires `main` as the direct target when it is writable. Requires a dedicated branch when the canonical branch is protected or requires review.
+- Prevents a local exception from silently keeping completed work only in the worktree or local history.
+- Aligns `AGENTS.md` adapters, the definition of done, bootstrap, delivery evidence, adoption, and the release process with this discipline.
+- Adds a bootstrap test that verifies propagation of `P18` and its operational implementation to all packs.
+- Documents the decision in ADR-0004 and the migration from `v0.3.1`.
 
 ## 0.3.1 - 2026-07-27
 
-- Corrige les liens du guide Nimbus pour qu'ils restent valides dans un projet généré, sans dépendre de fichiers propres au dépôt Project Foundation.
-- Ajoute le build, la recherche et le lint Nimbus d'un pack Product généré aux tests du bootstrap.
-- Vérifie que le lockfile Nimbus copié reste strictement identique à celui de la release.
-- Remplace `v0.3.0` comme version recommandée pour toute nouvelle adoption.
+- Corrects Nimbus guide links so that they remain valid in a generated project and do not depend on files specific to the Project Foundation repository.
+- Adds the Nimbus build, search, and lint for a generated Full pack to the bootstrap tests.
+- Verifies that the copied Nimbus lockfile remains identical to the release lockfile.
+- Replaces `v0.3.0` as the recommended version for each new adoption.
 
 ## 0.3.0 - 2026-07-27
 
-- Rend Nimbus obligatoire dans tous les packs, y compris Minimal.
-- Ajoute le scaffold officiel Nimbus `0.6.3`, `@cloudflare/nimbus-docs` `0.8.2` épinglé et son lockfile npm.
-- Épingle `yaml` `2.9.0` pour fermer l'avis de sécurité présent dans la version du scaffold.
-- Ajoute un adaptateur générique qui génère la collection Nimbus depuis les Markdown classés.
-- Ajoute les tests de conversion, le typecheck, le build, Pagefind et le lint Nimbus à `verify` et à la CI.
-- Active automatiquement `documentation-nimbus` pendant le bootstrap et interdit son retrait local.
-- Remplace l'ADR-0002 par l'ADR-0003 et documente la migration incompatible depuis `v0.2.0`.
-- Exige Node `22.12.0` ou plus récent et npm pour vérifier un projet adopté.
-- Rend `CHANGELOG.md` obligatoire dans tous les packs et explicite la traçabilité des décisions produit importantes par ADR.
+- Makes Nimbus mandatory in all packs, including Minimal.
+- Adds the official Nimbus `0.6.3` scaffold, pinned `@cloudflare/nimbus-docs` `0.8.2`, and its npm lockfile.
+- Pins `yaml` `2.9.0` to resolve the security advisory in the scaffold version.
+- Adds a generic adapter that generates the Nimbus collection from classified Markdown files.
+- Adds conversion tests, type checking, build, Pagefind, and Nimbus lint to `verify` and CI.
+- Automatically enables `documentation-nimbus` during bootstrap and prevents its local removal.
+- Supersedes ADR-0002 with ADR-0003 and documents the incompatible migration from `v0.2.0`.
+- Requires Node `22.12.0` or later and npm to verify an adopted project.
+- Makes `CHANGELOG.md` mandatory in all packs and requires an ADR to trace important product decisions.
 
 ## 0.2.0 - 2026-07-27
 
-- Ajout d'un contrat qui classe chaque Markdown maintenu comme public, interne, référence ou archive.
-- Ajout d'un manifeste, d'un catalogue exhaustif et d'un contrôle des Markdown orphelins dans tous les packs.
-- Ajout du profil Nimbus comme default opt-in pour une documentation durable publiée, sans dépendance web dans le noyau.
-- Ajout d'une procédure d'adoption depuis le dépôt officiel et de mise à niveau par tag et SHA.
-- Interdiction de modifier silencieusement le snapshot vendorisé : un challenge général passe par le Git Project Foundation et une nouvelle release.
-- Publication publique du dépôt et de ses tags sur `nclsppr/project-foundation`, sans licence ajoutée par défaut.
+- Adds a contract that classifies each maintained Markdown file as public, internal, reference, or archive.
+- Adds a manifest, complete catalog, and orphan Markdown check to all packs.
+- Adds the Nimbus profile as an optional default for durable published documentation, without a web dependency in the core.
+- Adds a procedure for adoption from the official repository and upgrade by tag and SHA.
+- Prohibits silent changes to the vendored snapshot. A foundation challenge requires a change in the Project Foundation Git repository and a new release.
+- Publishes the repository and its tags on `nclsppr/project-foundation` without adding a default license.
 
 ## 0.1.0 - 2026-07-26
 
-- Création des invariants, defaults et règles de bootstrap.
-- Ajout de la définition de done par type de changement.
-- Ajout des profils web, backend et données, infrastructure de production et expérience.
-- Ajout des profils d'artefacts générés et de changement de dépendance.
-- Ajout des templates projet, brief, statut, roadmap, agents, ADR, design, runbook et preuve de livraison.
-- Ajout des packs Minimal, Standard, Full et Critical, avec initialiseur sûr.
-- Ajout d'une vérification locale et CI du socle.
-- Refus du bootstrap depuis un worktree sale et nettoyage des credentials de provenance.
-- Vérification de la structure, des profils et des placeholders dans les projets générés.
-- Ajout d'une version canonique contrôlée entre le dépôt, le changelog et le tag.
-- Documentation de l'audit croisé de Surplasse, du site personnel, de Papers Empire et du runbook VPS.
+- Creates invariants, defaults, and bootstrap rules.
+- Adds the definition of done for each change type.
+- Adds profiles for web, backend and data, production infrastructure, and experiments.
+- Adds profiles for generated artifacts and dependency changes.
+- Adds templates for the project, brief, status, roadmap, agents, ADR, design, runbook, and delivery evidence.
+- Adds Minimal, Standard, Full, and Critical packs with a safe initializer.
+- Adds local and CI verification for the foundation.
+- Rejects bootstrap from a dirty worktree and removes credentials from provenance.
+- Verifies structure, profiles, and placeholders in generated projects.
+- Adds a canonical version that is checked against the repository, changelog, and tag.
+- Documents the cross-audit of Surplasse, the personal website, Papers Empire, and the VPS runbook.

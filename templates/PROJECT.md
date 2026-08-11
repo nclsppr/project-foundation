@@ -1,167 +1,167 @@
 # PROJECT.md
 
-## Identité
+## Identity
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Nom | TODO |
-| Propriétaire | TODO |
-| Classe | TODO exploration, prototype, produit ou critique |
-| Surface de production | TODO URL, environnement ou non applicable |
-| Socle adopté | [`FOUNDATION.md`](FOUNDATION.md) |
+| Name | TODO |
+| Owner | TODO |
+| Class | TODO exploration, prototype, product, or critical |
+| Production surface | TODO URL, environment, or not applicable |
+| Adopted foundation | [`FOUNDATION.md`](FOUNDATION.md) |
 
-## Problème
+## Problem
 
-TODO Décrire le problème réel en une phrase.
+TODO Describe the actual problem in one sentence.
 
-## Utilisateurs
+## Users
 
-| Utilisateur | Situation | Besoin | Risque principal |
+| User | Situation | Need | Primary risk |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-## Résultat attendu
+## Expected result
 
-TODO Décrire le changement observable pour l'utilisateur ou l'opérateur.
+TODO Describe the observable change for the user or operator.
 
-### Preuves de succès
+### Evidence of success
 
-| Preuve | Baseline connue | Cible | Source | Échéance |
+| Evidence | Known baseline | Target | Source | Deadline |
 | --- | --- | --- | --- | --- |
-| TODO | TODO ou inconnue | TODO | TODO | TODO |
+| TODO | TODO or unknown | TODO | TODO | TODO |
 
-Ne jamais transformer une cible en résultat acquis.
+Do not present a target as an achieved result.
 
-## Périmètre
+## Scope
 
-### Inclus
-
-- TODO
-
-### Non-objectifs
+### Included
 
 - TODO
 
-### Conditions d'arrêt ou de réévaluation
+### Non-goals
 
 - TODO
 
-## État et séquencement
+### Stop or review conditions
 
-- L'état réellement vérifié vit dans [`STATUS.md`](STATUS.md).
-- L'ordre de livraison et ses critères de sortie vivent dans [`ROADMAP.md`](ROADMAP.md).
-- Une priorité intrinsèque ne remplace pas l'ordre de livraison.
+- TODO
 
-## Sources de vérité
+## State and sequence
 
-| Concept | Source canonique | Type | Notes |
+- The verified state is in [`STATUS.md`](STATUS.md).
+- The delivery order and exit criteria are in [`ROADMAP.md`](ROADMAP.md).
+- An intrinsic priority does not replace the delivery order.
+
+## Sources of truth
+
+| Concept | Canonical source | Type | Notes |
 | --- | --- | --- | --- |
-| Produit | TODO | normative | |
-| État courant | `STATUS.md` | snapshot opérationnel | Daté et vérifié |
-| Roadmap | `ROADMAP.md` | normative | Autorité de séquencement |
-| Historique des changements | `CHANGELOG.md` | historique | Chaque changement livré et son impact observable |
+| Product | TODO | normative | |
+| Current state | `STATUS.md` | operational snapshot | Dated and verified |
+| Roadmap | `ROADMAP.md` | normative | Sequence authority |
+| Change history | `CHANGELOG.md` | historical | Each delivered change and its observable effect |
 | Architecture | TODO | normative | |
-| Contrat API | TODO | normative ou non applicable | |
-| Schéma de données | TODO | normative ou non applicable | |
-| Design system | TODO | normative ou non applicable | |
-| Configuration | `compose.yaml` et TODO configuration complémentaire | opérationnelle | Compose porte le parcours local intégré imposé par `P19` |
-| Code livré | TODO | opérationnelle | |
-| Opérations | TODO | normative | |
-| Décisions | `docs/decisions/` | normative | |
-| Documentation | `DOCUMENTATION.md`, `documentation.json`, `docs-nimbus/` et catalogue généré | normative et dérivée | Chaque Markdown possède une audience et passe dans Nimbus |
-| Artefacts générés | TODO | dérivée | Nommer leur source |
-| Archives | TODO | historique | Jamais normative |
-| Expériences | TODO | expérimentale | Isolées |
+| API contract | TODO | normative or not applicable | |
+| Data schema | TODO | normative or not applicable | |
+| Design system | TODO | normative or not applicable | |
+| Configuration | `compose.yaml` and TODO additional configuration | operational | Compose provides the integrated local path required by `P19` |
+| Delivered code | TODO | operational | |
+| Operations | TODO | normative | |
+| Decisions | `docs/decisions/` | normative | |
+| Documentation | `DOCUMENTATION.md`, `documentation.json`, `docs-nimbus/`, and the generated catalog | normative and derived | Each Markdown file has an audience and passes through Nimbus |
+| Generated artifacts | TODO | derived | Identify their source |
+| Archives | TODO | historical | Never normative |
+| Experiments | TODO | experimental | Isolated |
 
 ## Architecture
 
-Pour un petit projet, cette section peut être la source canonique et la ligne « Architecture » ci-dessus pointe vers `PROJECT.md#architecture`. Pour un projet plus grand, remplacer le contenu détaillé par un résumé et un lien vers le document canonique. Ne jamais maintenir deux descriptions complètes.
+For a small project, this section can be the canonical source, and the "Architecture" row above points to `PROJECT.md#architecture`. For a larger project, replace the detailed content with a summary and a link to the canonical document. Do not maintain two complete descriptions.
 
-### Composants
+### Components
 
-| Composant | Rôle | Statut | Exécution | Version | Source | Preuve et date | Propriétaire |
+| Component | Role | Status | Execution | Version | Source | Evidence and date | Owner |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TODO | TODO | actuel, cible, expérience ou retiré | dev, build, CI ou prod | TODO | TODO | TODO | TODO |
+| TODO | TODO | current, target, experiment, or removed | development, build, CI, or production | TODO | TODO | TODO | TODO |
 
-### Flux principal
+### Primary flow
 
 TODO
 
-### Dépendances externes
+### External dependencies
 
-| Dépendance | Usage | Données transmises | Mode d'échec | Alternative |
+| Dependency | Use | Transmitted data | Failure mode | Alternative |
 | --- | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO | TODO |
 
-## Environnements
+## Environments
 
-| Environnement | Plateforme | Configuration canonique | URL ou accès | Vérification |
+| Environment | Platform | Canonical configuration | URL or access | Verification |
 | --- | --- | --- | --- | --- |
-| Développement | Docker Compose et TODO plateforme hôte | `compose.yaml` | TODO URL ou accès | `python3 scripts/check_compose.py` puis sondes du parcours |
-| CI | TODO | `.github/workflows/verify.yml` | Runs de la plateforme | `./scripts/verify.sh` |
+| Development | Docker Compose and TODO host platform | `compose.yaml` | TODO URL or access | `python3 scripts/check_compose.py`, then path probes |
+| CI | TODO | `.github/workflows/verify.yml` | Platform runs | `./scripts/verify.sh` |
 | Production | TODO | TODO | TODO | TODO |
 
-## Commandes canoniques
+## Canonical commands
 
-| Action | Commande | Résultat attendu |
+| Action | Command | Expected result |
 | --- | --- | --- |
-| Installer | TODO | TODO |
-| Développer | `docker compose up --build --wait` | Tous les services requis deviennent sains |
-| Vérifier | `./scripts/verify.sh` | Catalogue, Markdown, tests, typecheck, build et lint Nimbus valides |
-| Vérifier Compose | `python3 scripts/check_compose.py` | Configuration, services, digests et healthchecks conformes à `P19` |
-| Construire | TODO | TODO |
-| Construire la documentation | `npm run build --prefix docs-nimbus` | Site Nimbus statique généré depuis les Markdown classés |
-| Arrêter | `docker compose down` | Services arrêtés, volumes préservés |
-| Réinitialiser le dev | TODO commande avec cibles explicites | Seules les données de développement nommées sont supprimées |
-| Déployer | TODO | TODO |
-| Contrôler la santé | TODO | TODO |
-| Sauvegarder | TODO ou non applicable | TODO |
-| Restaurer | TODO ou non applicable | TODO |
+| Install | TODO | TODO |
+| Develop | `docker compose up --build --wait` | All required services become healthy |
+| Verify | `./scripts/verify.sh` | Valid catalog, Markdown, tests, type checks, Nimbus build, and Nimbus lint |
+| Verify Compose | `python3 scripts/check_compose.py` | Configuration, services, digests, and health checks comply with `P19` |
+| Build | TODO | TODO |
+| Build documentation | `npm run build --prefix docs-nimbus` | Static Nimbus site generated from classified Markdown files |
+| Stop | `docker compose down` | Services stopped and volumes preserved |
+| Reset development | TODO command with explicit targets | Only the named development data is removed |
+| Deploy | TODO | TODO |
+| Check health | TODO | TODO |
+| Back up | TODO or not applicable | TODO |
+| Restore | TODO or not applicable | TODO |
 
-## Données, sécurité et confidentialité
+## Data, security, and confidentiality
 
-- Classification des données : TODO
-- Secrets et injection : TODO
-- Authentification et autorisation : TODO
-- Isolation : TODO
-- Rétention : TODO
-- Sauvegarde et restauration : TODO
-- Journalisation sans données sensibles : TODO
+- Data classification: TODO
+- Secret injection: TODO
+- Authentication and authorization: TODO
+- Isolation: TODO
+- Retention: TODO
+- Backup and restore: TODO
+- Logging without sensitive data: TODO
 
-## Qualité
+## Quality
 
-Les profils applicables au projet et les dérogations vivent uniquement dans `FOUNDATION.md`.
+The applicable project profiles and exceptions exist only in `FOUNDATION.md`.
 
-Matrice de validation :
+Verification matrix:
 
-| Risque | Contrôle automatisé | Contrôle manuel | Environnement |
+| Risk | Automated control | Manual control | Environment |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-## Livraison
+## Delivery
 
-`P18` impose le commit et le push de chaque tranche validée. La politique locale
-choisit la destination, jamais l'absence de publication distante.
+`P18` requires a commit and push for each verified work unit. The local policy
+selects the destination. It cannot select no remote delivery.
 
-`P19` impose `compose.yaml` comme chemin local intégré. Une commande hôte peut
-rester documentée comme raccourci, jamais comme unique procédure reproductible.
+`P19` requires `compose.yaml` as the integrated local path. A host command can
+remain documented as a shortcut. It cannot be the only reproducible procedure.
 
-- Branche canonique : TODO
-- Push direct ou branche avec revue : TODO
-- Convention de commit : TODO
-- Artefact : TODO
-- Déploiement : TODO
-- Rollback : TODO
-- Vérification finale : TODO
-- Observabilité : TODO
-- Escalade : TODO
+- Canonical branch: TODO
+- Direct push or branch with review: TODO
+- Commit convention: TODO
+- Artifact: TODO
+- Deployment: TODO
+- Rollback: TODO
+- Final verification: TODO
+- Observability: TODO
+- Escalation: TODO
 
-## Responsabilités
+## Responsibilities
 
-| Zone | Propriétaire | Suppléant | Runbook |
+| Area | Owner | Alternate | Runbook |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-Les risques courants, blocages et prochaines preuves vivent dans `STATUS.md`.
-Les changements livrés vivent dans `CHANGELOG.md`. Les décisions produit ou
-techniques importantes vivent dans les ADR.
+Current risks, blockers, and next evidence are in `STATUS.md`.
+Delivered changes are in `CHANGELOG.md`. Important product or technical
+decisions are in ADRs.

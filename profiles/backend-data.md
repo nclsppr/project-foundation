@@ -1,62 +1,62 @@
-# Profil backend et données
+# Backend and data profile
 
-Activer ce profil pour une API, un service, une base de données, un paiement ou une intégration externe.
+Activate this profile for an API, service, database, payment, or external integration.
 
-Ce profil opérationnalise `P03`, `P04`, `P09`, `P10`, `P11`, `P13` et `P14`.
+This profile implements `P03`, `P04`, `P09`, `P10`, `P11`, `P13`, and `P14`.
 
-## Contrat
+## Contract
 
-- Désigner un contrat canonique : OpenAPI, schéma, événements ou interface versionnée.
-- Modifier le contrat avant ou avec l'implémentation.
-- Générer les clients et artefacts depuis cette source.
-- Détecter les incompatibilités avant livraison.
-- Documenter les codes d'erreur et règles d'autorisation.
+- Identify one canonical contract: OpenAPI specification, schema, events, or versioned interface.
+- Update the contract before or with the implementation.
+- Generate clients and artifacts from this source.
+- Detect incompatibilities before delivery.
+- Document error codes and authorization rules.
 
-## Données
+## Data
 
-- Migrations versionnées, jamais de DDL manuel non tracé.
-- Sauvegarde avant migration risquée.
-- Test de migration sur un état représentatif.
-- Rollback ou stratégie de correction explicite.
-- Test de restauration dans une cible isolée, jamais sur la production servant des utilisateurs.
-- Rétention et suppression documentées.
-- Identifiants et contraintes cohérents avec les invariants métier.
+- Use versioned migrations. Do not use untracked manual DDL.
+- Back up data before a high-risk migration.
+- Test the migration on a representative state.
+- Define an explicit rollback or correction strategy.
+- Test restore to an isolated target. Never restore to the production system that serves users.
+- Document retention and deletion.
+- Make identifiers and constraints consistent with business invariants.
 
-## Concurrence et reprise
+## Concurrency and recovery
 
-- Identifier les doubles soumissions, retries, webhooks dupliqués et races.
-- Utiliser idempotence, verrou ou contrainte transactionnelle selon le risque.
-- Ne jamais déduire un état financier du seul retour navigateur.
-- Séparer intention, confirmation externe et état métier.
-- Tester les transitions interdites et les reprises après échec.
+- Identify duplicate submissions, retries, duplicate webhooks, and race conditions.
+- Use idempotency, a lock, or a transaction constraint according to the risk.
+- Do not infer a financial state only from the browser response.
+- Separate intent, external confirmation, and business state.
+- Test prohibited transitions and recovery after a failure.
 
-## Sécurité
+## Security
 
-- Authentification et autorisation séparées.
-- Autorisation appliquée côté backend, jamais confiée à la seule vue.
-- Isolation des utilisateurs, organisations ou tenants testée.
-- Secrets injectés et rotatifs.
-- Données minimales transmises aux tiers et à l'IA.
-- Logs sans secret ni donnée personnelle inutile.
-- Timeouts et limites sur les appels externes.
+- Keep authentication and authorization separate.
+- Apply authorization in the backend. Do not rely only on the user interface.
+- Test isolation between users, organizations, or tenants.
+- Inject secrets and make them rotatable.
+- Send the minimum data to third parties and AI systems.
+- Keep secrets and unnecessary personal data out of logs.
+- Set timeouts and limits for external calls.
 
-## Opérations
+## Operations
 
-- Healthchecks utiles et non trompeurs.
-- Logs structurés et corrélables.
-- Métriques techniques et métier sans PII.
-- Observabilité non nécessaire au fonctionnement du service.
-- Procédure de démarrage, arrêt, redémarrage et diagnostic.
-- Limites de ressources explicites.
+- Use useful and accurate health checks.
+- Use structured and correlatable logs.
+- Use technical and business metrics without personally identifiable information.
+- Do not make observability necessary for service operation.
+- Define procedures to start, stop, restart, and diagnose the service.
+- Define explicit resource limits.
 
-## Gate minimale
+## Minimum gate
 
-- format, analyse statique et tests unitaires ;
-- tests d'intégration avec les vraies frontières importantes ;
-- validation du contrat et détection de diff ;
-- migration aller, restauration ou stratégie de correction ;
-- autorisation et isolation ;
-- idempotence et erreurs externes ;
-- build de l'artefact de production ;
-- démarrage dans l'environnement cible ;
-- healthcheck et parcours critique.
+- formatting, static analysis, and unit tests;
+- integration tests with the important real boundaries;
+- contract validation and diff detection;
+- forward migration, restore, or correction strategy;
+- authorization and isolation;
+- idempotency and external errors;
+- production artifact build;
+- startup in the target environment;
+- health check and critical path.

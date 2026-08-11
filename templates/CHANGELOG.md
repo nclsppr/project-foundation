@@ -1,9 +1,8 @@
 # Changelog
 
-Ce fichier trace chaque changement livré avec son impact observable. Git reste
-la source du diff technique exhaustif et les ADR expliquent les décisions
-importantes.
+This file records each delivered change and its observable effect. Git remains
+the source for the complete technical diff. ADRs explain important decisions.
 
-## Non publié
+## Unreleased
 
-- Initialisation du projet depuis une version immuable de Project Foundation.
+- Initialized the project from an immutable Project Foundation version.

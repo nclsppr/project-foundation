@@ -1,5 +1,5 @@
-# P19 impose ce fichier. Un pack Standard, Full ou Critical doit remplacer la
-# table vide par ses services réels avant que scripts/check_compose.py réussisse.
+# P19 requires this file. A Standard, Full, or Critical pack must replace the
+# empty table with its actual services before scripts/check_compose.py passes.
 name: foundation-project
 
 services: {}

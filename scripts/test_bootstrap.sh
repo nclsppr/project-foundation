@@ -19,13 +19,13 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 fail() {
-  echo "Échec test bootstrap : $*" >&2
+  echo "Bootstrap test failed: $*" >&2
   exit 1
 }
 
 expect_failure() {
   if "$@" >"${TEST_ROOT}/expected-failure.out" 2>&1; then
-    fail "la commande devait échouer : $*"
+    fail "the command was expected to fail: $*"
   fi
 }
 
@@ -106,9 +106,9 @@ EXPECTED_FOUNDATION_COMMIT="$(git -C "${FOUNDATION_ROOT}" rev-parse HEAD)"
 EXPECTED_FOUNDATION_TAG="$(git -C "${FOUNDATION_ROOT}" describe --tags --exact-match HEAD)"
 
 sanitized_https="$("${SANITIZER}" 'https://user:secret@example.com/org/repo.git?access_token=secret#fragment')"
-[[ "${sanitized_https}" == "https://example.com/org/repo.git" ]] || fail "remote HTTPS mal nettoyé."
+[[ "${sanitized_https}" == "https://example.com/org/repo.git" ]] || fail "the HTTPS remote was not sanitized correctly."
 sanitized_ssh="$("${SANITIZER}" 'git@github.com:owner/repo.git')"
-[[ "${sanitized_ssh}" == "ssh://github.com/owner/repo.git" ]] || fail "remote SSH mal normalisé."
+[[ "${sanitized_ssh}" == "ssh://github.com/owner/repo.git" ]] || fail "the SSH remote was not normalized correctly."
 expect_failure "${SANITIZER}" 'https://example.com/org|injection.git'
 
 DIRTY_SENTINEL="$(mktemp "${FOUNDATION_ROOT}/foundation-dirty-test.XXXXXX")"
@@ -133,7 +133,7 @@ expect_failure "${NESTED_FOUNDATION}/scripts/bootstrap.sh" \
   --target "${TEST_ROOT}/nested-root-project" \
   --class exploration \
   --profiles experiment
-grep -F "doit être la racine de son propre dépôt Git" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "racine Git parente non détectée."
+grep -F "Project Foundation must be its own Git repository root." "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the parent Git root was not detected."
 
 DRY_TARGET="${TEST_ROOT}/dry-run-project"
 "${BOOTSTRAP}" \
@@ -141,9 +141,9 @@ DRY_TARGET="${TEST_ROOT}/dry-run-project"
   --class exploration \
   --profiles experiment \
   --dry-run >"${TEST_ROOT}/dry-run.out"
-[[ ! -e "${DRY_TARGET}" ]] || fail "le dry-run a créé la cible."
-grep -F "Mode dry-run : aucune écriture." "${TEST_ROOT}/dry-run.out" >/dev/null || fail "sortie dry-run absente."
-grep -F "docs/foundation/profiles/experiment.md" "${TEST_ROOT}/dry-run.out" >/dev/null || fail "profil absent du dry-run."
+[[ ! -e "${DRY_TARGET}" ]] || fail "the dry run created the target."
+grep -F "Dry-run mode: no writes." "${TEST_ROOT}/dry-run.out" >/dev/null || fail "the dry-run output is missing."
+grep -F "docs/foundation/profiles/experiment.md" "${TEST_ROOT}/dry-run.out" >/dev/null || fail "the profile is missing from the dry-run output."
 
 EXPLORATION_TARGET="${TEST_ROOT}/exploration-project"
 "${BOOTSTRAP}" \
@@ -175,20 +175,25 @@ printf '%s\n' \
   "./scripts/verify.sh" >"${TEST_ROOT}/exploration.expected"
 append_nimbus_expected "${TEST_ROOT}/exploration.expected"
 tree_files "${EXPLORATION_TARGET}" >"${TEST_ROOT}/exploration.actual"
-diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" || fail "arbre exploration inattendu."
-[[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "verify exploration non exécutable."
-[[ -x "${EXPLORATION_TARGET}/scripts/check_compose.py" ]] || fail "checker Compose exploration non exécutable."
-[[ -x "${EXPLORATION_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue exploration non exécutable."
-[[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "le bootstrap a initialisé Git."
-[[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "le pack minimal a reçu DESIGN.md."
-grep -F '| Pack adopté | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "pack minimal absent."
-grep -F '"@cloudflare/nimbus-docs": "0.8.2"' "${EXPLORATION_TARGET}/docs-nimbus/package.json" >/dev/null || fail "version Nimbus obligatoire absente du pack minimal."
-grep -F '"name": "nimbus"' "${EXPLORATION_TARGET}/documentation.json" >/dev/null || fail "renderer Nimbus absent du pack minimal."
-grep -F '## P18. Committer et pousser chaque tranche validée' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack minimal."
-grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack minimal."
-grep -F "## P19. Orchestrer l'environnement local avec Docker Compose" "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P19 absent du pack minimal."
-grep -F 'Conserver `compose.yaml` et sa gate' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P19 absente du pack minimal."
-grep -F 'name: exploration-project' "${EXPLORATION_TARGET}/compose.yaml" >/dev/null || fail "nom Compose exploration non initialisé."
+diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" || fail "the exploration tree is not as expected."
+[[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "the exploration verify script is not executable."
+[[ -x "${EXPLORATION_TARGET}/scripts/check_compose.py" ]] || fail "the exploration Compose checker is not executable."
+[[ -x "${EXPLORATION_TARGET}/scripts/documentation_catalog.py" ]] || fail "the exploration documentation catalog script is not executable."
+[[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "the bootstrap initialized Git."
+[[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "the Minimal pack contains DESIGN.md."
+grep -F '| Adopted pack | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the Minimal pack metadata is missing."
+grep -F '"@cloudflare/nimbus-docs": "0.8.2"' "${EXPLORATION_TARGET}/docs-nimbus/package.json" >/dev/null || fail "the mandatory Nimbus version is missing from the Minimal pack."
+grep -F '"name": "nimbus"' "${EXPLORATION_TARGET}/documentation.json" >/dev/null || fail "the Nimbus renderer is missing from the Minimal pack."
+grep -F '## P18. Commit and push each verified work unit' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P18 is missing from the Minimal pack."
+grep -F 'Apply `P18` when the task authorizes changes.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P18 operational rule is missing from the Minimal pack."
+grep -F '## P19. Orchestrate the local environment with Docker Compose' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P19 is missing from the Minimal pack."
+grep -F 'Keep `compose.yaml` and its gate.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P19 operational rule is missing from the Minimal pack."
+grep -F '## P20. Use controlled technical English' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P20 is missing from the Minimal pack."
+grep -F 'Follow the principles of ASD-STE100 Simplified Technical English.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ASD-STE100 clause is missing from the Minimal pack."
+grep -F 'Use ISO/IEC/IEEE 24765 terminology when it applies.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ISO/IEC/IEEE 24765 clause is missing from the Minimal pack."
+grep -F 'A local exception cannot select another language.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P20 operational rule is missing from the Minimal pack."
+grep -F '`P20` cannot be disabled by a local exception.' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the P20 exception limit is missing from the Minimal pack."
+grep -F 'name: exploration-project' "${EXPLORATION_TARGET}/compose.yaml" >/dev/null || fail "the exploration Compose name is not initialized."
 python3 "${EXPLORATION_TARGET}/scripts/check_compose.py" >"${TEST_ROOT}/exploration-compose.out"
 
 PRODUCT_TARGET="${TEST_ROOT}/product-project"
@@ -224,17 +229,22 @@ printf '%s\n' \
   "./scripts/verify.sh" >"${TEST_ROOT}/product.expected"
 append_nimbus_expected "${TEST_ROOT}/product.expected"
 tree_files "${PRODUCT_TARGET}" >"${TEST_ROOT}/product.actual"
-diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "arbre product inattendu."
-[[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "catalogue product non exécutable."
-grep -F '## P18. Committer et pousser chaque tranche validée' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P18 absent du pack Product."
-grep -F 'Appliquer `P18` dès que la tâche autorise des modifications' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P18 absente du pack Product."
-grep -F "## P19. Orchestrer l'environnement local avec Docker Compose" "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principe P19 absent du pack Product."
-grep -F 'Conserver `compose.yaml` et sa gate' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "traduction opérationnelle de P19 absente du pack Product."
-grep -F 'name: product-project' "${PRODUCT_TARGET}/compose.yaml" >/dev/null || fail "nom Compose Product non initialisé."
-grep -F 'Check Docker Compose' "${PRODUCT_TARGET}/.github/workflows/verify.yml" >/dev/null || fail "gate Compose absente de la CI générée."
+diff -u "${TEST_ROOT}/product.expected" "${TEST_ROOT}/product.actual" || fail "the product tree is not as expected."
+[[ -x "${PRODUCT_TARGET}/scripts/documentation_catalog.py" ]] || fail "the product documentation catalog script is not executable."
+grep -F '## P18. Commit and push each verified work unit' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P18 is missing from the Full pack."
+grep -F 'Apply `P18` when the task authorizes changes.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P18 operational rule is missing from the Full pack."
+grep -F '## P19. Orchestrate the local environment with Docker Compose' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P19 is missing from the Full pack."
+grep -F 'Keep `compose.yaml` and its gate.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P19 operational rule is missing from the Full pack."
+grep -F '## P20. Use controlled technical English' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P20 is missing from the Full pack."
+grep -F 'Follow the principles of ASD-STE100 Simplified Technical English.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ASD-STE100 clause is missing from the Full pack."
+grep -F 'Use ISO/IEC/IEEE 24765 terminology when it applies.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ISO/IEC/IEEE 24765 clause is missing from the Full pack."
+grep -F 'A local exception cannot select another language.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P20 operational rule is missing from the Full pack."
+grep -F '`P20` cannot be disabled by a local exception.' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the P20 exception limit is missing from the Full pack."
+grep -F 'name: product-project' "${PRODUCT_TARGET}/compose.yaml" >/dev/null || fail "the Product Compose name is not initialized."
+grep -F 'Check Docker Compose' "${PRODUCT_TARGET}/.github/workflows/verify.yml" >/dev/null || fail "the Compose gate is missing from the generated CI workflow."
 
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
-grep -F "le pack full exige au moins un service" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "pack Full vide non refusé."
+grep -F "the full pack requires at least one service in compose.yaml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the empty Full pack was not rejected."
 
 python3 - "${PRODUCT_TARGET}/compose.yaml" <<'PY'
 import sys
@@ -269,7 +279,7 @@ text = text.replace(
 path.write_text(text, encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
-grep -F "image externe non épinglée par digest" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "image Compose non épinglée acceptée."
+grep -F "external image for contract-check is not pinned by digest" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the Compose checker accepted an image that is not pinned by digest."
 cp -p "${TEST_ROOT}/product-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
 
 python3 - "${PRODUCT_TARGET}/compose.yaml" <<'PY'
@@ -284,36 +294,36 @@ text = path.read_text(encoding="utf-8").replace(
 path.write_text(text, encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
-grep -F "service long contract-check sans healthcheck" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "service long sans healthcheck accepté."
+grep -F "long-running service contract-check has no healthcheck" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the Compose checker accepted a long-running service without a healthcheck."
 cp -p "${TEST_ROOT}/product-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
 
 if [[ -n "${EXPECTED_FOUNDATION_COMMIT}" ]]; then
   expected_source_line="$(printf '| Source | `%s` |' "${EXPECTED_FOUNDATION_SOURCE}")"
-  expected_version_line="$(printf '| Version lisible | `%s` |' "${EXPECTED_FOUNDATION_TAG}")"
-  expected_commit_line="$(printf '| Commit immuable | `%s` |' "${EXPECTED_FOUNDATION_COMMIT}")"
-  expected_pack_line='| Pack adopté | `full` |'
-  grep -F "${expected_source_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "source du socle absente."
-  grep -F "${expected_version_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "version du socle absente."
-  grep -F "${expected_commit_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "commit du socle absent."
-  grep -F "${expected_pack_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "pack du bootstrap absent."
-  grep -F '| Classe | Produit |' "${PRODUCT_TARGET}/PROJECT.md" >/dev/null || fail "classe du projet non remplie."
-  grep -F '| Adoptée par | unknown |' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "acteur de provenance non nettoyé."
-  grep -F -- '- `web`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil web absent des métadonnées."
-  grep -F -- '- `backend-data`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil backend-data absent des métadonnées."
-  grep -F -- '- `documentation-nimbus`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "profil Nimbus obligatoire absent des métadonnées."
+  expected_version_line="$(printf '| Readable version | `%s` |' "${EXPECTED_FOUNDATION_TAG}")"
+  expected_commit_line="$(printf '| Immutable commit | `%s` |' "${EXPECTED_FOUNDATION_COMMIT}")"
+  expected_pack_line='| Adopted pack | `full` |'
+  grep -F "${expected_source_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the Foundation source is missing."
+  grep -F "${expected_version_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the Foundation version is missing."
+  grep -F "${expected_commit_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the Foundation commit is missing."
+  grep -F "${expected_pack_line}" "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the bootstrap pack is missing."
+  grep -F '| Class | Product |' "${PRODUCT_TARGET}/PROJECT.md" >/dev/null || fail "the project class is not completed."
+  grep -F '| Adopted by | unknown |' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the provenance actor was not sanitized."
+  grep -F -- '- `web`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the web profile is missing from the metadata."
+  grep -F -- '- `backend-data`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the backend-data profile is missing from the metadata."
+  grep -F -- '- `documentation-nimbus`' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the mandatory Nimbus profile is missing from the metadata."
   if grep -F 'TODO tag' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null; then
-    fail "marqueur de version non remplacé."
+    fail "the version marker was not replaced."
   fi
-  if grep -F 'TODO SHA complet' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null; then
-    fail "marqueur de commit non remplacé."
+  if grep -F 'TODO full SHA' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null; then
+    fail "the commit marker was not replaced."
   fi
 fi
 
 python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check >"${TEST_ROOT}/catalog-check-baseline.out"
 mkdir -p "${PRODUCT_TARGET}/docs/notes"
-printf '%s\n' '# Note orpheline' >"${PRODUCT_TARGET}/docs/notes/orphan.md"
+printf '%s\n' '# Orphan note' >"${PRODUCT_TARGET}/docs/notes/orphan.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check
-grep -F "Markdown orphelin : docs/notes/orphan.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "Markdown orphelin non détecté."
+grep -F "Unclassified Markdown file: docs/notes/orphan.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the unclassified Markdown file was not detected."
 rm -f "${PRODUCT_TARGET}/docs/notes/orphan.md"
 rmdir "${PRODUCT_TARGET}/docs/notes"
 
@@ -329,21 +339,21 @@ manifest["collections"][0]["include"].append("docs/foundation/**/*.md")
 path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/documentation_catalog.py" --check
-grep -F "Markdown classé plusieurs fois : docs/foundation/DEFAULTS.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "Markdown classé plusieurs fois non détecté."
+grep -F "Markdown file classified more than once: docs/foundation/DEFAULTS.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the Markdown file with multiple classifications was not detected."
 cp -p "${TEST_ROOT}/product-documentation.json" "${PRODUCT_TARGET}/documentation.json"
 
 if python3 "${PRODUCT_TARGET}/scripts/check_markdown.py" >"${TEST_ROOT}/project-checker-baseline.out" 2>&1; then
-  fail "le checker projet devait refuser les marqueurs de saisie."
+  fail "the project checker was expected to reject input markers."
 fi
-grep -F "marqueur TODO non résolu" "${TEST_ROOT}/project-checker-baseline.out" >/dev/null || fail "le checker projet ne détecte pas les marqueurs."
-if grep -E "fichier requis absent|profil déclaré sans snapshot|snapshot de profil non déclaré" "${TEST_ROOT}/project-checker-baseline.out" >/dev/null; then
-  fail "le pack product généré est structurellement incohérent."
+grep -F "unresolved TODO marker" "${TEST_ROOT}/project-checker-baseline.out" >/dev/null || fail "the project checker does not detect input markers."
+if grep -E "required file is missing|declared profile has no snapshot|profile snapshot is not declared in FOUNDATION.md" "${TEST_ROOT}/project-checker-baseline.out" >/dev/null; then
+  fail "the generated Full pack is structurally inconsistent."
 fi
 
-[[ -d "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/node_modules" ]] || fail "dépendances Nimbus absentes ; lancer la vérification complète avant les tests du bootstrap."
+[[ -d "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/node_modules" ]] || fail "the Nimbus dependencies are missing. Run the complete verification before the bootstrap tests."
 cmp -s \
   "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/package-lock.json" \
-  "${PRODUCT_TARGET}/docs-nimbus/package-lock.json" || fail "lockfile Nimbus altéré pendant le bootstrap."
+  "${PRODUCT_TARGET}/docs-nimbus/package-lock.json" || fail "the bootstrap changed the Nimbus lockfile."
 ln -s \
   "${SOURCE_FOUNDATION_ROOT}/docs-nimbus/node_modules" \
   "${PRODUCT_TARGET}/docs-nimbus/node_modules"
@@ -352,7 +362,7 @@ if ! (
   npm run check --prefix docs-nimbus
 ) >"${TEST_ROOT}/product-nimbus-check.out" 2>&1; then
   tail -n 80 "${TEST_ROOT}/product-nimbus-check.out" >&2
-  fail "build Nimbus du pack product généré invalide."
+  fail "the generated Full pack has an invalid Nimbus build."
 fi
 rm "${PRODUCT_TARGET}/docs-nimbus/node_modules"
 
@@ -360,30 +370,30 @@ mv \
   "${PRODUCT_TARGET}/docs/foundation/profiles/documentation-nimbus.md" \
   "${TEST_ROOT}/documentation-nimbus.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "le profil obligatoire documentation-nimbus n'est pas déclaré" "${TEST_ROOT}/expected-failure.out" >/dev/null && fail "le retrait du profil Nimbus ne doit pas effacer sa déclaration."
-grep -F "profil déclaré sans snapshot : docs/foundation/profiles/documentation-nimbus.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait du profil Nimbus obligatoire non détecté."
+grep -F "the required documentation-nimbus profile is not declared" "${TEST_ROOT}/expected-failure.out" >/dev/null && fail "removing the Nimbus profile snapshot must not remove its declaration."
+grep -F "declared profile has no snapshot: docs/foundation/profiles/documentation-nimbus.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the mandatory Nimbus profile snapshot was not detected."
 mv \
   "${TEST_ROOT}/documentation-nimbus.md" \
   "${PRODUCT_TARGET}/docs/foundation/profiles/documentation-nimbus.md"
 
 mv "${PRODUCT_TARGET}/docs-nimbus/package.json" "${TEST_ROOT}/nimbus-package.json"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis absent : docs-nimbus/package.json" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait du package Nimbus obligatoire non détecté."
+grep -F "required file is missing: docs-nimbus/package.json" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the mandatory Nimbus package was not detected."
 mv "${TEST_ROOT}/nimbus-package.json" "${PRODUCT_TARGET}/docs-nimbus/package.json"
 
 mv "${PRODUCT_TARGET}/compose.yaml" "${TEST_ROOT}/required-compose.yaml"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis absent : compose.yaml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression de compose.yaml non détectée."
+grep -F "required file is missing: compose.yaml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of compose.yaml was not detected."
 mv "${TEST_ROOT}/required-compose.yaml" "${PRODUCT_TARGET}/compose.yaml"
 
 mv "${PRODUCT_TARGET}/scripts/check_compose.py" "${TEST_ROOT}/required-check-compose.py"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis absent : scripts/check_compose.py" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du checker Compose non détectée."
+grep -F "required file is missing: scripts/check_compose.py" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Compose checker was not detected."
 mv "${TEST_ROOT}/required-check-compose.py" "${PRODUCT_TARGET}/scripts/check_compose.py"
 
 mv "${PRODUCT_TARGET}/.github/workflows/verify.yml" "${TEST_ROOT}/required-workflow.yml"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis absent : .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du workflow CI non détectée."
+grep -F "required file is missing: .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the CI workflow was not detected."
 mv "${TEST_ROOT}/required-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
 
 cp -p "${PRODUCT_TARGET}/scripts/verify.sh" "${TEST_ROOT}/wired-verify.sh"
@@ -395,11 +405,11 @@ path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 needle = 'python3 "${SCRIPT_DIR}/check_compose.py"\n'
 if needle not in text:
-    raise SystemExit("appel Compose attendu absent du fixture")
+    raise SystemExit("the expected Compose call is missing from the fixture")
 path.write_text(text.replace(needle, "", 1), encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "gate Compose non câblée : scripts/verify.sh" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait de l'appel Compose dans verify non détecté."
+grep -F "Compose gate is not connected: scripts/verify.sh" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Compose call from verify was not detected."
 mv "${TEST_ROOT}/wired-verify.sh" "${PRODUCT_TARGET}/scripts/verify.sh"
 
 cp -p "${PRODUCT_TARGET}/.github/workflows/verify.yml" "${TEST_ROOT}/wired-workflow.yml"
@@ -411,28 +421,28 @@ path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 needle = "          python3 scripts/check_compose.py\n"
 if needle not in text:
-    raise SystemExit("appel Compose attendu absent du workflow fixture")
+    raise SystemExit("the expected Compose call is missing from the workflow fixture")
 path.write_text(text.replace(needle, "", 1), encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "gate Compose non câblée : .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "retrait de l'appel Compose dans la CI non détecté."
+grep -F "Compose gate is not connected: .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Compose call from CI was not detected."
 mv "${TEST_ROOT}/wired-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
 
 rm -f "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis absent : docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du noyau non détectée."
+grep -F "required file is missing: docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the core was not detected."
 
 rm -f "${PRODUCT_TARGET}/docs/foundation/profiles/web.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "profil déclaré sans snapshot : docs/foundation/profiles/web.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression d'un profil non détectée."
+grep -F "declared profile has no snapshot: docs/foundation/profiles/web.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of a profile snapshot was not detected."
 
 printf '%s\n' \
-  "# ADR-NNNN : décision" \
+  "# ADR-NNNN: Decision" \
   "" \
-  "- Date : YYYY-MM-DD" >"${PRODUCT_TARGET}/docs/decisions/adr-placeholder.md"
+  "- Date: YYYY-MM-DD" >"${PRODUCT_TARGET}/docs/decisions/adr-placeholder.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "identifiant ADR non résolu" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "identifiant ADR factice non détecté."
-grep -F "date ADR non résolue" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "date ADR factice non détectée."
+grep -F "unresolved ADR identifier" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the placeholder ADR identifier was not detected."
+grep -F "unresolved ADR date" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the placeholder ADR date was not detected."
 
 python3 - "${PRODUCT_TARGET}/FOUNDATION.md" <<'PY'
 import sys
@@ -441,12 +451,12 @@ from pathlib import Path
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 text = "\n".join(
-    line for line in text.splitlines() if not line.startswith("| Commit immuable |")
+    line for line in text.splitlines() if not line.startswith("| Immutable commit |")
 ) + "\n"
 path.write_text(text, encoding="utf-8")
 PY
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
-grep -F "métadonnée absente ou invalide : Commit immuable" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du commit de provenance non détectée."
+grep -F "FOUNDATION.md has missing or invalid metadata: Immutable commit" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the provenance commit was not detected."
 
 PROTOTYPE_TARGET="${TEST_ROOT}/prototype-project"
 "${BOOTSTRAP}" \
@@ -479,9 +489,9 @@ printf '%s\n' \
   "./scripts/verify.sh" >"${TEST_ROOT}/prototype.expected"
 append_nimbus_expected "${TEST_ROOT}/prototype.expected"
 tree_files "${PROTOTYPE_TARGET}" >"${TEST_ROOT}/prototype.actual"
-diff -u "${TEST_ROOT}/prototype.expected" "${TEST_ROOT}/prototype.actual" || fail "arbre prototype inattendu."
-grep -F '| Pack adopté | `standard` |' "${PROTOTYPE_TARGET}/FOUNDATION.md" >/dev/null || fail "pack standard absent."
-grep -F '| Classe | Prototype |' "${PROTOTYPE_TARGET}/PROJECT.md" >/dev/null || fail "classe prototype non remplie."
+diff -u "${TEST_ROOT}/prototype.expected" "${TEST_ROOT}/prototype.actual" || fail "the prototype tree is not as expected."
+grep -F '| Adopted pack | `standard` |' "${PROTOTYPE_TARGET}/FOUNDATION.md" >/dev/null || fail "the Standard pack metadata is missing."
+grep -F '| Class | Prototype |' "${PROTOTYPE_TARGET}/PROJECT.md" >/dev/null || fail "the prototype class is not completed."
 
 CRITICAL_TARGET="${TEST_ROOT}/critical-project"
 "${BOOTSTRAP}" \
@@ -517,20 +527,20 @@ printf '%s\n' \
   "./scripts/verify.sh" >"${TEST_ROOT}/critical.expected"
 append_nimbus_expected "${TEST_ROOT}/critical.expected"
 tree_files "${CRITICAL_TARGET}" >"${TEST_ROOT}/critical.actual"
-diff -u "${TEST_ROOT}/critical.expected" "${TEST_ROOT}/critical.actual" || fail "arbre critical inattendu."
-grep -F '| Pack adopté | `critical` |' "${CRITICAL_TARGET}/FOUNDATION.md" >/dev/null || fail "pack critical absent."
-grep -F '| Classe | Critique |' "${CRITICAL_TARGET}/PROJECT.md" >/dev/null || fail "classe critique non remplie."
+diff -u "${TEST_ROOT}/critical.expected" "${TEST_ROOT}/critical.actual" || fail "the critical tree is not as expected."
+grep -F '| Adopted pack | `critical` |' "${CRITICAL_TARGET}/FOUNDATION.md" >/dev/null || fail "the Critical pack metadata is missing."
+grep -F '| Class | Critical |' "${CRITICAL_TARGET}/PROJECT.md" >/dev/null || fail "the critical class is not completed."
 
 if python3 "${CRITICAL_TARGET}/scripts/check_markdown.py" >"${TEST_ROOT}/critical-checker-baseline.out" 2>&1; then
-  fail "le checker critical devait refuser les marqueurs de saisie."
+  fail "the critical checker was expected to reject input markers."
 fi
-if grep -F "fichier requis pour le pack critical absent" "${TEST_ROOT}/critical-checker-baseline.out" >/dev/null; then
-  fail "le pack critical généré est structurellement incohérent."
+if grep -F "required file for the critical pack is missing" "${TEST_ROOT}/critical-checker-baseline.out" >/dev/null; then
+  fail "the generated Critical pack is structurally inconsistent."
 fi
 rm -f "${CRITICAL_TARGET}/RUNBOOK.md" "${CRITICAL_TARGET}/DELIVERY-EVIDENCE.md"
 expect_failure python3 "${CRITICAL_TARGET}/scripts/check_markdown.py"
-grep -F "fichier requis pour le pack critical absent : RUNBOOK.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression du runbook non détectée."
-grep -F "fichier requis pour le pack critical absent : DELIVERY-EVIDENCE.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "suppression de la preuve de livraison non détectée."
+grep -F "required file for the critical pack is missing: RUNBOOK.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the runbook was not detected."
+grep -F "required file for the critical pack is missing: DELIVERY-EVIDENCE.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the delivery evidence was not detected."
 
 before_checksum="$(cksum "${PRODUCT_TARGET}/README.md")"
 expect_failure "${BOOTSTRAP}" \
@@ -538,7 +548,7 @@ expect_failure "${BOOTSTRAP}" \
   --class product \
   --profiles web
 after_checksum="$(cksum "${PRODUCT_TARGET}/README.md")"
-[[ "${before_checksum}" == "${after_checksum}" ]] || fail "un fichier existant a été modifié."
+[[ "${before_checksum}" == "${after_checksum}" ]] || fail "an existing file was modified."
 
 expect_failure "${BOOTSTRAP}" --target relative/project --class exploration --profiles none
 expect_failure "${BOOTSTRAP}" --target "${TEST_ROOT}/bad-class" --class demo --profiles none
@@ -547,4 +557,4 @@ expect_failure "${BOOTSTRAP}" --target "${TEST_ROOT}/critical-without-profile" -
 expect_failure "${BOOTSTRAP}" --target "${TEST_ROOT}/critical-with-weak-profile" --class critical --profiles web
 expect_failure "${BOOTSTRAP}" --target / --class product --profiles none --dry-run
 
-echo "Tests bootstrap réussis."
+echo "Bootstrap tests passed."

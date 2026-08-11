@@ -1,77 +1,77 @@
-# Versioning et mise à niveau
+# Versioning and upgrades
 
-Le socle utilise des tags `vMAJOR.MINOR.PATCH`.
+The foundation uses `vMAJOR.MINOR.PATCH` tags.
 
-Avant `v1.0.0`, une version mineure peut encore réorganiser le pack d'adoption. Toute incompatibilité reste explicitement signalée dans `CHANGELOG.md`.
+Before `v1.0.0`, a minor version can still reorganize the adoption pack. `CHANGELOG.md` identifies each incompatibility explicitly.
 
-Le fichier `VERSION` est la source canonique de la version courante. `PROJECT.md`, `STATUS.md`, la première entrée de `CHANGELOG.md` et le tag de release doivent lui correspondre. `./scripts/verify.sh` contrôle cette cohérence.
+The `VERSION` file is the canonical source for the current version. `PROJECT.md`, `STATUS.md`, the first entry in `CHANGELOG.md`, and the release tag must match it. `./scripts/verify.sh` checks this consistency.
 
-## Nature des versions
+## Version types
 
-| Version | Changement |
+| Version | Change |
 | --- | --- |
-| Major | Invariant supprimé ou changé, format d'adoption incompatible, migration obligatoire |
-| Minor | Nouveau profil, default, template ou capacité compatible avec les snapshots existants |
-| Patch | Clarification, correction de lien, contrôle plus précis sans changement d'intention |
+| Major | An invariant is removed or changed, the adoption format is incompatible, or migration is mandatory |
+| Minor | A new profile, default, template, or capability that is compatible with existing snapshots |
+| Patch | A clarification, a link correction, or a more precise check that does not change the intent |
 
-## Créer une release
+## Create a release
 
-1. Mettre à jour `VERSION`.
-2. Mettre à jour `CHANGELOG.md`.
-3. Mettre à jour `PROJECT.md`, `STATUS.md` et `ROADMAP.md` si leur état change.
-4. Régénérer `DOCUMENTATION-CATALOG.md`.
-5. Exécuter `./scripts/verify.sh`.
-6. Relire le diff complet.
-7. Créer un commit cohérent.
-8. Créer un tag annoté `vMAJOR.MINOR.PATCH`.
-9. Rejouer `./scripts/verify.sh --release` sur le worktree propre.
-10. Pousser le commit sur `main` si l'écriture directe est autorisée, sinon sur une branche dédiée.
-11. Publier le tag dès que le commit de release est présent sur le remote.
-12. Observer les contrôles distants disponibles avant de déclarer la release terminée.
+1. Update `VERSION`.
+2. Update `CHANGELOG.md`.
+3. Update `PROJECT.md`, `STATUS.md`, and `ROADMAP.md` if their state changes.
+4. Regenerate `DOCUMENTATION-CATALOG.md`.
+5. Run `./scripts/verify.sh`.
+6. Review the complete diff.
+7. Create one coherent commit.
+8. Create an annotated `vMAJOR.MINOR.PATCH` tag.
+9. Run `./scripts/verify.sh --release` again in the clean worktree.
+10. Push the commit to `main` if direct write access is permitted. Otherwise, push it to a dedicated branch.
+11. Publish the tag when the release commit is present on the remote.
+12. Monitor the available remote checks before you declare the release complete.
 
-Le tag lisible facilite la discussion. Le commit complet reste la référence immuable.
+The readable tag helps discussions. The complete commit remains the immutable reference.
 
-## Adopter une version
+## Adopt a version
 
-Le projet consommateur enregistre dans `FOUNDATION.md` :
+The consuming project records the following information in `FOUNDATION.md`:
 
-- la source ;
-- le tag ;
-- le commit complet ;
-- les profils activés ;
-- le contrat documentaire et son catalogue ;
-- les dérogations et contrôles compensatoires.
+- the source;
+- the tag;
+- the complete commit;
+- the enabled profiles;
+- the documentation contract and its catalog;
+- the deviations and compensating controls.
 
-Le snapshot est copié sous `docs/foundation/` et commité avec le projet.
-Le scaffold `docs-nimbus/`, son lockfile, le profil `documentation-nimbus`,
-`compose.yaml`, le checker Compose et le workflow CI sont obligatoires dans
-chaque version adoptée.
+The snapshot is copied to `docs/foundation/` and committed with the project.
+The `docs-nimbus/` scaffold, its lockfile, the `documentation-nimbus` profile,
+`compose.yaml`, the Compose checker, and the CI workflow are mandatory in
+each adopted version.
 
-## Mettre à niveau un projet
+## Upgrade a project
 
-1. Lire les entrées du changelog entre les deux versions.
-2. Vérifier les changements incompatibles et notes de migration.
-3. Remplacer le snapshot, sans fusion silencieuse ligne par ligne.
-4. Examiner le diff des invariants, defaults, profils et gates.
-5. Réconcilier les dérogations locales.
-6. Comparer les nouvelles baselines de `scripts/check_markdown.py`, `scripts/check_compose.py`, `scripts/documentation_catalog.py`, `scripts/verify.sh`, `compose.yaml` et du workflow CI, puis fusionner explicitement les corrections utiles sans écraser les gates locales.
-7. Régénérer le catalogue documentaire et relire les audiences.
-8. Exécuter la vérification du projet.
-9. Livrer snapshot, version et adaptations dans une seule unité.
-10. Pousser immédiatement cette unité conformément à `P18` et vérifier son SHA distant.
+1. Read the changelog entries between the two versions.
+2. Check the incompatible changes and migration notes.
+3. Replace the snapshot. Do not merge it silently line by line.
+4. Review the diff for invariants, defaults, profiles, and quality gates.
+5. Reconcile the local deviations.
+6. Compare the new baselines for `scripts/check_markdown.py`, `scripts/check_compose.py`, `scripts/documentation_catalog.py`, `scripts/verify.sh`, `compose.yaml`, and the CI workflow. Explicitly merge the applicable corrections without overwriting local quality gates.
+7. Regenerate the documentation catalog and review the audiences.
+8. Run the project verification.
+9. Deliver the snapshot, version, and adaptations as one unit.
+10. Push this unit immediately in accordance with `P18`, and verify its remote SHA.
 
-Une mise à jour automatique peut proposer un diff. Elle ne doit jamais modifier silencieusement les règles locales ou les protections d'un projet.
+An automatic upgrade can propose a diff. It must never silently change the local rules or project protections.
 
-Si un projet découvre qu'une règle générale doit changer, il ne modifie pas son
-snapshot vendorisé. Il contribue au dépôt officiel, publie une release, puis
-suit cette procédure de mise à niveau. Le protocole complet vit dans
+If a project finds that a general rule must change, it must not modify its
+vendored snapshot. It contributes to the official repository, publishes a
+release, and then follows this upgrade procedure. The complete protocol is in
 [`ADOPTION.md`](ADOPTION.md).
 
-## Dépréciation
+## Deprecation
 
-Une règle ou un profil remplacé reste documenté au moins jusqu'à la prochaine version majeure, avec :
+A replaced rule or profile remains documented until at least the next major version. Include the following information:
 
-- sa remplaçante ;
-- la raison ;
-- la migration ;
-- la date ou version de retrait prévue.
+- its replacement;
+- the reason;
+- the migration procedure;
+- the planned removal date or version.

@@ -1,71 +1,71 @@
-# ADR-0001 : socle autonome et versionné
+# ADR-0001: Standalone, versioned foundation
 
-- Statut : accepté
-- Statut d'implémentation : livré
-- Date : 2026-07-26
-- Dernière vérification : 2026-07-26, vérification locale verte et release `v0.1.0`
-- Propriétaire : Nicolas Pieper
-- Remplace : aucune
+- Status: accepted
+- Implementation status: delivered
+- Date: 2026-07-26
+- Last verification: 2026-07-26, local verification passed and release `v0.1.0` published
+- Owner: Nicolas Pieper
+- Supersedes: none
 
-## Contexte
+## Context
 
-Les règles utiles sont dispersées entre Surplasse, le site personnel, Papers Empire et un runbook VPS. Le dossier `vps` n'est pas versionné au moment de la décision et porte un périmètre d'exploitation spécifique.
+Applicable rules are distributed across Surplasse, the personal site, Papers Empire, and a VPS runbook. At the time of this decision, the `vps` directory is not version-controlled and has a specific operations scope.
 
-Le socle doit servir aux projets locaux, aux agents, à la CI et éventuellement au VPS sans devenir une dépendance cachée.
+The foundation must support local projects, agents, CI, and possibly the VPS without becoming a hidden dependency.
 
-## Problème à décider
+## Decision problem
 
-Où conserver le socle et comment le rendre autonome pour chaque projet ?
+Where must the foundation be stored, and how can each project use it independently?
 
-## Options considérées
+## Considered options
 
-### Placer le socle sous `vps/ai`
+### Store the foundation under `vps/ai`
 
-Avantage : proximité avec le futur agent résident du serveur.
+Advantage: It is close to the future resident server agent.
 
-Limites : mélange des règles multi-projets avec l'infrastructure, absence d'historique Git actuel et sémantique liée au VPS.
+Limitations: This option mixes multi-project rules with infrastructure, has no current Git history, and has VPS-specific semantics.
 
-### Utiliser un fichier global hors des dépôts
+### Use a global file outside the repositories
 
-Avantage : une seule copie locale.
+Advantage: There is only one local copy.
 
-Limites : non découvrable depuis un clone, non portable en CI et dépendant d'un chemin machine.
+Limitations: A clone cannot discover it, CI cannot use it portably, and it depends on a machine-specific path.
 
-### Créer un dépôt autonome et vendoriser un snapshot
+### Create a standalone repository and vendor a snapshot
 
-Avantages : historique propre, version explicite, projet consommateur autonome, adoption sélective des profils.
+Advantages: The foundation has an independent history and an explicit version. The consuming project is standalone and can select profiles.
 
-Limite : une mise à jour du socle doit remplacer le snapshot dans chaque projet et faire l'objet d'un diff.
+Limitation: A foundation upgrade must replace the snapshot in each project and produce a diff for review.
 
-## Décision
+## Decision
 
-Créer `project-foundation` comme dépôt autonome, agent-neutral et versionné.
+Create `project-foundation` as a standalone, agent-neutral, and versioned repository.
 
-Chaque projet copie un snapshot de `PRINCIPLES.md`, `DEFAULTS.md`, `DEFINITION-OF-DONE.md` et des profils retenus sous `docs/foundation/`. Il enregistre la version et les dérogations dans `FOUNDATION.md`.
+Each project copies a snapshot of `PRINCIPLES.md`, `DEFAULTS.md`, `DEFINITION-OF-DONE.md`, and the selected profiles to `docs/foundation/`. It records the version and deviations in `FOUNDATION.md`.
 
-Les fichiers d'agent locaux restent courts. Aucun projet ne dépend d'un chemin relatif vers ce dépôt ou d'un symlink inter-dépôts.
+Local agent files remain short. No project depends on a relative path to this repository or on a symlink between repositories.
 
-## Conséquences
+## Consequences
 
-### Positives
+### Positive
 
-- le socle peut évoluer indépendamment du VPS ;
-- un clone de projet reste complet ;
-- les dérogations sont visibles ;
-- une mise à jour est relisible comme un diff.
+- The foundation can change independently of the VPS.
+- A project clone remains complete.
+- Deviations are visible.
+- An upgrade can be reviewed as a diff.
 
-### Négatives
+### Negative
 
-- les snapshots ne se mettent pas à jour automatiquement ;
-- un outil de comparaison et de mise à niveau sera utile si l'adoption devient fréquente.
+- Snapshots do not update automatically.
+- A comparison and upgrade tool will be useful if adoption becomes frequent.
 
-## Vérification
+## Verification
 
-- dépôt Git initialisé sur `main` ;
-- première version taguée ;
-- bootstrap et template `FOUNDATION.md` cohérents ;
-- liens locaux et structure vérifiés.
+- The Git repository is initialized on `main`.
+- The first version has a tag.
+- The bootstrap and `FOUNDATION.md` template are consistent.
+- Local links and the structure are verified.
 
-## Réexamen
+## Review
 
-Réexaminer la méthode de snapshot si plusieurs projets rencontrent une dérive récurrente ou si une distribution par package apporte un bénéfice concret sans dépendance runtime.
+Review the snapshot method if several projects experience recurring divergence, or if package distribution provides a measured benefit without a runtime dependency.

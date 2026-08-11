@@ -1,54 +1,56 @@
 # STATUS.md
 
-Snapshot vérifié le 2026-07-30.
+Snapshot reviewed on 2026-08-11. Verification limits are listed below.
 
-## Référence
+## Reference
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Branche | `main` |
+| Canonical branch | `main` |
+| Review branch | `agent/add-controlled-technical-english` |
 | Version | `v0.5.2` |
-| Environnement | macOS local, Node `24.18.0`, Docker Compose `5.1.2` |
-| Production | Non applicable |
-| Remote | `https://github.com/nclsppr/project-foundation.git` |
-| Visibilité | Publique, sans licence accordée |
+| Change state | Unreleased controlled-English migration after `v0.5.2` |
+| Environment | Linux `x86_64`, Node `24.14.0`, npm `11.9.0`, Python `3.12.13`; Docker unavailable |
+| Production | Not applicable |
+| Remote repository | `https://github.com/nclsppr/project-foundation.git` |
+| Visibility | Public, no license granted |
 
-## Livré et vérifié
+## Delivered state and current verification
 
-| Capacité | Périmètre réel | Preuve | Limite connue |
+| Capability | Actual scope | Evidence | Known limit |
 | --- | --- | --- | --- |
-| Noyau | Dix-neuf invariants, defaults et définition de done | Relecture croisée, ADR-0004, ADR-0005 et `./scripts/verify.sh` | Les protections distantes restent propres à chaque dépôt |
-| Bootstrap | Quatre packs, Nimbus et Compose obligatoires, CI générée, six profils supplémentaires, dry-run et copie atomique sans écrasement | `scripts/bootstrap.sh` et `scripts/test_bootstrap.sh` verts | Le contenu métier et les services d'un pack durable restent à compléter |
-| Profils | Documentation Nimbus obligatoire ; web, backend et données, infrastructure, expérience, artefacts générés et dépendances opt-in | Snapshots et déclarations vérifiés | Pas de profil mobile natif ou data science |
-| Documentation | 46 Markdown classés, 51 pages Nimbus générées et 52 fichiers lintés | Catalogue, tests, typecheck, build, Pagefind et lint | Le build local complet ne doit pas être publié sans filtre d'audience |
-| Adoption amont | Source officielle, snapshot immuable, dérogation locale et challenge général séparés | Parkventory adopte `v0.5.2` au SHA `b3d908b5f54d19ef6229393568cdb984216e83c8`, CI `30526141976` verte | Une seule adoption réelle observée |
-| Provenance | Audit des règles retenues, écartées et laissées locales | `AUDIT.md` | Snapshot daté |
-| Orchestration locale | Compose racine, image Nimbus épinglée, cycles de vie contrôlés, checker copié et appel CI direct | `scripts/check_compose.py`, job conteneurisé et tests de retrait du câblage | La présence d'un processus caché hors Compose reste un sujet de revue |
-| Vérification | Structure, liens, ancres, style, placeholders, Nimbus, Compose, sécurité du bootstrap et propagation de `P18` et `P19` | `./scripts/verify.sh` vert sur macOS local | Ne remplace pas une revue éditoriale ni une protection GitHub |
+| Core | Twenty invariants, defaults, and definition of done | Cross-review, ADR-0004, ADR-0005, ADR-0006, catalog check, and Markdown check | Remote protections remain specific to each repository |
+| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, and atomic copy without overwrite | `scripts/test_bootstrap.sh` passes with a Docker command stub | GitHub Actions must provide the actual Docker evidence for the proposed commit |
+| Profiles | Mandatory Nimbus documentation; optional web, backend and data, infrastructure, experiment, generated-artifact, and dependency profiles | Snapshots and declarations verified | No native mobile or data-science profile |
+| Documentation | 47 classified Markdown files, 52 generated Nimbus pages, and 53 linted files | Catalog, tests, type checking, clean build, English-only Pagefind index, and lint | Do not publish the complete local build without an audience filter |
+| Upstream adoption | Separate official source, immutable snapshot, local exception, and foundation challenge | Parkventory adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8`; CI run `30526141976` is successful | Only one actual adoption observed |
+| Provenance | Audit of retained, rejected, and local rules | `AUDIT.md` | Dated snapshot |
+| Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and tests that remove the integration | Review is still required to detect a hidden process outside Compose |
+| Verification | Structure, links, anchors, style, placeholders, Nimbus, bootstrap security, and propagation of `P18`, `P19`, and `P20` | Catalog and Markdown checks, `npm run check --prefix docs-nimbus`, and bootstrap tests with a Docker command stub | Local `./scripts/verify.sh` stops at the Docker prerequisite; the checks do not establish formal conformance with ASD-STE100 |
 
-## Phase active
+## Phase state
 
-| Phase roadmap | État observé | Prochaine preuve |
+| Roadmap phase | Observed state | Next evidence |
 | --- | --- | --- |
-| `F01` | `done` : `v0.5.2` au SHA `708d7374f87060809a805c57abc2cf7e7b66c182`, runs `30525884714` et `30525894423` verts | Maintenir le socle sans rouvrir la phase |
-| `F02` | `done` : Parkventory autonome, poussé et vérifié depuis un clone public | Préparer F03 sans modifier le projet consommateur |
-| `F03` | `planned` : mise à niveau assistée non commencée | Définir le diff et le dry-run sans écrasement implicite |
+| `F01` | `done`: `v0.5.2` at SHA `708d7374f87060809a805c57abc2cf7e7b66c182`; runs `30525884714` and `30525894423` are successful | Maintain the foundation without reopening the phase |
+| `F02` | `done`: Parkventory is independent, pushed, and verified from a public clone | Prepare F03 without changing the consuming project |
+| `F03` | `planned`: assisted upgrade not started | Define the diff and dry run without implicit overwrite |
 
-## Cible non livrée
+## Target not delivered
 
-- commande d'audit d'un projet adopté ;
-- commande de mise à niveau assistée entre deux versions du socle.
+- command to audit an adopted project;
+- command to assist an upgrade between two foundation versions.
 
-## Blocage externe
+## Local verification limit
 
-Aucun blocage externe connu pour la maintenance du socle. Une seconde adoption
-reste utile pour élargir la preuve, sans remettre en cause la sortie de F02.
+The local environment does not provide Docker. `./scripts/verify.sh` completes
+the catalog and Markdown checks, then stops at the Compose prerequisite. GitHub
+Actions must provide the complete verification for the proposed commit. A
+second adoption can extend the evidence, but it does not invalidate the F02
+exit.
 
-## Dérives connues
+## Known drift
 
-Les contradictions des projets sources restent documentées dans `AUDIT.md` et
-ne sont pas corrigées par ce dépôt. Le catalogue garantit qu'un Markdown est
-découvrable, pas que son contenu est éditorialement juste ou publiable.
+Contradictions in source projects remain documented in `AUDIT.md`. This repository does not correct them. The catalog confirms that a Markdown file can be found. It does not confirm that the content is editorially correct or suitable for publication.
 
-Aucune phase n'est active après la sortie de F02. F03 reste la prochaine phase
-planifiée.
+No phase is active after the F02 exit. F03 remains the next planned phase.

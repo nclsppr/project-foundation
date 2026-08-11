@@ -1,80 +1,80 @@
-# Profil web
+# Web profile
 
-Activer ce profil pour un site, une application web, un dashboard ou une documentation publiée.
+Activate this profile for a website, web application, dashboard, or published documentation.
 
-Ce profil opérationnalise `P08`, `P10`, `P13`, `P14` et le default `D06`. Ses gates sont opt-in au niveau du projet. La définition de done active ensuite uniquement celles qui concernent l'unité de travail.
+This profile implements `P08`, `P10`, `P13`, `P14`, and default `D06`. Its gates are activated at project level. The definition of done then activates only the gates that apply to the work unit.
 
-## Contrat utilisateur
+## User contract
 
-- Définir le parcours principal et son résultat.
-- Rendre les états chargement, vide, erreur, succès et indisponibilité explicites.
-- Conserver les contrats publics existants : URLs, ancres, paramètres et liens profonds.
-- Signaler les données de démonstration.
-- Préserver une fonction essentielle sans enrichissement optionnel lorsque c'est réaliste.
+- Define the primary path and its result.
+- Make loading, empty, error, success, and unavailable states explicit.
+- Preserve existing public contracts: URLs, anchors, parameters, and deep links.
+- Identify demonstration data.
+- Preserve an essential function without optional enhancement when practical.
 
-## Accessibilité
+## Accessibility
 
-- Préférer les éléments HTML et contrôles natifs. Utiliser ARIA pour compléter un comportement que le HTML ne peut pas exprimer.
-- Navigation clavier complète.
-- Focus visible et ordre logique.
-- Contrastes au moins WCAG AA sauf exception documentée.
-- Cibles tactiles d'au moins 44 px sur une interface tactile ou un pointeur grossier.
-- État ARIA synchronisé avec l'interface.
-- Aucun sens porté uniquement par la couleur.
-- Images informatives avec alternative utile.
-- Décor masqué aux technologies d'assistance.
-- Modales avec focus géré et arrière-plan inerte.
-- `prefers-reduced-motion` respecté.
-- Champs avec label et nom accessible.
-- Instructions et erreurs associées à leur champ.
-- Zoom, agrandissement du texte et reflow sans perte d'information.
-- Sous-titres ou transcription lorsqu'un média porte une information.
+- Prefer native HTML elements and controls. Use ARIA to supplement behavior that HTML cannot express.
+- Provide complete keyboard navigation.
+- Provide visible focus in a logical order.
+- Meet at least WCAG AA contrast, unless a documented exception applies.
+- Use touch targets of at least 44 px on a touch interface or coarse pointer.
+- Synchronize ARIA state with the interface.
+- Do not communicate meaning only with color.
+- Give informative images useful alternatives.
+- Hide decoration from assistive technologies.
+- Manage focus in modal dialogs and make the background inert.
+- Respect `prefers-reduced-motion`.
+- Give each field a label and accessible name.
+- Associate instructions and errors with their fields.
+- Support zoom, text enlargement, and reflow without information loss.
+- Provide captions or a transcript when media communicates information.
 
-## Responsive
+## Responsive layout
 
-- Concevoir la composition mobile, ne pas seulement réduire la version desktop.
-- Vérifier au moins un petit viewport tactile et un viewport bureau.
-- Tester contenu court, contenu long et chaînes non sécables.
-- Interdire les débordements horizontaux involontaires.
-- Réserver les hovers aux périphériques qui les supportent.
+- Design the mobile composition. Do not only reduce the desktop version.
+- Verify at least one small touch viewport and one desktop viewport.
+- Test short content, long content, and strings that cannot wrap.
+- Prevent unintended horizontal overflow.
+- Use hover behavior only on devices that support it.
 
 ## Design system
 
-- Écrire `DESIGN.md` avant une refonte significative.
-- Le pack Full ou Critical avec ce profil porte `DESIGN.md`. Un pack Minimal ou Standard conserve l'intention légère dans son brief ou `PROJECT.md`, sauf si l'ampleur justifie d'adopter le template complet.
-- Définir les tokens et leur source exécutable.
-- Lier chaque différence visuelle à une intention produit.
-- Éviter les décorations génériques sans fonction.
-- Documenter les zones gelées.
-- Choisir les images selon leur fonction : information, narration, identité ou ambiance.
+- Write `DESIGN.md` before a significant redesign.
+- A Full or Critical pack with this profile includes `DESIGN.md`. A Minimal or Standard pack keeps a lightweight intent in its brief or `PROJECT.md`, unless the scope requires the complete template.
+- Define tokens and their executable source.
+- Link each visual difference to a product intent.
+- Avoid generic decoration without a function.
+- Document frozen areas.
+- Select images by function: information, narrative, identity, or atmosphere.
 
-## Performance et résilience
+## Performance and resilience
 
-- Définir un appareil et un réseau de référence.
-- Fixer des budgets pour images, JavaScript, rendu et mouvement.
-- Suspendre les enrichissements hors écran ou onglet caché lorsque pertinent.
-- Une couche décorative ou 3D ne doit pas muter le domaine métier.
-- Prévoir un fallback si WebGL, JavaScript ou une dépendance facultative échoue.
+- Define a reference device and network.
+- Set budgets for images, JavaScript, rendering, and motion.
+- Suspend off-screen or hidden-tab enhancements when applicable.
+- A decorative or 3D layer must not modify the business domain.
+- Provide fallback behavior if WebGL, JavaScript, or an optional dependency fails.
 
-## SEO et publication
+## SEO and publication
 
-Pour une surface publique :
+For a public surface:
 
-- titre, description, canonical et métadonnées sociales ;
-- `lang` et `hreflang` si multilingue ;
-- sitemap et robots cohérents ;
-- statut d'indexation explicite pour les expériences ;
-- cache-busting lié à l'artefact ;
-- contrôle HTTP et visuel de l'URL publiée.
+- title, description, canonical metadata, and social metadata;
+- `lang` and `hreflang` for multilingual content;
+- consistent sitemap and robots configuration;
+- explicit indexing state for experiments;
+- artifact-specific cache busting;
+- HTTP and visual verification of the published URL.
 
-## Gate minimale
+## Minimum gate
 
-- contrôles statiques et tests du projet ;
-- absence d'erreur console et réseau inattendue ;
-- mobile et desktop ;
-- clavier et focus ;
-- mouvement normal et réduit ;
-- thèmes supportés ;
-- routes et liens ;
-- performance sur la cible définie ;
-- URL finale après déploiement.
+- project static controls and tests;
+- no unexpected console or network error;
+- mobile and desktop;
+- keyboard and focus;
+- normal and reduced motion;
+- supported themes;
+- routes and links;
+- performance on the defined target;
+- final URL after deployment.

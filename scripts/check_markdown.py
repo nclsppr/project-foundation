@@ -16,7 +16,7 @@ MINIMUM_PYTHON = (3, 9)
 if sys.version_info < MINIMUM_PYTHON:
     detected = ".".join(str(part) for part in sys.version_info[:3])
     print(
-        f"Python >= 3.9 est requis (version détectée : {detected}).",
+        f"Python >= 3.9 is required. Detected version: {detected}.",
         file=sys.stderr,
     )
     raise SystemExit(2)
@@ -47,15 +47,18 @@ REQUIRED_PATHS = (
     "documentation.json",
     "VERSIONING.md",
     "docs/decisions/adr-0001-standalone-versioned-foundation.md",
-    "docs/decisions/adr-0002-catalogue-universel-nimbus-optionnel.md",
-    "docs/decisions/adr-0003-nimbus-obligatoire.md",
-    "docs/decisions/adr-0005-docker-compose-obligatoire.md",
+    "docs/decisions/adr-0002-universal-catalog-and-optional-nimbus.md",
+    "docs/decisions/adr-0003-mandatory-nimbus.md",
+    "docs/decisions/adr-0004-mandatory-git-publication.md",
+    "docs/decisions/adr-0005-mandatory-docker-compose.md",
+    "docs/decisions/adr-0006-controlled-technical-english.md",
     "docs-nimbus/AGENT.md",
     "docs-nimbus/.env.example",
     "docs-nimbus/astro.config.ts",
     "docs-nimbus/nimbus.json",
     "docs-nimbus/package-lock.json",
     "docs-nimbus/package.json",
+    "docs-nimbus/scripts/clean-output.mjs",
     "docs-nimbus/scripts/sync-content.mjs",
     "docs-nimbus/scripts/sync-content.test.mjs",
     "docs-nimbus/src/content.config.ts",
@@ -109,17 +112,17 @@ EXECUTABLE_PATHS = (
     "templates/scripts/verify.sh",
 )
 
-# Le catalogue n'est pas un template : le bootstrap le génère après avoir
-# copié le README. Les tests de bootstrap vérifient ensuite sa présence.
+# The catalog is not a template. The bootstrap generates it after it copies the
+# README. The bootstrap tests then verify its presence.
 GENERATED_BOOTSTRAP_LINKS = {
     (Path("templates/README.md"), "DOCUMENTATION-CATALOG.md"),
     (Path("templates/README-standard.md"), "DOCUMENTATION-CATALOG.md"),
 }
 
 FORBIDDEN_DASHES = {
-    "\u2013": "demi-cadratin",
-    "\u2014": "cadratin",
-    "\u2015": "barre horizontale",
+    "\u2013": "en dash",
+    "\u2014": "em dash",
+    "\u2015": "horizontal bar",
 }
 
 LINK_PATTERN = re.compile(
@@ -180,7 +183,7 @@ def line_number(text: str, offset: int) -> int:
 def check_required_paths(errors: list[str]) -> None:
     for relative in REQUIRED_PATHS:
         if not (ROOT / relative).is_file():
-            errors.append(f"fichier requis absent : {relative}")
+            errors.append(f"required file is missing: {relative}")
 
 
 def check_executable_paths(errors: list[str]) -> None:
@@ -190,14 +193,14 @@ def check_executable_paths(errors: list[str]) -> None:
             continue
         mode = path.stat().st_mode
         if not mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH):
-            errors.append(f"fichier requis non exécutable : {relative}")
+            errors.append(f"required file is not executable: {relative}")
 
 
 def check_compose_wiring(errors: list[str]) -> None:
     for relative, pattern in REQUIRED_COMPOSE_WIRING:
         path = ROOT / relative
         if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
-            errors.append(f"gate Compose non câblée : {relative}")
+            errors.append(f"Compose gate is not connected: {relative}")
 
 
 def check_version_consistency(errors: list[str]) -> None:
@@ -207,19 +210,19 @@ def check_version_consistency(errors: list[str]) -> None:
 
     version = version_path.read_text(encoding="utf-8").strip()
     if not SEMVER_PATTERN.fullmatch(version):
-        errors.append(f"VERSION invalide : {version!r}")
+        errors.append(f"VERSION is invalid: {version!r}")
         return
 
     expectations = (
         ("PROJECT.md", f"| Version | {version} |"),
         ("STATUS.md", f"| Version | `v{version}` |"),
-        ("ADOPTION.md", f"- Release courante : `v{version}`"),
+        ("ADOPTION.md", f"- Current release: `v{version}`"),
     )
     for relative, expected in expectations:
         path = ROOT / relative
         if path.is_file() and expected not in path.read_text(encoding="utf-8"):
             errors.append(
-                f"{relative} : version différente de VERSION ({version})"
+                f"{relative}: version differs from VERSION ({version})"
             )
 
     changelog = ROOT / "CHANGELOG.md"
@@ -231,7 +234,7 @@ def check_version_consistency(errors: list[str]) -> None:
         )
         if not first_release or first_release.group(1) != version:
             errors.append(
-                f"CHANGELOG.md : première release différente de VERSION ({version})"
+                f"CHANGELOG.md: first release differs from VERSION ({version})"
             )
 
 
@@ -241,14 +244,14 @@ def check_style(path: Path, text: str, errors: list[str]) -> None:
     for character, label in FORBIDDEN_DASHES.items():
         for match in re.finditer(character, text):
             errors.append(
-                f"{relative}:{line_number(text, match.start())} : {label} interdit"
+                f"{relative}:{line_number(text, match.start())}: forbidden {label}"
             )
 
     if not path.is_relative_to(TEMPLATES):
         for match in re.finditer(r"\bTODO\b", text):
             errors.append(
-                f"{relative}:{line_number(text, match.start())} : "
-                "marqueur de saisie hors templates"
+                f"{relative}:{line_number(text, match.start())}: "
+                "input marker outside templates"
             )
 
 
@@ -364,36 +367,36 @@ def check_links(path: Path, text: str, errors: list[str]) -> None:
         if target_lower.startswith(ALLOWED_EXTERNAL_SCHEMES):
             continue
         if URI_SCHEME_PATTERN.match(raw_target):
-            errors.append(f"{location} : schéma de lien non autorisé : {raw_target}")
+            errors.append(f"{location}: unauthorized link scheme: {raw_target}")
             continue
 
         target, anchor = split_link_target(raw_target)
         target_path = Path(target) if target else Path(".")
         if target_path.is_absolute() or raw_target.startswith("//"):
-            errors.append(f"{location} : lien local absolu interdit : {raw_target}")
+            errors.append(f"{location}: absolute local link is forbidden: {raw_target}")
             continue
 
         resolved = (path.parent / target_path).resolve()
         if not resolved.is_relative_to(ROOT):
-            errors.append(f"{location} : lien hors du dépôt interdit : {raw_target}")
+            errors.append(f"{location}: link outside the repository is forbidden: {raw_target}")
             continue
         if not resolved.exists():
             if (relative, target) in GENERATED_BOOTSTRAP_LINKS:
                 continue
-            errors.append(f"{location} : lien local absent : {raw_target}")
+            errors.append(f"{location}: local link target is missing: {raw_target}")
             continue
 
         if not anchor:
             continue
         if not resolved.is_file() or resolved.suffix.lower() not in (".md", ".markdown"):
             errors.append(
-                f"{location} : ancre locale sur une cible non Markdown : {raw_target}"
+                f"{location}: local anchor targets a non-Markdown file: {raw_target}"
             )
             continue
 
         normalized_anchor = unquote(anchor).lower()
         if normalized_anchor not in markdown_anchors(resolved, anchor_cache):
-            errors.append(f"{location} : ancre locale absente : {raw_target}")
+            errors.append(f"{location}: local anchor is missing: {raw_target}")
 
 
 def main() -> int:
@@ -414,7 +417,7 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
 
-    print(f"Markdown valide : {len(files)} fichiers")
+    print(f"Markdown is valid: {len(files)} files")
     return 0
 
 

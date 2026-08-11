@@ -1,66 +1,66 @@
 # STATUS.md
 
-Snapshot de l'état réellement vérifié. Ce fichier décrit ce qui existe à une date donnée. Il ne remplace ni le contrat stable de `PROJECT.md`, ni l'ordre de livraison de `ROADMAP.md`, ni les décisions ADR.
+Snapshot of the verified state. This file describes what exists on a specified date. It does not replace the stable contract in `PROJECT.md`, the delivery order in `ROADMAP.md`, or ADR decisions.
 
-## Référence
+## Reference
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Vérifié le | TODO YYYY-MM-DD |
-| Par | TODO |
-| Branche | TODO |
-| Commit | TODO SHA complet |
-| Environnement | TODO local, CI, preview ou production |
-| Version livrée | TODO ou non applicable |
+| Verified on | TODO YYYY-MM-DD |
+| Verified by | TODO |
+| Branch | TODO |
+| Commit | TODO full SHA |
+| Environment | TODO local, CI, preview, or production |
+| Delivered version | TODO or not applicable |
 
-## Résumé
+## Summary
 
-TODO Résumer en quelques phrases ce qui fonctionne réellement, ce qui ne fonctionne pas et le principal risque.
+TODO Summarize what operates, what does not operate, and the primary risk in a few sentences.
 
-## Phase active
+## Active phase
 
-| Phase roadmap | État observé | Prochaine preuve | Responsable |
+| Roadmap phase | Observed state | Next evidence | Owner |
 | --- | --- | --- | --- |
-| TODO identifiant stable | TODO | TODO | TODO |
+| TODO stable identifier | TODO | TODO | TODO |
 
-## Livré et vérifié
+## Delivered and verified
 
-| Capacité | Périmètre réel | Preuve | Limite connue |
+| Capability | Actual scope | Evidence | Known limitation |
 | --- | --- | --- | --- |
-| TODO | TODO | commande, test, URL ou artefact | TODO |
+| TODO | TODO | command, test, URL, or artifact | TODO |
 
-Les capacités non livrées restent dans `ROADMAP.md`. Ce fichier ne recrée pas leur périmètre.
+Capabilities that are not delivered remain in `ROADMAP.md`. This file does not redefine their scope.
 
-## État opérationnel
+## Operational state
 
-| Surface | URL ou accès | Artefact ou SHA | Santé | Dernière vérification |
+| Surface | URL or access | Artifact or SHA | Health | Last verification |
 | --- | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO | TODO |
 
-## Validations récentes
+## Recent verifications
 
-| Date | Commande ou contrôle | Environnement | Résultat | Portée de la preuve |
+| Date | Command or control | Environment | Result | Evidence scope |
 | --- | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO | TODO |
 
-Un résultat historique peut dériver. Rejouer un contrôle peu coûteux avant de le présenter comme courant.
+A historical result can become obsolete. Repeat a low-cost control before you present its result as current.
 
-## Blocages externes
+## External blockers
 
-| Blocage | Impact | Propriétaire | Condition de reprise |
+| Blocker | Effect | Owner | Resume condition |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-## Dérives connues
+## Known drift
 
-| Intention | Réalité observée | Risque | Action |
+| Intent | Observed state | Risk | Action |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-## Risques et hypothèses
+## Risks and assumptions
 
-| Sujet | Type | Impact | Prochaine preuve | Responsable | Date de réévaluation |
+| Subject | Type | Effect | Next evidence | Owner | Review date |
 | --- | --- | --- | --- | --- | --- |
-| TODO | risque ou hypothèse | TODO | TODO | TODO | TODO |
+| TODO | risk or assumption | TODO | TODO | TODO | TODO |
 
-La prochaine tranche est l'identifiant de phase indiqué plus haut, pas une liste concurrente.
+The next work unit is the phase identifier shown above. It is not a separate competing list.

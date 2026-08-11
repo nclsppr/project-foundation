@@ -1,27 +1,27 @@
-# TODO nom du projet
+# TODO project name
 
-TODO Décrire en une phrase le problème traité et le résultat observable recherché.
+TODO Describe the problem and the target observable result in one sentence.
 
-## Démarrage
+## Start
 
-Les prérequis, commandes canoniques et résultats attendus vivent dans [`PROJECT.md`](PROJECT.md). Ne pas recopier ici une recette qui devrait rester exécutable et unique.
+The prerequisites, canonical commands, and expected results are in [`PROJECT.md`](PROJECT.md). Do not copy a procedure here if it must remain unique and executable.
 
-Le socle exige Node `22.12.0` ou plus récent, npm, Docker et Docker Compose
-`2.20.0` ou plus récent pour exécuter `verify`.
+The foundation requires Node `22.12.0` or later, npm, Docker, and Docker Compose
+`2.20.0` or later to run `verify`.
 
-## Carte documentaire
+## Documentation map
 
-- [`PROJECT.md`](PROJECT.md) : contrat produit, sources de vérité, architecture et commandes.
-- [`STATUS.md`](STATUS.md) : état réellement vérifié à une date donnée.
-- [`ROADMAP.md`](ROADMAP.md) : ordre de livraison et critères de sortie.
-- [`CHANGELOG.md`](CHANGELOG.md) : changements livrés et impact observable.
-- [`FOUNDATION.md`](FOUNDATION.md) : version du socle, profils et dérogations.
-- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) : navigation exhaustive des Markdown et de leurs audiences.
-- `docs-nimbus/` : moteur documentaire obligatoire, adaptateur, configuration et lockfile.
-- [`AGENTS.md`](AGENTS.md) : adaptateur local pour les interventions assistées.
-- `docs/decisions/` : décisions structurantes.
-- `docs/foundation/` : snapshot vendorisé du noyau et des profils, non édité localement.
+- [`PROJECT.md`](PROJECT.md): Product contract, sources of truth, architecture, and commands.
+- [`STATUS.md`](STATUS.md): State verified on a specified date.
+- [`ROADMAP.md`](ROADMAP.md): Delivery order and exit criteria.
+- [`CHANGELOG.md`](CHANGELOG.md): Delivered changes and observable effects.
+- [`FOUNDATION.md`](FOUNDATION.md): Foundation version, profiles, and exceptions.
+- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md): Complete navigation for Markdown files and their audiences.
+- `docs-nimbus/`: Mandatory documentation engine, adapter, configuration, and lockfile.
+- [`AGENTS.md`](AGENTS.md): Local adapter for assisted work.
+- `docs/decisions/`: Architectural decisions.
+- `docs/foundation/`: Vendored snapshot of the core and profiles. Do not edit it locally.
 
-Les documents spécialisés comme `DESIGN.md` et les runbooks restent liés depuis `PROJECT.md`.
+Specialized documents, such as `DESIGN.md` and runbooks, remain linked from `PROJECT.md`.
 
-Ce README oriente. Il ne devient ni une seconde roadmap, ni une seconde architecture, ni une copie des commandes.
+This README provides navigation. It is not a second roadmap, a second architecture document, or a copy of the commands.
