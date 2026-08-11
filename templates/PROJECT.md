@@ -60,6 +60,7 @@ Do not present a target as an achieved result.
 | Current state | `STATUS.md` | operational snapshot | Dated and verified |
 | Roadmap | `ROADMAP.md` | normative | Sequence authority |
 | Change history | `CHANGELOG.md` | historical | Each delivered change and its observable effect |
+| Foundation release | `FOUNDATION.md` and `foundation.lock.json` | normative and machine-readable | `P22` source, tag, commit, profiles, and managed hashes |
 | Architecture | TODO | normative | |
 | API contract | TODO | normative or not applicable | |
 | Data schema | TODO | normative or not applicable | |
@@ -106,9 +107,11 @@ TODO
 
 | Action | Command | Expected result |
 | --- | --- | --- |
+| Install commit verification | `./scripts/install_foundation_hook.sh` | Git uses the versioned Foundation pre-commit hook |
 | Install | TODO | TODO |
 | Develop | `docker compose up --build --wait` | All required services become healthy |
 | Verify | `./scripts/verify.sh` | Valid catalog, Markdown, tests, type checks, Nimbus build, and Nimbus lint |
+| Check Foundation release | `python3 scripts/foundation_sync.py check` | Adopted tag and SHA match the latest stable release and all managed hashes |
 | Verify Compose | `python3 scripts/check_compose.py` | Configuration, services, digests, and health checks comply with `P19` |
 | Build | TODO | TODO |
 | Build documentation | `npm run build --prefix docs-nimbus` | Static Nimbus site generated from classified Markdown files |

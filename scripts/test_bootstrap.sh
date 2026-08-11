@@ -66,6 +66,8 @@ copy_foundation_fixture() {
   destination="$1"
   mkdir -p "${destination}/scripts"
   cp -p \
+    "${SOURCE_FOUNDATION_ROOT}/VERSION" \
+    "${SOURCE_FOUNDATION_ROOT}/foundation-distribution.json" \
     "${SOURCE_FOUNDATION_ROOT}/PRINCIPLES.md" \
     "${SOURCE_FOUNDATION_ROOT}/DEFAULTS.md" \
     "${SOURCE_FOUNDATION_ROOT}/DEFINITION-OF-DONE.md" \
@@ -81,6 +83,7 @@ copy_foundation_fixture() {
     "${SOURCE_FOUNDATION_ROOT}/scripts/bootstrap.sh" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/check_compose.py" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/documentation_catalog.py" \
+    "${SOURCE_FOUNDATION_ROOT}/scripts/foundation_sync.py" \
     "${SOURCE_FOUNDATION_ROOT}/scripts/sanitize_git_remote.py" \
     "${destination}/scripts/"
 }
@@ -88,6 +91,7 @@ copy_foundation_fixture() {
 FOUNDATION_ROOT="${TEST_ROOT}/foundation-fixture"
 copy_foundation_fixture "${FOUNDATION_ROOT}"
 FOUNDATION_ROOT="$(cd -- "${FOUNDATION_ROOT}" && pwd -P)"
+printf '%s\n' '0.0.0' >"${FOUNDATION_ROOT}/VERSION"
 git -C "${FOUNDATION_ROOT}" init -q -b main
 git -C "${FOUNDATION_ROOT}" add -- .
 git -C "${FOUNDATION_ROOT}" \
@@ -104,6 +108,7 @@ SANITIZER="${FOUNDATION_ROOT}/scripts/sanitize_git_remote.py"
 EXPECTED_FOUNDATION_SOURCE="${FOUNDATION_ROOT}"
 EXPECTED_FOUNDATION_COMMIT="$(git -C "${FOUNDATION_ROOT}" rev-parse HEAD)"
 EXPECTED_FOUNDATION_TAG="$(git -C "${FOUNDATION_ROOT}" describe --tags --exact-match HEAD)"
+export PROJECT_FOUNDATION_TRUSTED_SOURCE="${FOUNDATION_ROOT}"
 
 sanitized_https="$("${SANITIZER}" 'https://user:secret@example.com/org/repo.git?access_token=secret#fragment')"
 [[ "${sanitized_https}" == "https://example.com/org/repo.git" ]] || fail "the HTTPS remote was not sanitized correctly."
@@ -152,7 +157,9 @@ EXPLORATION_TARGET="${TEST_ROOT}/exploration-project"
   --profiles experiment,web >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/foundation-sync.yml" \
   "./.github/workflows/verify.yml" \
+  "./.githooks/pre-commit" \
   "./AGENTS.md" \
   "./BRIEF.md" \
   "./CHANGELOG.md" \
@@ -169,9 +176,12 @@ printf '%s\n' \
   "./docs/foundation/profiles/experiment.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
+  "./foundation.lock.json" \
   "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
+  "./scripts/foundation_sync.py" \
+  "./scripts/install_foundation_hook.sh" \
   "./scripts/verify.sh" >"${TEST_ROOT}/exploration.expected"
 append_nimbus_expected "${TEST_ROOT}/exploration.expected"
 tree_files "${EXPLORATION_TARGET}" >"${TEST_ROOT}/exploration.actual"
@@ -179,6 +189,9 @@ diff -u "${TEST_ROOT}/exploration.expected" "${TEST_ROOT}/exploration.actual" ||
 [[ -x "${EXPLORATION_TARGET}/scripts/verify.sh" ]] || fail "the exploration verify script is not executable."
 [[ -x "${EXPLORATION_TARGET}/scripts/check_compose.py" ]] || fail "the exploration Compose checker is not executable."
 [[ -x "${EXPLORATION_TARGET}/scripts/documentation_catalog.py" ]] || fail "the exploration documentation catalog script is not executable."
+[[ -x "${EXPLORATION_TARGET}/scripts/foundation_sync.py" ]] || fail "the exploration Foundation synchronizer is not executable."
+[[ -x "${EXPLORATION_TARGET}/scripts/install_foundation_hook.sh" ]] || fail "the exploration hook installer is not executable."
+[[ -x "${EXPLORATION_TARGET}/.githooks/pre-commit" ]] || fail "the exploration pre-commit hook is not executable."
 [[ ! -e "${EXPLORATION_TARGET}/.git" ]] || fail "the bootstrap initialized Git."
 [[ ! -e "${EXPLORATION_TARGET}/DESIGN.md" ]] || fail "the Minimal pack contains DESIGN.md."
 grep -F '| Adopted pack | `minimal` |' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the Minimal pack metadata is missing."
@@ -198,6 +211,10 @@ grep -F 'Every `INFO`, `WARN`, and `ERROR` log record has a stable, lowercase, d
 grep -F 'Use both the stable event name and the human-readable message.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 identifier and message rule is missing from the Minimal pack."
 grep -F 'Apply `P21` to each first-party runtime log record.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P21 operational rule is missing from the Minimal pack."
 grep -F '`P21` cannot be disabled for first-party runtime log records.' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the P21 exception limit is missing from the Minimal pack."
+grep -F '## P22. Verify and adopt the latest stable Foundation release before each commit' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P22 is missing from the Minimal pack."
+grep -F 'Apply `P22` before each commit.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P22 operational rule is missing from the Minimal pack."
+grep -F '`P22` cannot be disabled by a local exception.' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the P22 exception limit is missing from the Minimal pack."
+python3 "${EXPLORATION_TARGET}/scripts/foundation_sync.py" check >"${TEST_ROOT}/exploration-foundation-sync.out"
 grep -F 'name: exploration-project' "${EXPLORATION_TARGET}/compose.yaml" >/dev/null || fail "the exploration Compose name is not initialized."
 python3 "${EXPLORATION_TARGET}/scripts/check_compose.py" >"${TEST_ROOT}/exploration-compose.out"
 
@@ -208,7 +225,9 @@ USER='unsafe|actor' "${BOOTSTRAP}" \
   --profiles web,backend-data >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/foundation-sync.yml" \
   "./.github/workflows/verify.yml" \
+  "./.githooks/pre-commit" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DESIGN.md" \
@@ -228,9 +247,12 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/web.md" \
   "./documentation.json" \
+  "./foundation.lock.json" \
   "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
+  "./scripts/foundation_sync.py" \
+  "./scripts/install_foundation_hook.sh" \
   "./scripts/verify.sh" >"${TEST_ROOT}/product.expected"
 append_nimbus_expected "${TEST_ROOT}/product.expected"
 tree_files "${PRODUCT_TARGET}" >"${TEST_ROOT}/product.actual"
@@ -250,8 +272,16 @@ grep -F 'Every `INFO`, `WARN`, and `ERROR` log record has a stable, lowercase, d
 grep -F 'Use both the stable event name and the human-readable message.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 identifier and message rule is missing from the Full pack."
 grep -F 'Apply `P21` to each first-party runtime log record.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P21 operational rule is missing from the Full pack."
 grep -F '`P21` cannot be disabled for first-party runtime log records.' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the P21 exception limit is missing from the Full pack."
+grep -F '## P22. Verify and adopt the latest stable Foundation release before each commit' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P22 is missing from the Full pack."
+grep -F 'Apply `P22` before each commit.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P22 operational rule is missing from the Full pack."
+grep -F '`P22` cannot be disabled by a local exception.' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the P22 exception limit is missing from the Full pack."
+python3 "${PRODUCT_TARGET}/scripts/foundation_sync.py" check >"${TEST_ROOT}/product-foundation-sync.out"
 grep -F 'name: product-project' "${PRODUCT_TARGET}/compose.yaml" >/dev/null || fail "the Product Compose name is not initialized."
 grep -F 'Check Docker Compose' "${PRODUCT_TARGET}/.github/workflows/verify.yml" >/dev/null || fail "the Compose gate is missing from the generated CI workflow."
+git -C "${PRODUCT_TARGET}" init -q -b main
+"${PRODUCT_TARGET}/scripts/install_foundation_hook.sh" >"${TEST_ROOT}/hook-install.out"
+python3 "${PRODUCT_TARGET}/scripts/foundation_sync.py" hook-status >"${TEST_ROOT}/hook-status.out"
+[[ "$(git -C "${PRODUCT_TARGET}" config --local --get core.hooksPath)" == ".githooks" ]] || fail "the Foundation hook path was not configured."
 
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_compose.py"
 grep -F "the full pack requires at least one service in compose.yaml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "the empty Full pack was not rejected."
@@ -438,6 +468,48 @@ expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "Compose gate is not connected: .github/workflows/verify.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Compose call from CI was not detected."
 mv "${TEST_ROOT}/wired-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/verify.yml"
 
+mv "${PRODUCT_TARGET}/foundation.lock.json" "${TEST_ROOT}/required-foundation-lock.json"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "required file is missing: foundation.lock.json" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Foundation lock was not detected."
+mv "${TEST_ROOT}/required-foundation-lock.json" "${PRODUCT_TARGET}/foundation.lock.json"
+
+mv "${PRODUCT_TARGET}/.githooks/pre-commit" "${TEST_ROOT}/required-pre-commit"
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "required file is missing: .githooks/pre-commit" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Foundation pre-commit hook was not detected."
+mv "${TEST_ROOT}/required-pre-commit" "${PRODUCT_TARGET}/.githooks/pre-commit"
+
+cp -p "${PRODUCT_TARGET}/scripts/verify.sh" "${TEST_ROOT}/foundation-wired-verify.sh"
+python3 - "${PRODUCT_TARGET}/scripts/verify.sh" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = '  python3 "${SCRIPT_DIR}/foundation_sync.py" enforce\n'
+if needle not in text:
+    raise SystemExit("the expected Foundation enforcement call is missing")
+path.write_text(text.replace(needle, "", 1), encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "Foundation local enforcement is not connected: scripts/verify.sh" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of local Foundation enforcement was not detected."
+mv "${TEST_ROOT}/foundation-wired-verify.sh" "${PRODUCT_TARGET}/scripts/verify.sh"
+
+cp -p "${PRODUCT_TARGET}/.github/workflows/foundation-sync.yml" "${TEST_ROOT}/foundation-wired-workflow.yml"
+python3 - "${PRODUCT_TARGET}/.github/workflows/foundation-sync.yml" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = "        run: python3 scripts/foundation_sync.py check\n"
+if needle not in text:
+    raise SystemExit("the expected Foundation CI call is missing")
+path.write_text(text.replace(needle, "", 1), encoding="utf-8")
+PY
+expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
+grep -F "Foundation CI check is not connected: .github/workflows/foundation-sync.yml" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the Foundation CI check was not detected."
+mv "${TEST_ROOT}/foundation-wired-workflow.yml" "${PRODUCT_TARGET}/.github/workflows/foundation-sync.yml"
+
 rm -f "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md"
 expect_failure python3 "${PRODUCT_TARGET}/scripts/check_markdown.py"
 grep -F "required file is missing: docs/foundation/PRINCIPLES.md" "${TEST_ROOT}/expected-failure.out" >/dev/null || fail "removal of the core was not detected."
@@ -475,7 +547,9 @@ PROTOTYPE_TARGET="${TEST_ROOT}/prototype-project"
   --profiles experiment,documentation-nimbus >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/foundation-sync.yml" \
   "./.github/workflows/verify.yml" \
+  "./.githooks/pre-commit" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DOCUMENTATION-CATALOG.md" \
@@ -493,9 +567,12 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/experiment.md" \
   "./documentation.json" \
+  "./foundation.lock.json" \
   "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
+  "./scripts/foundation_sync.py" \
+  "./scripts/install_foundation_hook.sh" \
   "./scripts/verify.sh" >"${TEST_ROOT}/prototype.expected"
 append_nimbus_expected "${TEST_ROOT}/prototype.expected"
 tree_files "${PROTOTYPE_TARGET}" >"${TEST_ROOT}/prototype.actual"
@@ -510,7 +587,9 @@ CRITICAL_TARGET="${TEST_ROOT}/critical-project"
   --profiles infrastructure-production,dependency-change >/dev/null
 
 printf '%s\n' \
+  "./.github/workflows/foundation-sync.yml" \
   "./.github/workflows/verify.yml" \
+  "./.githooks/pre-commit" \
   "./AGENTS.md" \
   "./CHANGELOG.md" \
   "./DELIVERY-EVIDENCE.md" \
@@ -531,9 +610,12 @@ printf '%s\n' \
   "./docs/foundation/profiles/documentation-nimbus.md" \
   "./docs/foundation/profiles/infrastructure-production.md" \
   "./documentation.json" \
+  "./foundation.lock.json" \
   "./scripts/check_compose.py" \
   "./scripts/check_markdown.py" \
   "./scripts/documentation_catalog.py" \
+  "./scripts/foundation_sync.py" \
+  "./scripts/install_foundation_hook.sh" \
   "./scripts/verify.sh" >"${TEST_ROOT}/critical.expected"
 append_nimbus_expected "${TEST_ROOT}/critical.expected"
 tree_files "${CRITICAL_TARGET}" >"${TEST_ROOT}/critical.actual"

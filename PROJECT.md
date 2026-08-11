@@ -8,7 +8,7 @@
 | Owner | Nicolas Pieper |
 | Class | Internal product |
 | Production surface | None |
-| Version | 0.5.2 |
+| Version | 0.6.0 |
 | License | Public repository, no license granted |
 
 ## Problem
@@ -38,6 +38,7 @@ A new repository can adopt a consistent core, select its profiles, document its 
 | Permanently delivered work | Each verified work unit has a resumable remote SHA | `P18`, `AGENTS.md` adapters, and the definition of done |
 | Contractual local environment | Each pack has Compose, and each durable project declares a checked service | `P19`, `compose.yaml`, `scripts/check_compose.py`, and bootstrap tests |
 | Actionable runtime logs | Each project that emits first-party runtime log records inherits `P21` | `P21`, adapters, and bootstrap tests |
+| Current Foundation rules | Each consuming commit uses the latest stable Foundation release | `P22`, release lock, pre-commit hook, CI check, and synchronization tests |
 
 ## Scope
 
@@ -55,6 +56,7 @@ A new repository can adopt a consistent core, select its profiles, document its 
 - universal discipline for commits and pushes of verified work units;
 - mandatory and checked Docker Compose local orchestration;
 - structured, correlatable, and safe first-party runtime log records;
+- continuous release verification and controlled snapshot updates;
 - CI workflow copied to each pack;
 - definition of done and origin audit;
 - local and CI verification of the foundation.
@@ -63,7 +65,7 @@ A new repository can adopt a consistent core, select its profiles, document its 
 
 - require an application stack, Git hosting provider, or one review model;
 - provide an application framework;
-- automatically synchronize existing repositories;
+- modify local project rules, exceptions, or application gates during an update;
 - become a runtime dependency;
 - replace local decisions or security instructions.
 
@@ -104,10 +106,14 @@ A new repository can adopt a consistent core, select its profiles, document its 
 | Runtime logging invariant | `PRINCIPLES.md`, `P21` | normative |
 | Runtime logging implementation default | `DEFAULTS.md`, `D09` | normative and reversible |
 | Runtime logging decision history | `docs/decisions/adr-0007-structured-event-logging.md` | decision record |
+| Distribution manifest | `foundation-distribution.json` | normative and machine-readable |
+| Continuous release invariant | `PRINCIPLES.md`, `P22` | normative |
+| Continuous release decision | `docs/decisions/adr-0009-continuous-foundation-updates.md` | decision record |
+| Release synchronizer | `scripts/foundation_sync.py` | operational and checked |
 
 ## Architecture
 
-The repository contains portable Markdown, Bash 3.2 or later scripts, Python 3.9 or later checks, a Nimbus site in `docs-nimbus/`, and a Docker Compose contract. Git provides history, provenance, and diff checks.
+The repository contains portable Markdown, Bash 3.2 or later scripts, Python 3.9 or later checks, a Nimbus site in `docs-nimbus/`, and a Docker Compose contract. Git provides history, provenance, release discovery, hooks, and diff checks.
 
 A project adopts a local snapshot of the required files and records its version in `FOUNDATION.md`. The `documentation.json` manifest classifies all Markdown files. Nimbus renders them with Node 22.12 or later.
 
@@ -128,6 +134,7 @@ A project adopts a local snapshot of the required files and records its version 
 | Verify Compose | `python3 scripts/check_compose.py` | Valid Compose contract, digests, and lifecycles |
 | Verify Nimbus in Compose | `docker compose run --rm documentation-check` | Nimbus checks run in the pinned image |
 | Verify a release | `./scripts/verify.sh --release` | Clean worktree, consistent version, and annotated tag on HEAD |
+| Test Foundation synchronization | `python3 scripts/test_foundation_sync.py` | Current, obsolete, drift, source, moved-tag, update, and collision cases pass |
 | Regenerate navigation | `python3 scripts/documentation_catalog.py --write` | Catalog aligned with the manifest and Markdown files |
 | Build documentation | `npm run build --prefix docs-nimbus` | Static Nimbus site generated from classified Markdown files |
 | Deploy documentation | Push to `main` or dispatch `.github/workflows/pages.yml` | Public and reference Nimbus content is available on GitHub Pages |

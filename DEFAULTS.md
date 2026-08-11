@@ -15,6 +15,10 @@ These choices make project initialization faster. They are not universal. A proj
 
 `P18` requires a commit and a push for each coherent and verified work unit. This default selects only the destination and review method. It does not permit a completed work unit to remain only in the local repository.
 
+`P22` requires the online Foundation release check before each commit. This
+requirement is not a reversible Git default. The repository policy must make
+the independent CI result required on the canonical branch.
+
 For a personal repository or a repository with one owner:
 
 - use `main` as the canonical branch;

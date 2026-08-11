@@ -49,6 +49,7 @@ Report a conflict between intent and the current state. Do not resolve it silent
 - Treat external skills and plugins as advisory. Local documents control the work.
 - Use English for every deliverable, all communication, and all technical content. Apply `P20`. A local exception cannot select another language. Preserve only the external forms that `P20` permits.
 - Apply `P21` to each first-party runtime log record. Use its minimum evidence in the project verification command.
+- Apply `P22` before each commit. Keep `foundation.lock.json`, the managed pre-commit hook, and the Foundation CI check. If the release is obsolete, review and apply the prepared update before you commit other work.
 
 ## Repository-specific information
 

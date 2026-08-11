@@ -12,6 +12,7 @@ prerequisites: TODO or none.
 
 | Action | Command | Expected result |
 | --- | --- | --- |
+| Install commit verification | `./scripts/install_foundation_hook.sh` | Git uses the versioned Foundation pre-commit hook |
 | Install | TODO or not applicable | TODO |
 | Start | TODO | TODO URL, output, or file |
 | Verify | `./scripts/verify.sh` | Valid catalog, Markdown, and Nimbus build |
@@ -25,6 +26,7 @@ Mark a missing command as not applicable. Do not present a future command as ava
 - [`BRIEF.md`](BRIEF.md): Question, scope, facts, assumptions, and dated conclusion.
 - [`CHANGELOG.md`](CHANGELOG.md): Delivered changes and observable effects.
 - [`FOUNDATION.md`](FOUNDATION.md): Foundation version, activated profiles, and local exceptions.
+- `foundation.lock.json`: Exact Foundation release, commit, and managed-file hashes.
 - [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md): Complete navigation for Markdown files and their audiences.
 - `docs-nimbus/`: Mandatory documentation engine, adapter, configuration, and lockfile.
 - [`AGENTS.md`](AGENTS.md): Minimum routing for assisted work.

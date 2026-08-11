@@ -44,6 +44,12 @@ A host command can provide a shortcut. The common integrated path remains `docke
 
 [ADR-0007](docs/decisions/adr-0007-structured-event-logging.md) records the alternatives and rationale. `D09` provides the reversible implementation default. A project records its platform and operating choices in its canonical operations source.
 
+## Continuous Foundation updates
+
+[`P22`](PRINCIPLES.md#p22-verify-and-adopt-the-latest-stable-foundation-release-before-each-commit) requires each consuming project to check the latest stable Foundation release before every commit. `foundation.lock.json` records the tag, complete commit, pack, profiles, and managed-file hashes. The versioned pre-commit hook runs the complete project verification command.
+
+If a newer release exists, `scripts/foundation_sync.py` prepares a controlled update and blocks the commit. It replaces only the vendored snapshot and Foundation-managed controls. The contributor reviews the diff, applies changed rules to the project, and commits the verified upgrade as a separate work unit. CI repeats the online check so `--no-verify` cannot bypass a required branch check.
+
 ## Documentation contract
 
 Each maintained Markdown file is part of the project documentation, but it is not necessarily public. `documentation.json` classifies each `.md` file exactly once as public, internal, reference, or archive. [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) provides complete navigation. The `verify` command rejects orphan files.
@@ -64,12 +70,14 @@ Markdown files remain the editorial sources. Nimbus is the mandatory engine for 
 | [`PROJECT-BOOTSTRAP.md`](PROJECT-BOOTSTRAP.md) | Procedure to create a project from zero |
 | [`DEFINITION-OF-DONE.md`](DEFINITION-OF-DONE.md) | Common completion criteria and gates for each change type |
 | [`VERSIONING.md`](VERSIONING.md) | Compatibility, releases, and snapshot upgrades |
+| `foundation-distribution.json` | Canonical snapshot and managed-control mapping |
 | [`ADOPTION.md`](ADOPTION.md) | Project inclusion and contribution to the upstream foundation |
 | [`DOCUMENTATION.md`](DOCUMENTATION.md) | Classification, audiences, and rendering for all Markdown files |
 | [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) | Complete navigation generated from the manifest |
 | [`docs-nimbus/`](docs-nimbus/) | Mandatory Nimbus scaffold, adapter, configuration, and lockfile |
 | `compose.yaml` | Foundation Compose path with a pinned image |
 | `scripts/check_compose.py` | Generic check for `P19` |
+| `scripts/foundation_sync.py` | Release freshness, integrity, and controlled update tool |
 | [`AUDIT.md`](AUDIT.md) | Origin of rules, exclusions, and observed drift |
 | [`templates/AGENTS.md`](templates/AGENTS.md) | Short local contract that agents can find |
 | [`templates/PROJECT.md`](templates/PROJECT.md) | Product record, sources of truth, and commands |

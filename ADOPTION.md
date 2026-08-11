@@ -11,19 +11,24 @@ explicit diff.
 ## Official source
 
 - Repository: `https://github.com/nclsppr/project-foundation.git`
-- Current release: `v0.5.2`
+- Current release: `v0.6.0`
 - Immutable reference: the complete SHA recorded in `FOUNDATION.md`
 
 Always adopt a tag and its commit. Never adopt the moving state of `main`.
 
+The synchronizer trusts the official source above by default. An approved
+mirror requires `PROJECT_FOUNDATION_TRUSTED_SOURCE` outside the tracked
+repository and under repository-administration controls. The mirror must
+preserve the official annotated tags and complete commits.
+
 ## New project
 
 ```bash
-git clone --branch v0.5.2 --depth 1 \
+git clone --branch v0.6.0 --depth 1 \
   https://github.com/nclsppr/project-foundation.git \
-  /tmp/project-foundation-v0.5.2
+  /tmp/project-foundation-v0.6.0
 
-/tmp/project-foundation-v0.5.2/scripts/bootstrap.sh \
+/tmp/project-foundation-v0.6.0/scripts/bootstrap.sh \
   --target /absolute/path/to/the-new-project \
   --class product \
   --profiles web
@@ -31,9 +36,21 @@ git clone --branch v0.5.2 --depth 1 \
 
 The bootstrap does not create the project Git repository and does not overwrite
 files. It records the foundation source, tag, and commit in `FOUNDATION.md`.
+It also creates `foundation.lock.json` with the release and managed-file hashes.
 
 Nimbus, `documentation-nimbus`, `compose.yaml`, the Compose checker, and CI are
 always included. `--profiles` selects only the additional profiles.
+
+After Git initialization, run:
+
+```bash
+./scripts/install_foundation_hook.sh
+./scripts/verify.sh
+```
+
+The hook checks the latest stable release and runs complete project verification
+before each commit. Make the `Foundation Current` CI result required on the
+canonical branch.
 
 ## Existing project
 
@@ -45,9 +62,10 @@ The bootstrap requires a target that does not exist. For an existing repository:
 4. Merge the local adapters and documentation contracts. Do not replace the project rules without review.
 5. Complete `FOUNDATION.md`, the deviations, and the local sources.
 6. Regenerate the documentation catalog.
-7. Run the project verification.
-8. Commit the adoption as a reversible unit.
-9. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
+7. Install the Foundation pre-commit hook.
+8. Run the project verification.
+9. Commit the adoption as a reversible unit.
+10. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
 
 ## Local exception or foundation challenge
 
@@ -75,17 +93,20 @@ overwrite the modification and hide the discussion from other projects.
 
 ## Upgrade
 
-1. Read `CHANGELOG.md` between the two tags.
-2. Replace the snapshot from the new commit.
-3. Review the diff for invariants, defaults, profiles, and quality gates.
-4. Reconcile the local deviations.
-5. Compare the new script baselines with the local adaptations.
-6. Regenerate the documentation catalog.
-7. Verify and commit the snapshot, provenance, and adaptations together.
-8. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
+1. Run `python3 scripts/foundation_sync.py update`, or let the pre-commit gate prepare the update.
+2. Read `CHANGELOG.md` between the two tags.
+3. Review the replaced snapshot, managed controls, and lock.
+4. Apply each new or changed rule to the project.
+5. Reconcile the local deviations.
+6. Compare the new script baselines with the local adaptations.
+7. Regenerate the documentation catalog.
+8. Update the project changelog.
+9. Verify and commit the snapshot, lock, provenance, and adaptations together.
+10. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
 
-A future upgrade command can prepare this diff. It must never silently overwrite
-a deviation or local quality gate.
+The updater never overwrites a deviation, local rule, application quality gate,
+or another unowned path. It blocks the commit until the contributor reviews and
+applies the update.
 
 ### Migration from v0.2.0 to v0.3.1
 
@@ -157,3 +178,24 @@ quality gate. The documentation checker rejects removal of this call or the
 call in `scripts/verify.sh`. The control remains versioned with the repository.
 An independent root of trust still requires the verification workflow to be a
 required check in the GitHub rules of the consuming project.
+
+### Migration from v0.5.2 to v0.6.0
+
+This release adds `P20`, `P21`, and `P22`. It also adds mandatory Foundation
+release verification before each commit.
+
+1. Replace `PRINCIPLES.md`, `DEFAULTS.md`, and `DEFINITION-OF-DONE.md` with the files from `v0.6.0`.
+2. Review and apply `P20` to all technical content.
+3. Review and apply `P21` to each first-party runtime log source. Record non-applicability when the project emits no such records.
+4. Add `foundation.lock.json` with the source, `v0.6.0` tag, complete commit, adopted pack, profiles, and generated hashes.
+5. Add `scripts/foundation_sync.py`, `scripts/install_foundation_hook.sh`, `.githooks/pre-commit`, and `.github/workflows/foundation-sync.yml` from the release.
+6. Merge the `scripts/verify.sh` baseline so local verification runs `hook-status` and `enforce`, while CI runs `check`.
+7. Merge the generated-project checker baseline. Preserve stronger local checks.
+8. Run `./scripts/install_foundation_hook.sh` after Git initialization.
+9. Review the Nimbus publication and cache corrections when the local documentation deployment uses the same repository-subpath model.
+10. Update the project changelog and run the complete project verification.
+11. Require the `Foundation Current` result on the canonical branch.
+12. Commit and push the migration as one reviewed work unit.
+
+An existing project cannot enforce `P22` until it completes this one-time
+migration. All later commit attempts perform the online release check.

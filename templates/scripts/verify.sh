@@ -50,6 +50,13 @@ if [[ "${git_root}" != "${PROJECT_ROOT}" ]]; then
   exit 1
 fi
 
+if [[ "${CI:-}" == "true" ]]; then
+  python3 "${SCRIPT_DIR}/foundation_sync.py" check
+else
+  python3 "${SCRIPT_DIR}/foundation_sync.py" hook-status
+  python3 "${SCRIPT_DIR}/foundation_sync.py" enforce
+fi
+
 python3 "${SCRIPT_DIR}/documentation_catalog.py" --check
 python3 "${SCRIPT_DIR}/check_markdown.py"
 python3 "${SCRIPT_DIR}/check_compose.py"

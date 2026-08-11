@@ -4,6 +4,8 @@ This file describes foundation versions. It is historical and non-normative.
 
 ## Unreleased
 
+## 0.6.0 - 2026-08-11
+
 - Adds `P20` to require English for all deliverables, communications, documentation, code comments, logs, and other technical content.
 - Applies the principles of ASD-STE100 and applicable ISO/IEC/IEEE 24765 terminology without declaring formal conformance with ASD-STE100.
 - Propagates the rule to adapters, documentation gates, and generated-pack tests.
@@ -18,6 +20,13 @@ This file describes foundation versions. It is historical and non-normative.
 - Publishes public and reference documentation through GitHub Pages with the correct repository base path. Internal and archive content remain excluded.
 - Clears Astro and Nimbus content caches before each build so a filtered publication cannot retain a page from a previous complete build.
 - Records the Project Foundation publication decision in ADR-0008 and links the deployed Nimbus site from the README.
+- Adds `P22` to require an online Foundation release check before each commit.
+- Adds `foundation.lock.json` with the adopted tag, complete commit, pack, profiles, and SHA-256 hashes.
+- Adds a controlled updater that replaces only the vendored snapshot and Foundation-managed controls. It blocks the commit for diff review and project adaptation.
+- Adds a versioned pre-commit hook, hook installer, and independent CI check for pushes, pull requests, workflow dispatches, and merge-queue candidates.
+- Rejects obsolete releases, moved tags, unavailable sources, snapshot drift, removed managed targets, and local path collisions.
+- Adds integration tests for the release resolver and update boundary. It also adds generated-pack tests that prevent removal of the lock, hook, synchronizer, verification wiring, or CI wiring.
+- Documents the continuous update decision and the migration for existing projects in ADR-0009.
 
 ## 0.5.2 - 2026-07-30
 

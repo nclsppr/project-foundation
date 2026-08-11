@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "snapshotFiles": [
+    {
+      "source": "PRINCIPLES.md",
+      "target": "docs/foundation/PRINCIPLES.md"
+    },
+    {
+      "source": "DEFAULTS.md",
+      "target": "docs/foundation/DEFAULTS.md"
+    },
+    {
+      "source": "DEFINITION-OF-DONE.md",
+      "target": "docs/foundation/DEFINITION-OF-DONE.md"
+    }
+  ],
+  "managedFiles": [
+    {
+      "source": "scripts/foundation_sync.py",
+      "target": "scripts/foundation_sync.py"
+    },
+    {
+      "source": "templates/scripts/install_foundation_hook.sh",
+      "target": "scripts/install_foundation_hook.sh"
+    },
+    {
+      "source": "templates/.githooks/pre-commit",
+      "target": ".githooks/pre-commit"
+    },
+    {
+      "source": "templates/.github/workflows/foundation-sync.yml",
+      "target": ".github/workflows/foundation-sync.yml"
+    }
+  ],
+  "profile": {
+    "sourcePattern": "profiles/{profile}.md",
+    "targetPattern": "docs/foundation/profiles/{profile}.md"
+  }
+}

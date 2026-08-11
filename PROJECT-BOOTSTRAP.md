@@ -39,7 +39,7 @@ Select the pack before you copy files:
 | Product | Full | Standard, an ADR for each structural decision, and `DESIGN.md` for an interface |
 | Critical | Critical | Full, `RUNBOOK.md`, delivery evidence, and risk profiles |
 
-All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATALOG.md`, the `docs-nimbus/` scaffold, `compose.yaml`, CI, and their checks. Nimbus and Docker Compose are mandatory, including for an exploration. These files do not make the complete repository public. They give each Markdown file a classification and make it accessible to the correct audience.
+All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATALOG.md`, the `docs-nimbus/` scaffold, `compose.yaml`, `foundation.lock.json`, the Foundation synchronizer, the pre-commit hook, CI, and their checks. Nimbus, Docker Compose, and continuous Foundation release verification are mandatory, including for an exploration. These files do not make the complete repository public. They give each Markdown file a classification and make it accessible to the correct audience.
 
 - [ ] Initialize Git according to the selected default or local policy.
 - [ ] Copy only the selected pack.
@@ -49,6 +49,7 @@ All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATA
 - [ ] Enable `backend-data` or `infrastructure-production` for a critical project.
 - [ ] Confirm that all technical content uses English and follows `P20`.
 - [ ] Confirm whether the project emits first-party runtime log records. Apply `P21` when it does, or record that the principle is not applicable.
+- [ ] Confirm that `foundation.lock.json` records the stable release tag, complete commit, pack, profiles, snapshot hashes, and managed-control hashes required by `P22`.
 - [ ] Define the license or explicitly state that the project remains private.
 - [ ] Add `.gitignore` and a configuration example without a secret.
 - [ ] Identify the project owner.
@@ -56,6 +57,7 @@ All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATA
 - [ ] Classify existing Markdown files as public, internal, reference, or archive.
 - [ ] Verify that the mandatory `documentation-nimbus` profile is enabled.
 - [ ] Verify that `compose.yaml`, `scripts/check_compose.py`, and the CI workflow are present.
+- [ ] Verify that `scripts/foundation_sync.py`, `.githooks/pre-commit`, its installer, and `.github/workflows/foundation-sync.yml` are present.
 
 Delete non-applicable sections instead of completing a long list with `N/A`. At the end of this phase, no input marker remains in the copied files.
 
@@ -116,6 +118,8 @@ The bootstrap creates the `docs/decisions/` directory. It does not create an emp
 - [ ] Describe variables without providing secret values.
 - [ ] Verify the environment that the running processes use.
 - [ ] Make CI run `verify`.
+- [ ] Initialize Git, run `./scripts/install_foundation_hook.sh`, and verify `core.hooksPath` is `.githooks`.
+- [ ] Make the `Foundation Current` CI result required on the canonical branch.
 - [ ] Run `python3 scripts/check_compose.py`. Then run `docker compose up --build --wait` and the applicable checks.
 - [ ] Verify that `docker compose down` preserves volumes. Document each destructive reset separately.
 - [ ] Install Node `22.12.0` or later and npm for the Nimbus build.
@@ -166,6 +170,7 @@ Do not build all technical foundations before you demonstrate a useful flow.
 ## Phase 9. Close the bootstrap
 
 - [ ] Run the applicable gates in `docs/foundation/DEFINITION-OF-DONE.md`.
+- [ ] Run `python3 scripts/foundation_sync.py check` and verify that the adopted release is current and intact.
 - [ ] Search for input markers, fictitious examples, and obsolete paths.
 - [ ] Check documentation links.
 - [ ] Regenerate and then verify `DOCUMENTATION-CATALOG.md`.

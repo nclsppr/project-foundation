@@ -6,7 +6,7 @@ These checks derive from the principles and profiles. They are not a second norm
 
 ## Core
 
-Checks derived from `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17`, `P18`, `P19`, `P20`, and `P21`.
+Checks derived from `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17`, `P18`, `P19`, `P20`, `P21`, and `P22`.
 
 - [ ] The result solves the requested problem. It does not implement an implicit extension.
 - [ ] The current state, target, and limits are correctly identified.
@@ -20,6 +20,8 @@ Checks derived from `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17
 - [ ] `compose.yaml` exists at the root, and `scripts/check_compose.py` passes.
 - [ ] The installation, execution, and verification documentation remains reproducible.
 - [ ] All technical content is in English and follows `P20`.
+- [ ] The online `P22` check proves that the adopted Foundation release is current and intact.
+- [ ] A prepared Foundation update has a reviewed diff, applied rules, reconciled exceptions, updated local adapters, and a project changelog entry.
 - [ ] Verification limits are identified.
 
 ## Documentation and content
@@ -146,13 +148,14 @@ Checks derived from `P02`, `P08`, `P12`, and `profiles/experiment.md`.
 
 ## Delivery and closure
 
-Checks derived from `P05`, `P08`, `P10`, `P14`, `P17`, and `P18`.
+Checks derived from `P05`, `P08`, `P10`, `P14`, `P17`, `P18`, and `P22`.
 
 - [ ] The commit contains only the work unit.
 - [ ] Checks for the final SHA or artifact pass.
 - [ ] Each completed work unit was committed after its applicable verification.
 - [ ] The final SHA exists on the expected remote branch. Use the canonical branch if direct write access is permitted. Otherwise, use a dedicated branch.
 - [ ] Available remote checks were observed. Each push blocker is exact and attributed, and a resumable local SHA exists.
+- [ ] The versioned pre-commit hook is active, and the canonical branch requires the independent Foundation CI result.
 - [ ] The required deployment succeeded when it was in the authorized scope.
 - [ ] The final URL, service, or file was checked.
 - [ ] Useful evidence is summarized.

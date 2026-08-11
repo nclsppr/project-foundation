@@ -6,7 +6,7 @@ This document records observations for one work unit. It does not create a stand
 
 | Layer | Role |
 | --- | --- |
-| Standard | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P18`, `P19`, `P20`, `P21`, and the durable profiles activated in `FOUNDATION.md` |
+| Standard | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P18`, `P19`, `P20`, `P21`, `P22`, and the durable profiles activated in `FOUNDATION.md` |
 | Form | This file structures the report and the verification limitations |
 | Evidence | A command, output, SHA, digest, file, screenshot, or dated observation in the named environment |
 

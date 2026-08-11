@@ -10,7 +10,7 @@ Declared renderer: `nimbus`.
 | --- | --- | ---: |
 | Public guides | `public` | 9 |
 | Internal governance | `internal` | 7 |
-| Decisions | `reference` | 8 |
+| Decisions | `reference` | 9 |
 | Profiles | `reference` | 7 |
 | Templates | `reference` | 16 |
 | Examples | `reference` | 1 |
@@ -48,6 +48,7 @@ Declared renderer: `nimbus`.
 - [docs/decisions/adr-0006-controlled-technical-english.md](docs/decisions/adr-0006-controlled-technical-english.md)
 - [docs/decisions/adr-0007-structured-event-logging.md](docs/decisions/adr-0007-structured-event-logging.md)
 - [docs/decisions/adr-0008-publish-nimbus-on-github-pages.md](docs/decisions/adr-0008-publish-nimbus-on-github-pages.md)
+- [docs/decisions/adr-0009-continuous-foundation-updates.md](docs/decisions/adr-0009-continuous-foundation-updates.md)
 
 ## Profiles
 

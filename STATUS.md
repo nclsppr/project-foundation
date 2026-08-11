@@ -7,9 +7,9 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 | Field | Value |
 | --- | --- |
 | Canonical branch | `main` |
-| Review branch | `agent/add-structured-logging`, stacked on `agent/add-controlled-technical-english` |
-| Version | `v0.5.2` |
-| Change state | Unreleased controlled-English migration and structured-logging policy after `v0.5.2` |
+| Review branch | `agent/require-foundation-sync` |
+| Version | `v0.6.0` |
+| Change state | Release candidate with controlled English, structured logging, public Nimbus deployment, and continuous Foundation release verification |
 | Environment | Linux `x86_64`, Node `24.14.0`, npm `11.9.0`, Python `3.12.13`; Docker unavailable |
 | Production | Not applicable |
 | Remote repository | `https://github.com/nclsppr/project-foundation.git` |
@@ -19,40 +19,40 @@ Snapshot verified on 2026-08-11. Local verification limits are listed below.
 
 | Capability | Actual scope | Evidence | Known limit |
 | --- | --- | --- | --- |
-| Core | Twenty-one invariants, defaults, and definition of done | Cross-review, ADR-0004 through ADR-0007, local checks, and GitHub Actions run `31499654216` | Remote protections remain specific to each repository |
-| Bootstrap | Four packs, mandatory Nimbus and Compose, generated CI, six supplementary profiles, dry run, atomic copy without overwrite, and P21 propagation | `scripts/test_bootstrap.sh` passes locally with a Docker command stub and remotely in run `31499654216` | Business content and services for a durable pack require completion |
+| Core | Twenty-two invariants, defaults, and definition of done | ADR-0004 through ADR-0009, local checks, and generated-pack propagation | Remote protections remain specific to each repository |
+| Bootstrap | Four packs, mandatory Nimbus, Compose, Foundation lock, pre-commit hook, synchronizer, and independent CI check | `scripts/test_bootstrap.sh` passes locally with a Docker command stub | Business content and services for a durable pack require completion |
+| Foundation synchronization | Stable annotated-tag resolution, complete commit verification, SHA-256 integrity, controlled update, and collision stop | Eleven integration tests in `scripts/test_foundation_sync.py` pass | A project on an earlier release needs one reviewed migration to `v0.6.0` before `P22` can enforce itself |
 | Profiles | Mandatory Nimbus documentation; optional web, backend and data, infrastructure, experiment, generated-artifact, and dependency profiles | Snapshots and declarations verified | No native mobile or data-science profile |
-| Documentation | 48 classified Markdown files, 53 generated Nimbus pages, and 54 linted files | Catalog, tests, type checking, clean build, English-only Pagefind index, and lint | Do not publish the complete local build without an audience filter |
-| Upstream adoption | Separate official source, immutable snapshot, local exception, and foundation challenge | Parkventory adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8`; CI run `30526141976` is successful | Only one actual adoption observed |
-| Provenance | Audit of retained, rejected, and local rules | `AUDIT.md` | Dated snapshot |
-| Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and tests that remove the integration | Review is still required to detect a hidden process outside Compose |
-| Verification | Structure, links, anchors, style, placeholders, Nimbus, Compose, bootstrap security, and propagation of `P18` through `P21` | Local checks with a Docker command stub and GitHub Actions run `31499654216` | The checks do not establish formal conformance with ASD-STE100, OpenTelemetry, or OWASP |
+| Documentation | 50 classified Markdown files, 55 generated Nimbus pages, and an audience-filtered publication path | Catalog generation, Markdown checks, type checking, and a clean Nimbus build | GitHub Pages source selection remains an external repository setting |
+| Upstream adoption | Separate official source, stable tag, complete commit, hashed snapshot, local exception, and Foundation challenge | Parkventory still adopts `v0.5.2` at SHA `b3d908b5f54d19ef6229393568cdb984216e83c8` | Parkventory has not completed the one-time `v0.6.0` migration |
+| Local orchestration | Root Compose file, pinned Nimbus image, checked lifecycles, copied checker, and direct CI call | `scripts/check_compose.py`, container job, and bypass tests | Local Compose execution uses a parser stub because Docker is unavailable |
+| Verification | Structure, links, anchors, style, version, placeholders, Nimbus, Compose, synchronization security, bootstrap security, and propagation of `P18` through `P22` | `./scripts/verify.sh` passes locally with the narrow Docker command stub | Real Docker and remote GitHub Actions evidence remain pending for this branch |
 
 ## Phase state
 
 | Roadmap phase | Observed state | Next evidence |
 | --- | --- | --- |
-| `F01` | `done`: `v0.5.2` at SHA `708d7374f87060809a805c57abc2cf7e7b66c182`; runs `30525884714` and `30525894423` are successful | Maintain the foundation without reopening the phase |
-| `F02` | `done`: Parkventory is independent, pushed, and verified from a public clone | Prepare F03 without changing the consuming project |
-| `F03` | `planned`: assisted upgrade not started | Define the diff and dry run without implicit overwrite |
+| `F01` | `done`: versioned core, bootstrap, and prior releases exist | Maintain the foundation without reopening the phase |
+| `F02` | `done`: Parkventory is independent, pushed, and verified from a public clone | Migrate the consumer separately after `v0.6.0` is published |
+| `F03` | `done`: controlled update prepares an explicit diff and preserves unrelated local files | Confirm the same tests in remote CI |
+| `F04` | `done`: local and CI checks detect obsolete releases, moved tags, unavailable sources, and drift | Require the CI result in each consuming repository |
 
 ## Target not delivered
 
-- command to audit an adopted project;
-- command to assist an upgrade between two foundation versions.
+- the `v0.6.0` tag and release record before the release commit reaches `main`;
+- automatic migration of a repository that has not yet adopted the `P22` control surface;
+- branch rules that require `Foundation Current` in each consuming repository.
 
 ## Local verification limit
 
-The local environment does not provide Docker. `./scripts/verify.sh` completes
-the catalog and Markdown checks, then stops at the Compose prerequisite. With a
-narrow Docker command stub, `scripts/test_bootstrap.sh` verifies the generated
-packs and P21 propagation. The complete Nimbus check also passes locally.
-GitHub Actions run `31499654216` completed the full verification of P21 and the
-documentation check through Docker Compose. A second adoption can extend the
-evidence, but it does not invalidate the F02 exit.
+The local environment does not provide Docker. A narrow Docker command stub
+parses `compose.yaml` and permits structural verification of the Compose gate.
+This stub does not execute a container. GitHub Actions must provide the final
+Docker Compose evidence for the release candidate.
 
 ## Known drift
 
-Contradictions in source projects remain documented in `AUDIT.md`. This repository does not correct them. The catalog confirms that a Markdown file can be found. It does not confirm that the content is editorially correct or suitable for publication.
-
-No phase is active after the F02 exit. F03 remains the next planned phase.
+Parkventory remains on `v0.5.2` until a separate authorized migration applies
+`v0.6.0`. Project Foundation cannot retroactively install a hook in an existing
+clone. The first migration adds the lock, synchronizer, hook, and CI check. Each
+later commit then follows `P22`.

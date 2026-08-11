@@ -39,6 +39,7 @@ REQUIRED_PATHS = (
     "PRINCIPLES.md",
     "DEFAULTS.md",
     "DEFINITION-OF-DONE.md",
+    "foundation-distribution.json",
     "CHANGELOG.md",
     "AUDIT.md",
     "ADOPTION.md",
@@ -53,6 +54,8 @@ REQUIRED_PATHS = (
     "docs/decisions/adr-0005-mandatory-docker-compose.md",
     "docs/decisions/adr-0006-controlled-technical-english.md",
     "docs/decisions/adr-0007-structured-event-logging.md",
+    "docs/decisions/adr-0008-publish-nimbus-on-github-pages.md",
+    "docs/decisions/adr-0009-continuous-foundation-updates.md",
     "docs-nimbus/AGENT.md",
     "docs-nimbus/.env.example",
     "docs-nimbus/astro.config.ts",
@@ -74,12 +77,16 @@ REQUIRED_PATHS = (
     "scripts/check_markdown.py",
     "scripts/check_compose.py",
     "scripts/documentation_catalog.py",
+    "scripts/foundation_sync.py",
+    "scripts/test_foundation_sync.py",
     "scripts/verify.sh",
     "scripts/bootstrap.sh",
     "scripts/test_bootstrap.sh",
     "scripts/sanitize_git_remote.py",
     "templates/README.md",
+    "templates/.github/workflows/foundation-sync.yml",
     "templates/.github/workflows/verify.yml",
+    "templates/.githooks/pre-commit",
     "templates/compose.yaml",
     "templates/README-standard.md",
     "templates/CHANGELOG.md",
@@ -98,6 +105,7 @@ REQUIRED_PATHS = (
     "templates/DOCUMENTATION.md",
     "templates/documentation.json",
     "templates/scripts/check_markdown.py",
+    "templates/scripts/install_foundation_hook.sh",
     "templates/scripts/verify.sh",
 )
 
@@ -105,12 +113,16 @@ EXECUTABLE_PATHS = (
     "scripts/check_markdown.py",
     "scripts/check_compose.py",
     "scripts/documentation_catalog.py",
+    "scripts/foundation_sync.py",
+    "scripts/test_foundation_sync.py",
     "scripts/verify.sh",
     "scripts/bootstrap.sh",
     "scripts/test_bootstrap.sh",
     "scripts/sanitize_git_remote.py",
     "templates/scripts/check_markdown.py",
+    "templates/scripts/install_foundation_hook.sh",
     "templates/scripts/verify.sh",
+    "templates/.githooks/pre-commit",
 )
 
 # The catalog is not a template. The bootstrap generates it after it copies the
@@ -162,6 +174,32 @@ REQUIRED_COMPOSE_WIRING = (
         re.compile(r"(?m)^\s*python3 scripts/check_compose\.py\s*$"),
     ),
 )
+REQUIRED_FOUNDATION_WIRING = (
+    (
+        "templates/scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/foundation_sync\.py" check\s*$'
+        ),
+        "online check",
+    ),
+    (
+        "templates/scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/foundation_sync\.py" enforce\s*$'
+        ),
+        "local enforcement",
+    ),
+    (
+        "templates/.github/workflows/foundation-sync.yml",
+        re.compile(r"(?m)^\s*run:\s*python3 scripts/foundation_sync\.py check\s*$"),
+        "CI check",
+    ),
+    (
+        "templates/.githooks/pre-commit",
+        re.compile(r'(?m)^exec "\$\{PROJECT_ROOT\}/scripts/verify\.sh"\s*$'),
+        "pre-commit verification",
+    ),
+)
 
 
 def markdown_files() -> list[Path]:
@@ -202,6 +240,13 @@ def check_compose_wiring(errors: list[str]) -> None:
         path = ROOT / relative
         if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
             errors.append(f"Compose gate is not connected: {relative}")
+
+
+def check_foundation_wiring(errors: list[str]) -> None:
+    for relative, pattern, control in REQUIRED_FOUNDATION_WIRING:
+        path = ROOT / relative
+        if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
+            errors.append(f"Foundation {control} is not connected: {relative}")
 
 
 def check_version_consistency(errors: list[str]) -> None:
@@ -407,6 +452,7 @@ def main() -> int:
     check_required_paths(errors)
     check_executable_paths(errors)
     check_compose_wiring(errors)
+    check_foundation_wiring(errors)
     check_version_consistency(errors)
 
     for path in files:

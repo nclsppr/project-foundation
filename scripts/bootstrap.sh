@@ -179,6 +179,10 @@ add_copy "${TEMPLATE_ROOT}/DOCUMENTATION.md" "DOCUMENTATION.md"
 add_copy "${TEMPLATE_ROOT}/documentation.json" "documentation.json"
 add_copy "${TEMPLATE_ROOT}/compose.yaml" "compose.yaml"
 add_copy "${TEMPLATE_ROOT}/.github/workflows/verify.yml" ".github/workflows/verify.yml"
+add_copy "${TEMPLATE_ROOT}/.github/workflows/foundation-sync.yml" ".github/workflows/foundation-sync.yml"
+add_copy "${TEMPLATE_ROOT}/.githooks/pre-commit" ".githooks/pre-commit"
+add_copy "${TEMPLATE_ROOT}/scripts/install_foundation_hook.sh" "scripts/install_foundation_hook.sh"
+add_copy "${FOUNDATION_ROOT}/scripts/foundation_sync.py" "scripts/foundation_sync.py"
 add_nimbus_scaffold
 
 case "${PROJECT_CLASS}" in
@@ -248,7 +252,9 @@ for source in "${SOURCES[@]}"; do
   [[ -f "${source}" ]] || fail "bootstrap source is missing: ${source#${FOUNDATION_ROOT}/}"
 done
 
-FOUNDATION_SOURCE="$("${SCRIPT_DIR}/sanitize_git_remote.py" "${FOUNDATION_ROOT}")" || fail "cannot safely insert the Foundation path into FOUNDATION.md."
+OFFICIAL_FOUNDATION_SOURCE="https://github.com/nclsppr/project-foundation.git"
+FOUNDATION_SOURCE="${PROJECT_FOUNDATION_TRUSTED_SOURCE:-${OFFICIAL_FOUNDATION_SOURCE}}"
+FOUNDATION_SOURCE="$("${SCRIPT_DIR}/sanitize_git_remote.py" "${FOUNDATION_SOURCE}")" || fail "cannot safely insert the Foundation source into FOUNDATION.md."
 FOUNDATION_COMMIT=""
 FOUNDATION_TAG="unreleased"
 FOUNDATION_DIRTY=0
@@ -258,13 +264,6 @@ if [[ -n "${detected_git_root}" ]]; then
   FOUNDATION_GIT_ROOT="$(cd -- "${detected_git_root}" && pwd -P)"
 fi
 if [[ "${FOUNDATION_GIT_ROOT}" == "${FOUNDATION_ROOT}" ]]; then
-  configured_remote="$(git -C "${FOUNDATION_ROOT}" remote get-url origin 2>/dev/null || true)"
-  if [[ -n "${configured_remote}" ]]; then
-    sanitized_remote="$("${SCRIPT_DIR}/sanitize_git_remote.py" "${configured_remote}" 2>/dev/null || true)"
-    if [[ -n "${sanitized_remote}" ]]; then
-      FOUNDATION_SOURCE="${sanitized_remote}"
-    fi
-  fi
   FOUNDATION_COMMIT="$(git -C "${FOUNDATION_ROOT}" rev-parse HEAD 2>/dev/null || true)"
   exact_tag="$(git -C "${FOUNDATION_ROOT}" describe --tags --exact-match HEAD 2>/dev/null || true)"
   if [[ "${exact_tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -297,6 +296,7 @@ if [[ ${DRY_RUN} -eq 1 ]]; then
   for index in "${!SOURCES[@]}"; do
     echo "COPY ${SOURCES[${index}]#${FOUNDATION_ROOT}/} -> ${TARGET}/${DESTINATIONS[${index}]}"
   done
+  echo "GENERATE foundation.lock.json"
   echo "MKDIR ${TARGET}/docs/decisions"
   if [[ -z "${FOUNDATION_COMMIT}" ]]; then
     echo "WARNING: no Foundation commit is available. Version fields will remain incomplete."
@@ -314,6 +314,7 @@ fi
 
 [[ "${FOUNDATION_GIT_ROOT}" == "${FOUNDATION_ROOT}" ]] || fail "Project Foundation must be its own Git repository root."
 [[ -n "${FOUNDATION_COMMIT}" ]] || fail "the Foundation must have a commit before a real bootstrap."
+[[ "${FOUNDATION_TAG}" != "unreleased" ]] || fail "bootstrap requires an exact stable Foundation release tag."
 if [[ ${FOUNDATION_DIRTY} -eq 1 ]]; then
   fail "the Foundation worktree is dirty. Commit or remove changes before bootstrap."
 fi
@@ -335,9 +336,12 @@ done
 mkdir -p "${STAGING}/docs/decisions"
 : > "${STAGING}/docs/decisions/.gitkeep"
 chmod +x \
+  "${STAGING}/.githooks/pre-commit" \
   "${STAGING}/scripts/check_markdown.py" \
   "${STAGING}/scripts/check_compose.py" \
   "${STAGING}/scripts/documentation_catalog.py" \
+  "${STAGING}/scripts/foundation_sync.py" \
+  "${STAGING}/scripts/install_foundation_hook.sh" \
   "${STAGING}/scripts/verify.sh"
 
 if [[ -n "${FOUNDATION_COMMIT}" ]]; then
@@ -414,6 +418,14 @@ else
   echo "Warning: no Foundation commit is available. Complete the version in FOUNDATION.md manually." >&2
 fi
 
+python3 "${STAGING}/scripts/foundation_sync.py" init-lock \
+  --source "${FOUNDATION_SOURCE}" \
+  --tag "${FOUNDATION_TAG}" \
+  --commit "${FOUNDATION_COMMIT}" \
+  --pack "${PROJECT_PACK}" \
+  --profiles "${PROFILE_LIST}" \
+  --upstream-root "${FOUNDATION_ROOT}"
+
 python3 "${STAGING}/scripts/documentation_catalog.py" --write >/dev/null
 
 [[ ! -e "${TARGET}" && ! -L "${TARGET}" ]] || fail "the target appeared during bootstrap. Publication is canceled."
@@ -422,4 +434,5 @@ STAGING=""
 trap - EXIT INT TERM
 
 echo "Bootstrap created without Git initialization: ${TARGET}"
-echo "Complete the input markers, initialize Git, and then run ./scripts/verify.sh."
+echo "Complete the input markers and initialize Git."
+echo "Then run ./scripts/install_foundation_hook.sh and ./scripts/verify.sh."

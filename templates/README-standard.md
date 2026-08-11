@@ -9,6 +9,10 @@ The prerequisites, canonical commands, and expected results are in [`PROJECT.md`
 The foundation requires Node `22.12.0` or later, npm, Docker, and Docker Compose
 `2.20.0` or later to run `verify`.
 
+After Git initialization, run `./scripts/install_foundation_hook.sh`. The hook
+checks the latest stable Foundation release and runs project verification before
+each commit.
+
 ## Documentation map
 
 - [`PROJECT.md`](PROJECT.md): Product contract, sources of truth, architecture, and commands.
@@ -16,6 +20,7 @@ The foundation requires Node `22.12.0` or later, npm, Docker, and Docker Compose
 - [`ROADMAP.md`](ROADMAP.md): Delivery order and exit criteria.
 - [`CHANGELOG.md`](CHANGELOG.md): Delivered changes and observable effects.
 - [`FOUNDATION.md`](FOUNDATION.md): Foundation version, profiles, and exceptions.
+- `foundation.lock.json`: Exact Foundation release, commit, and managed-file hashes.
 - [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md): Complete navigation for Markdown files and their audiences.
 - `docs-nimbus/`: Mandatory documentation engine, adapter, configuration, and lockfile.
 - [`AGENTS.md`](AGENTS.md): Local adapter for assisted work.

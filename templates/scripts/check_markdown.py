@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import html
 import re
+import stat
 import sys
 import unicodedata
 from datetime import date
@@ -23,13 +24,16 @@ if sys.version_info < (3, 9):
 
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_PATHS = (
+    ".github/workflows/foundation-sync.yml",
     ".github/workflows/verify.yml",
+    ".githooks/pre-commit",
     "README.md",
     "CHANGELOG.md",
     "FOUNDATION.md",
     "DOCUMENTATION.md",
     "DOCUMENTATION-CATALOG.md",
     "documentation.json",
+    "foundation.lock.json",
     "compose.yaml",
     "AGENTS.md",
     "docs-nimbus/AGENT.md",
@@ -46,6 +50,17 @@ REQUIRED_PATHS = (
     "docs/foundation/DEFINITION-OF-DONE.md",
     "scripts/check_markdown.py",
     "scripts/check_compose.py",
+    "scripts/foundation_sync.py",
+    "scripts/install_foundation_hook.sh",
+    "scripts/documentation_catalog.py",
+    "scripts/verify.sh",
+)
+EXECUTABLE_PATHS = (
+    ".githooks/pre-commit",
+    "scripts/check_markdown.py",
+    "scripts/check_compose.py",
+    "scripts/foundation_sync.py",
+    "scripts/install_foundation_hook.sh",
     "scripts/documentation_catalog.py",
     "scripts/verify.sh",
 )
@@ -90,6 +105,32 @@ REQUIRED_COMPOSE_WIRING = (
     (
         ".github/workflows/verify.yml",
         re.compile(r"(?m)^\s*python3 scripts/check_compose\.py\s*$"),
+    ),
+)
+REQUIRED_FOUNDATION_WIRING = (
+    (
+        "scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/foundation_sync\.py" check\s*$'
+        ),
+        "online check",
+    ),
+    (
+        "scripts/verify.sh",
+        re.compile(
+            r'(?m)^\s*python3 "\$\{SCRIPT_DIR\}/foundation_sync\.py" enforce\s*$'
+        ),
+        "local enforcement",
+    ),
+    (
+        ".github/workflows/foundation-sync.yml",
+        re.compile(r"(?m)^\s*run:\s*python3 scripts/foundation_sync\.py check\s*$"),
+        "CI check",
+    ),
+    (
+        ".githooks/pre-commit",
+        re.compile(r'(?m)^exec "\$\{PROJECT_ROOT\}/scripts/verify\.sh"\s*$'),
+        "pre-commit verification",
     ),
 )
 
@@ -190,6 +231,18 @@ def check_structure(errors: list[str]) -> None:
         if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
             errors.append(f"Compose gate is not connected: {relative}")
 
+    for relative in EXECUTABLE_PATHS:
+        path = ROOT / relative
+        if path.is_file() and not path.stat().st_mode & (
+            stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+        ):
+            errors.append(f"required file is not executable: {relative}")
+
+    for relative, pattern, control in REQUIRED_FOUNDATION_WIRING:
+        path = ROOT / relative
+        if path.is_file() and not pattern.search(path.read_text(encoding="utf-8")):
+            errors.append(f"Foundation {control} is not connected: {relative}")
+
     foundation = ROOT / "FOUNDATION.md"
     if not foundation.is_file():
         return
@@ -198,7 +251,7 @@ def check_structure(errors: list[str]) -> None:
     metadata_patterns = {
         "Source": r"(?m)^\| Source \| `[^`|\r\n]+` \|$",
         "Readable version": (
-            r"(?m)^\| Readable version \| `(?:v[0-9]+\.[0-9]+\.[0-9]+|unreleased)` \|$"
+            r"(?m)^\| Readable version \| `v[0-9]+\.[0-9]+\.[0-9]+` \|$"
         ),
         "Immutable commit": (
             r"(?m)^\| Immutable commit \| `(?:[0-9a-f]{40}|[0-9a-f]{64})` \|$"
