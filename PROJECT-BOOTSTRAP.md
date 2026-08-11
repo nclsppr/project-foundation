@@ -48,6 +48,7 @@ All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATA
 - [ ] Select the permanent profiles that the project must support.
 - [ ] Enable `backend-data` or `infrastructure-production` for a critical project.
 - [ ] Confirm that all technical content uses English and follows `P20`.
+- [ ] Confirm whether the project emits first-party runtime log records. Apply `P21` when it does, or record that the principle is not applicable.
 - [ ] Define the license or explicitly state that the project remains private.
 - [ ] Add `.gitignore` and a configuration example without a secret.
 - [ ] Identify the project owner.
@@ -130,7 +131,9 @@ A guide is not complete if it cannot be used again. Remove actions that do not a
 - [ ] Define the dependency policy.
 - [ ] Document destructive changes.
 - [ ] Provide backup and restoration if data persists.
-- [ ] Define health, logs, and metrics if a service runs.
+- [ ] Define health, metrics, and the canonical logging contract if a service runs.
+- [ ] Define the event-name source, schema mapping, production threshold, sinks, sampling, retention, audit applicability, and alert ownership required by `P21`.
+- [ ] Test each used severity, applicable correlation, synthetic sensitive-data exclusion, and one final failure record when a component can report a failed operation.
 - [ ] Define accessibility and performance budgets if an interface exists.
 
 Codex or Claude integrations can call these controls. They must not be the only implementation.

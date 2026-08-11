@@ -2,7 +2,7 @@
 
 Activate this profile for a change to a server, network, DNS, CI/CD, secrets, backups, or a production service.
 
-This profile implements `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, and `P15`. It defines controls, not authorization. Explicit task authority and local policy are still necessary before an external or production modification.
+This profile implements `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P15`, and `P21`. It defines controls, not authorization. Explicit task authority and local policy are still necessary before an external or production modification.
 
 ## Before any action
 
@@ -62,8 +62,12 @@ immutable build
 
 - Local health checks.
 - External monitoring to detect loss of the server or network.
-- Log rotation.
+- Apply `P21` to each first-party runtime log record.
+- Configure collection, access, rotation, retention, and deletion for each log stream.
+- Implement the selected security and audit integrity and failure controls.
+- Configure bounded volume protection and monitor exporter health.
 - Actionable metrics and alerts.
+- Configure alert ownership, response, and runbooks.
 - Incident procedure and escalation contact.
 - Verification after restart if automatic restart is part of the requirement.
 - Threat model and misuse scenarios for a critical system.

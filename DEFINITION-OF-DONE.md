@@ -6,7 +6,7 @@ These checks derive from the principles and profiles. They are not a second norm
 
 ## Core
 
-Checks derived from `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17`, `P18`, `P19`, and `P20`.
+Checks derived from `P02`, `P03`, `P04`, `P05`, `P07`, `P08`, `P09`, `P10`, `P17`, `P18`, `P19`, `P20`, and `P21`.
 
 - [ ] The result solves the requested problem. It does not implement an implicit extension.
 - [ ] The current state, target, and limits are correctly identified.
@@ -71,8 +71,23 @@ Checks derived from `P10`, `P11`, `P13`, `P14`, and `profiles/backend-data.md`.
 - [ ] Sensitive operations are idempotent or protected against repeated execution.
 - [ ] Authorization, tenant isolation, and access denial are tested.
 - [ ] External errors, timeouts, retries, and duplicates are handled.
-- [ ] Useful logs and metrics contain no secret or unnecessary personal data.
+- [ ] Metrics contain no secret or unnecessary personal data.
 - [ ] Health checks verify the actual service requirements.
+
+## Runtime logging
+
+Checks derived from `P02`, `P04`, `P10`, `P11`, `P14`, `P20`, and `P21`. Enable this section when the project emits or changes first-party runtime log records.
+
+- [ ] The canonical logging contract identifies the schema mapping, event-name source, production threshold, sinks, sampling, retention, audit applicability, and alert ownership.
+- [ ] Representative log records at each severity that the project uses pass an automated schema check.
+- [ ] Event names are stable and low-cardinality. Messages are short controlled-English explanations. Variable values use typed fields.
+- [ ] Each applicable operation includes trace and span identifiers or another trusted correlation identifier.
+- [ ] Each automated consumer selects a stable event name or field. It does not match message text.
+- [ ] When a component can report a failed technical operation, a failure-path test produces one `ERROR` log record from the component that reports the final outcome and preserves the cause when an exception caused the failure.
+- [ ] A synthetic sensitive value does not appear at any enabled level or in structured exception data.
+- [ ] Tests cover untrusted values, log injection, exporter failure, and volume protection in proportion to risk.
+- [ ] Audit and security records use their defined stream, access, integrity, retention, and failure controls. Runtime verbosity cannot disable or sample them.
+- [ ] A project that emits no first-party runtime log records marks this section as not applicable.
 
 ## Generated artifacts
 

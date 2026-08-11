@@ -6,7 +6,7 @@ This document describes an operating procedure. It does not authorize its execut
 
 | Layer | Role |
 | --- | --- |
-| Standard | `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P15`, and the profiles activated in `FOUNDATION.md` |
+| Standard | `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P15`, `P21`, and the profiles activated in `FOUNDATION.md` |
 | Form | This runbook applies these rules to an exact target and operation |
 | Evidence | Record SHAs, outputs, backups, restores, and observations in delivery or incident evidence. Do not infer them from this file. |
 
@@ -113,7 +113,7 @@ Detailed commands are in their canonical scripts. This table invokes them withou
 | Configuration | TODO | TODO | TODO |
 | Health and dependencies | TODO | TODO | TODO |
 | Critical path | TODO | TODO | TODO |
-| Logs and metrics | TODO | TODO | TODO |
+| Logs and metrics | TODO | TODO stable event-name queries, correlation, and thresholds | TODO |
 | Final surface | TODO | TODO | TODO SHA, digest, file, or URL |
 
 Define an observation window: TODO duration, signals, and thresholds.

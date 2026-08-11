@@ -28,6 +28,7 @@ Maintenance rules for this foundation. Read `README.md` first. Then read `PRINCI
 - Apply `P18`. After verification, commit each coherent work unit. Push it immediately to `main` when direct write access is permitted. Otherwise, push it to a dedicated branch.
 - Do not keep a completed work unit only in the local repository. If the push is blocked, keep and report the local SHA, the remote target, and the exact blocker.
 - Write all technical content in English. This requirement includes deliverables, communications, documentation, code comments, logs, and other technical content. Apply `P20`. Use absolute dates. Use English for new internal identifiers and paths. Preserve external identifiers as `P20` requires. Do not use em dashes or en dashes.
+- Apply `P21` to each first-party runtime log record. Use its minimum evidence in the project verification command.
 
 ## Before each commit and push
 

@@ -29,5 +29,6 @@ An intention is not evidence of state. Report each conflict. Do not silently sel
 - Do not declare a work unit complete while its SHA exists only locally. If the push is blocked, report the local SHA, remote target, and exact blocker.
 - Run `python3 scripts/check_compose.py` with the `verify` command.
 - Use English for every deliverable, all communication, and all technical content. Apply `P20`. A local exception cannot select another language. Preserve only the external forms that `P20` permits.
+- Apply `P21` to each first-party runtime log record. Use its minimum evidence in the project verification command.
 - Update the conclusion and its limitations in `BRIEF.md`.
 - If the exploration becomes a product, stop this lightweight process and use the standard bootstrap process.

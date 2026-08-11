@@ -54,6 +54,10 @@ remain mandatory. Only a Minimal pack without a local process can keep an empty
 `P20` cannot be disabled by a local exception. A local exception cannot select
 another language. Preserve only the external forms that `P20` permits.
 
+`P21` cannot be disabled for first-party runtime log records. Each platform
+mapping or limited external or legacy exception must follow the boundary in
+`P21`.
+
 ## Challenge the foundation
 
 The `docs/foundation/` snapshot is read-only in this project.

@@ -46,6 +46,7 @@ TODO Describe the observation, measurement, or prototype that will support a con
 
 - Data and confidentiality: TODO synthetic, anonymized, real, or no data.
 - Access and secrets: TODO or none.
+- Runtime logging: TODO emits no first-party runtime log records, or canonical `P21` mapping and evidence.
 - Maximum time and cost: TODO.
 - Activated profiles: See [`FOUNDATION.md`](FOUNDATION.md), the single source.
 

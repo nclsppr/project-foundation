@@ -6,7 +6,7 @@ This document records observations for one work unit. It does not create a stand
 
 | Layer | Role |
 | --- | --- |
-| Standard | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P18`, `P19`, `P20`, and the durable profiles activated in `FOUNDATION.md` |
+| Standard | `P02`, `P03`, `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P18`, `P19`, `P20`, `P21`, and the durable profiles activated in `FOUNDATION.md` |
 | Form | This file structures the report and the verification limitations |
 | Evidence | A command, output, SHA, digest, file, screenshot, or dated observation in the named environment |
 
@@ -110,6 +110,7 @@ Do not generalize local evidence to CI, a container, production, or a public URL
 - Source, derived artifacts, and consumers delivered together: TODO or not applicable.
 - Commit and push required by `P18`: TODO SHA, remote, and branch.
 - Compose path required by `P19`: TODO services, health, and probes, or a Minimal pack without a local process.
+- Runtime logging required by `P21`: TODO applicable schema and failure-path evidence, or emits no first-party runtime log records.
 - Deployment required by the scope: TODO or not applicable.
 - Final worktree state: TODO.
 

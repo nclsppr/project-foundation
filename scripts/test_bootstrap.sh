@@ -193,6 +193,11 @@ grep -F 'Follow the principles of ASD-STE100 Simplified Technical English.' "${E
 grep -F 'Use ISO/IEC/IEEE 24765 terminology when it applies.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ISO/IEC/IEEE 24765 clause is missing from the Minimal pack."
 grep -F 'A local exception cannot select another language.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P20 operational rule is missing from the Minimal pack."
 grep -F '`P20` cannot be disabled by a local exception.' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the P20 exception limit is missing from the Minimal pack."
+grep -F '## P21. Emit safe, structured, and actionable log records' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P21 is missing from the Minimal pack."
+grep -F 'Every `INFO`, `WARN`, and `ERROR` log record has a stable, lowercase, dot-separated event name.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 event-name rule is missing from the Minimal pack."
+grep -F 'Use both the stable event name and the human-readable message.' "${EXPLORATION_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 identifier and message rule is missing from the Minimal pack."
+grep -F 'Apply `P21` to each first-party runtime log record.' "${EXPLORATION_TARGET}/AGENTS.md" >/dev/null || fail "the P21 operational rule is missing from the Minimal pack."
+grep -F '`P21` cannot be disabled for first-party runtime log records.' "${EXPLORATION_TARGET}/FOUNDATION.md" >/dev/null || fail "the P21 exception limit is missing from the Minimal pack."
 grep -F 'name: exploration-project' "${EXPLORATION_TARGET}/compose.yaml" >/dev/null || fail "the exploration Compose name is not initialized."
 python3 "${EXPLORATION_TARGET}/scripts/check_compose.py" >"${TEST_ROOT}/exploration-compose.out"
 
@@ -240,6 +245,11 @@ grep -F 'Follow the principles of ASD-STE100 Simplified Technical English.' "${P
 grep -F 'Use ISO/IEC/IEEE 24765 terminology when it applies.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the ISO/IEC/IEEE 24765 clause is missing from the Full pack."
 grep -F 'A local exception cannot select another language.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P20 operational rule is missing from the Full pack."
 grep -F '`P20` cannot be disabled by a local exception.' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the P20 exception limit is missing from the Full pack."
+grep -F '## P21. Emit safe, structured, and actionable log records' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "principle P21 is missing from the Full pack."
+grep -F 'Every `INFO`, `WARN`, and `ERROR` log record has a stable, lowercase, dot-separated event name.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 event-name rule is missing from the Full pack."
+grep -F 'Use both the stable event name and the human-readable message.' "${PRODUCT_TARGET}/docs/foundation/PRINCIPLES.md" >/dev/null || fail "the P21 identifier and message rule is missing from the Full pack."
+grep -F 'Apply `P21` to each first-party runtime log record.' "${PRODUCT_TARGET}/AGENTS.md" >/dev/null || fail "the P21 operational rule is missing from the Full pack."
+grep -F '`P21` cannot be disabled for first-party runtime log records.' "${PRODUCT_TARGET}/FOUNDATION.md" >/dev/null || fail "the P21 exception limit is missing from the Full pack."
 grep -F 'name: product-project' "${PRODUCT_TARGET}/compose.yaml" >/dev/null || fail "the Product Compose name is not initialized."
 grep -F 'Check Docker Compose' "${PRODUCT_TARGET}/.github/workflows/verify.yml" >/dev/null || fail "the Compose gate is missing from the generated CI workflow."
 
