@@ -1,36 +1,36 @@
-# Exemple narratif : Trail Card Lab
+# Narrative example: Trail Card Lab
 
-Cet exemple est entièrement fictif. Les personnes, le produit et les données sont inventés pour montrer comment remplir le parcours léger. Ce dossier ne contient aucune application, aucun déploiement et aucune validation produit.
+This example is entirely fictional. The people, product, and data are fictional. They show how to complete the lightweight process. This directory contains no application, deployment, or product verification.
 
-Ce README composite n'est ni le tree produit par le bootstrap, ni une preuve d'adoption réelle. Il montre le contenu attendu sans dupliquer tous les fichiers générés.
+This composite README is not the file tree produced by the bootstrap process or evidence of actual adoption. It shows the expected content without copying all generated files.
 
-Les principaux documents propres au projet qu'un vrai dépôt créerait sont issus des templates suivants :
+The primary project-specific documents that an actual repository creates use these templates:
 
-- [README minimal](../../templates/README.md)
-- [Brief d'exploration](../../templates/BRIEF.md)
-- [Adaptateur agent minimal](../../templates/AGENTS-minimal.md)
-- [Contrat d'adoption du socle](../../templates/FOUNDATION.md)
+- [Minimal README](../../templates/README.md)
+- [Exploration brief](../../templates/BRIEF.md)
+- [Minimal agent adapter](../../templates/AGENTS-minimal.md)
+- [Foundation adoption contract](../../templates/FOUNDATION.md)
 
-Le bootstrap ajoute aussi le snapshot du noyau, les deux profils et les scripts de vérification.
+The bootstrap process also adds the core snapshot, the two profiles, and the verification scripts.
 
-## README du projet fictif
+## Fictional project README
 
-**Trail Card Lab** explore si une carte d'itinéraire statique peut présenter cinq étapes fictives sur un écran de 320 px, rester utilisable au clavier et s'imprimer sans débordement.
+**Trail Card Lab** explores whether a static route card can show five fictional steps on a 320 px screen, remain usable with a keyboard, and print without overflow.
 
-> Statut : exploration documentée, implémentation non commencée. Aucun résultat n'est encore acquis.
+> Status: Documented exploration. Implementation has not started. No result is proven.
 
-### Démarrage
+### Start
 
-| Action | Commande | Résultat attendu |
+| Action | Command | Expected result |
 | --- | --- | --- |
-| Installer | Non applicable à ce stade | Aucun package |
-| Lancer | Non disponible avant l'incrément d'exploration | Aucune URL annoncée |
-| Vérifier | Non disponible avant l'incrément d'exploration | Aucune validation annoncée |
-| Arrêter ou nettoyer | Non applicable à ce stade | Aucun processus ou état à supprimer |
+| Install | Not applicable at this stage | No package |
+| Start | Not available before the exploration increment | No announced URL |
+| Verify | Not available before the exploration increment | No announced verification |
+| Stop or clean up | Not applicable at this stage | No process or state to remove |
 
-Le futur incrément pourra adopter un serveur statique et un script de vérification. Ces commandes ne sont pas documentées comme existantes avant leur ajout réel.
+A future increment can adopt a static server and a verification script. These commands are not documented as existing before they are added.
 
-### Carte documentaire prévue
+### Planned documentation map
 
 ```text
 README.md
@@ -49,107 +49,107 @@ scripts/
   verify.sh
 ```
 
-## BRIEF rempli
+## Completed BRIEF
 
-### Identité
+### Identity
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Nom | Trail Card Lab |
-| Propriétaire | Camille Martin, personne fictive |
-| Classe | Exploration |
-| Statut | Non commencée |
-| Début | 2026-07-27 |
-| Limite | Une journée de travail, sans service payant |
+| Name | Trail Card Lab |
+| Owner | Camille Martin, fictional person |
+| Class | Exploration |
+| Status | Not started |
+| Start | 2026-07-27 |
+| Limit | One workday, without a paid service |
 
 ### Question
 
-Une page HTML et CSS sans JavaScript peut-elle rendre cinq étapes fictives lisibles à 320 px, navigables au clavier et propres à l'impression sans créer de débordement horizontal ?
+Can an HTML and CSS page without JavaScript show five fictional steps clearly at 320 px, support keyboard navigation, and print clearly without horizontal overflow?
 
-### Contexte et utilisateur
+### Context and user
 
-Le scénario fictif concerne une designer qui souhaite tester une composition avant de proposer un produit. Aucun entretien utilisateur n'a eu lieu. Le besoin utilisateur reste donc une hypothèse, pas un fait validé.
+The fictional scenario concerns a product designer who wants to test a composition before proposing a product. No user interview occurred. The user need is an assumption, not a verified fact.
 
-### Preuve attendue
+### Expected evidence
 
-Un prototype local unique avec cinq étapes synthétiques, accompagné de contrôles documentés à 320 px et 1280 px, au clavier, avec mouvement réduit et en aperçu d'impression.
+One local prototype with five synthetic steps. The evidence includes documented controls at 320 px and 1280 px, with a keyboard, with reduced motion, and in print preview.
 
-### Périmètre
+### Scope
 
-Inclus :
+Included:
 
-- une page statique ;
-- cinq étapes et durées entièrement synthétiques ;
-- une composition mobile et une composition bureau ;
-- états de focus visibles ;
-- aperçu d'impression.
+- one static page;
+- five fully synthetic steps and durations;
+- one mobile composition and one desktop composition;
+- visible focus states;
+- print preview.
 
-Exclu :
+Excluded:
 
-- carte géographique réelle ;
-- compte utilisateur, backend ou stockage ;
-- géolocalisation ;
-- publication publique ;
-- mesure de conversion ou test avec de vraies personnes.
+- actual geographical map;
+- user account, backend, or storage;
+- geolocation;
+- public publication;
+- conversion measurement or tests with actual people.
 
-### Faits et hypothèses
+### Facts and assumptions
 
-| Type | Affirmation | Source ou prochaine vérification |
+| Type | Statement | Source or next verification |
 | --- | --- | --- |
-| Fait | Ce dossier ne contient aucun code applicatif | Inspection du tree de l'exemple |
-| Fait | Toutes les étapes et durées seront synthétiques | Contrat de l'exploration |
-| Hypothèse | HTML et CSS suffiront pour le parcours principal | À tester avec le prototype local |
-| Hypothèse | Cinq étapes resteront lisibles à 320 px sans masquer d'information | À vérifier visuellement et au clavier |
+| Fact | This directory contains no application code | Inspection of the example file tree |
+| Fact | All steps and durations will be synthetic | Exploration contract |
+| Assumption | HTML and CSS will be sufficient for the primary path | Test with the local prototype |
+| Assumption | Five steps will remain clear at 320 px without hiding information | Verify visually and with a keyboard |
 
-### Contraintes
+### Constraints
 
-- Données et confidentialité : données synthétiques uniquement, aucune donnée personnelle.
-- Accès et secrets : aucun.
-- Temps et coût maximum : une journée, coût externe nul.
-- Profils activés : voir le contrat `FOUNDATION` rempli ci-dessous.
+- Data and confidentiality: Synthetic data only. No personal data.
+- Access and secrets: None.
+- Maximum time and cost: One workday and no external cost.
+- Activated profiles: See the completed `FOUNDATION` contract below.
 
-### Conditions de conclusion
+### Conclusion conditions
 
-- Succès : les cinq étapes restent lisibles sans débordement à 320 px et 1280 px, l'ordre clavier est logique et l'impression ne coupe aucune étape.
-- Échec : une information essentielle doit être masquée, le clavier ne permet pas de parcourir les actions prévues, ou la mise en page exige du JavaScript uniquement pour tenir.
-- Arrêt : fin de la journée, apparition d'un besoin de données réelles ou demande de publication publique.
+- Success: The five steps remain clear without overflow at 320 px and 1280 px. Keyboard order is logical. Print output does not cut off a step.
+- Failure: Essential information must be hidden, the keyboard cannot navigate planned actions, or the layout requires JavaScript only to fit.
+- Stop: The workday ends, real data becomes necessary, or public publication is requested.
 
-### État vérifié et conclusion
+### Verified state and conclusion
 
-- Vérifié le : 2026-07-26.
-- Environnement ou artefact : documentation de l'exemple uniquement.
-- Observations : aucun fichier HTML, CSS, script ou déploiement n'existe.
-- Conclusion : non conclue, faute de prototype et de mesure.
-- Limites de la preuve : la documentation montre la méthode, pas la faisabilité de l'interface.
+- Verified on: 2026-07-26.
+- Environment or artifact: Example documentation only.
+- Observations: No HTML file, CSS file, script, or deployment exists.
+- Conclusion: Not concluded because no prototype or measurement exists.
+- Evidence limitations: The documentation shows the method. It does not prove interface feasibility.
 
-### Décision suivante
+### Next decision
 
-Créer au maximum un incrément local d'une journée, puis consigner les observations. Arrêter si les critères d'arrêt sont atteints. En cas de preuve positive et de décision de servir de vraies personnes, passer au bootstrap standard au lieu d'étendre ce brief.
+Create no more than one local one-day increment, then record the observations. Stop if a stop criterion occurs. If the evidence is positive and a decision permits use by actual people, use the standard bootstrap process. Do not extend this brief.
 
-## FOUNDATION rempli
+## Completed FOUNDATION
 
-| Champ | Valeur d'exemple |
+| Field | Example value |
 | --- | --- |
-| Source | Dépôt fictif `project-foundation` |
-| Version lisible | `v0.1.0`, tag fictif conforme |
-| Commit immuable | `1111111111111111111111111111111111111111`, SHA fictif |
-| Pack adopté | `minimal` |
-| Adoptée le | 2026-07-26 |
-| Adoptée par | Camille Martin, personne fictive |
+| Source | Fictional `project-foundation` repository |
+| Readable version | `v0.1.0`, fictional compliant tag |
+| Immutable commit | `1111111111111111111111111111111111111111`, fictional SHA |
+| Adopted pack | `minimal` |
+| Adopted on | 2026-07-26 |
+| Adopted by | Camille Martin, fictional person |
 | Snapshot | `PRINCIPLES.md`, `DEFAULTS.md`, `DEFINITION-OF-DONE.md` |
-| Profils activés | `experiment` et `web` |
-| Dérogations | Aucune |
-| Source locale supplémentaire | `BRIEF.md` pour les limites données et coût |
+| Activated profiles | `experiment` and `web` |
+| Exceptions | None |
+| Additional local source | `BRIEF.md` for data and cost limits |
 
-## AGENTS minimal rempli
+## Completed minimal AGENTS
 
-L'adaptateur local ne recopie aucune règle du noyau. Il route chaque question :
+The local adapter does not copy a core rule. It routes each question:
 
-| Question | Source dans l'exemple |
+| Question | Source in the example |
 | --- | --- |
-| Autorité de l'intervention | Demande actuelle de Camille, dans les limites du socle |
-| Intention | Question, périmètre et critères du `BRIEF.md` |
-| État réel | Fichiers et commandes observés dans le dépôt au moment de l'intervention |
-| Historique | Git et décisions datées, sans les présenter comme état courant |
+| Work authority | Camille's current request, within the foundation limits |
+| Intent | Question, scope, and criteria in `BRIEF.md` |
+| Current state | Files and commands observed in the repository at work time |
+| History | Git and dated decisions, without presenting them as the current state |
 
-L'agent reste dans la limite d'une journée, utilise les commandes réellement présentes, puis met à jour la conclusion du brief. Une demande de publication ou de données réelles déclenche l'arrêt et la reclassification de l'exploration.
+The agent stays within the one-day limit, uses only commands that exist, and then updates the brief conclusion. A request for publication or actual data stops the exploration and requires reclassification.

@@ -1,211 +1,169 @@
-# Principes invariants
+# Invariant Principles
 
-Ces principes s'appliquent à tout projet, quelle que soit sa stack. Chaque principe associe une règle, sa raison et une preuve minimale. Une exception doit être explicite, limitée et documentée.
+These principles apply to every project, independent of its stack. Each principle defines a rule, its reason, and minimum evidence. An exception must be explicit, limited, and documented.
 
-## P01. Comprendre le vrai problème avant de choisir la solution
+## P01. Understand the actual problem before you select the solution
 
-**Règle.** Commencer par les utilisateurs, le contexte, les contraintes, les risques, les non-objectifs et le résultat attendu. La technologie vient ensuite.
+**Rule.** Start with the users, context, constraints, risks, non-goals, and expected result. Select the technology after you understand these items.
 
-**Pourquoi.** Une solution élégante qui résout le mauvais problème ajoute une dette sans créer de valeur.
+**Reason.** An elegant solution to the wrong problem adds debt and creates no value.
 
-**Preuve minimale.** Un brief léger pour une exploration, ou `PROJECT.md` pour un projet durable, décrit le problème, les utilisateurs, le périmètre et les critères de succès avant la première décision de stack.
+**Minimum evidence.** Before the first stack decision, a short brief for an exploration or `PROJECT.md` for a durable project describes the problem, users, scope, and success criteria.
 
-## P02. Dire la vérité, y compris quand elle est incomplète
+## P02. State the truth, including when it is incomplete
 
-**Règle.** Ne jamais inventer un fait, une métrique, un client, une capacité, une validation, une responsabilité ou un état de production. Distinguer clairement `actuel`, `cible`, `expérience`, `exemple` et `hypothèse`.
+**Rule.** Never invent a fact, metric, customer, capability, verification result, responsibility, or production state. Clearly distinguish `current`, `target`, `experiment`, `example`, and `assumption`.
 
-**Pourquoi.** Une information plausible mais fausse devient rapidement une décision, une promesse ou un risque.
+**Reason.** Plausible but false information quickly becomes a decision, commitment, or risk.
 
-**Preuve minimale.** Les affirmations importantes ont une source. Les inconnues et validations non réalisables sont nommées. Les données synthétiques sont signalées comme telles.
+**Minimum evidence.** Important claims have a source. Unknown information and verification that cannot be completed are identified. Synthetic data is identified as synthetic.
 
-## P03. Cartographier les sources de vérité
+## P03. Map the sources of truth
 
-**Règle.** Chaque concept important possède une source canonique identifiée : produit, roadmap, architecture, contrat, schéma, design, configuration, opérations et décisions.
+**Rule.** Identify one canonical source for each important concept. These concepts include the product, roadmap, architecture, contract, schema, design, configuration, operations, and decisions.
 
-**Pourquoi.** Le mot « canonique » est inutile s'il désigne plusieurs fichiers concurrents.
+**Reason.** The term "canonical" has no value if it refers to multiple competing files.
 
-**Preuve minimale.** `PROJECT.md` contient une table des sources. Les artefacts dérivés, archives et snapshots sont étiquetés comme tels.
+**Minimum evidence.** `PROJECT.md` contains a source table. Derived artifacts, archives, and snapshots are identified as such.
 
-## P04. Une idée normative, une seule place
+## P04. Define one normative concept in one location
 
-**Règle.** Ne pas recopier une règle, une commande ou une donnée à synchroniser manuellement. Référencer la source ou automatiser la génération.
+**Rule.** Do not copy a rule, command, or data that requires manual synchronization. Reference its source or automate its generation.
 
-**Pourquoi.** La duplication documentaire finit par produire des instructions incompatibles.
+**Reason.** Duplicate documentation eventually contains incompatible instructions.
 
-**Preuve minimale.** Une recherche du concept mène à une source normative et à des références, pas à plusieurs copies éditables. Les fichiers générés déclarent leur source et ne sont pas modifiés à la main.
+**Minimum evidence.** A search for the concept finds one normative source and its references. It does not find multiple editable copies. Generated files identify their source and are not edited manually.
 
-## P05. Distinguer l'intention de la réalité
+## P05. Separate intent from reality
 
-**Règle.** Les ADR et documents canoniques expriment l'intention. Le code, la configuration et l'environnement réellement exécuté expriment l'état opérationnel. Un écart est une dérive à rendre visible.
+**Rule.** ADRs and canonical documents define intent. Code, configuration, and the environment that actually runs define the operational state. Make any difference between them visible as drift.
 
-**Pourquoi.** Ni une documentation souhaitée ni un test local isolé ne prouvent à eux seuls ce qui tourne réellement.
+**Reason.** Desired documentation and an isolated local test do not prove what actually runs.
 
-**Preuve minimale.** Avant une décision ou une livraison, inspecter le dépôt, le worktree, les versions, la configuration et, si pertinent, le processus ou service lancé.
+**Minimum evidence.** Before a decision or delivery, inspect the repository, worktree, versions, configuration, and, when relevant, the running process or service.
 
-## P06. Choisir la complexité proportionnée
+## P06. Select proportional complexity
 
-**Règle.** Utiliser l'architecture et les dépendances les plus simples qui satisfont les contraintes démontrées. Ne pas introduire un outil pour sa nouveauté ou pour dupliquer une capacité existante.
+**Rule.** Use the simplest architecture and dependencies that satisfy demonstrated constraints. Do not add a tool because it is new or because it duplicates an existing capability.
 
-**Pourquoi.** Toute dépendance crée un coût de compréhension, de mise à jour, de sécurité et d'exploitation.
+**Reason.** Each dependency creates costs for comprehension, updates, security, and operations.
 
-**Preuve minimale.** Une décision structurante décrit le besoin non couvert, les alternatives et le coût d'exploitation. Le projet sait expliquer pourquoi chaque couche importante existe.
+**Minimum evidence.** A structural decision describes the unmet need, alternatives, and operating cost. The project can explain why each important layer exists.
 
-## P07. Documenter les décisions, pas seulement le résultat
+## P07. Document decisions, not only results
 
-**Règle.** Toute décision structurante, y compris une décision produit importante, est versionnée avec son contexte, ses alternatives, ses conséquences, son plan de vérification et ses conditions de réexamen.
+**Rule.** Version each structural decision, including an important product decision. Record its context, alternatives, consequences, verification plan, and review conditions.
 
-**Pourquoi.** Sans compromis explicites, une équipe relance les mêmes débats ou conserve une décision devenue invalide.
+**Reason.** Without explicit trade-offs, a team repeats the same discussions or retains a decision that is no longer valid.
 
-**Preuve minimale.** Une ADR acceptée existe avant ou avec l'implémentation. Une décision remplacée pointe vers sa remplaçante.
+**Minimum evidence.** An accepted ADR exists before or with the implementation. A superseded decision references its replacement.
 
-## P08. Respecter l'autorité et livrer une unité cohérente
+## P08. Respect authority and deliver a coherent work unit
 
-**Règle.** Une modification couvre un résultat précis, ses tests, sa documentation et ses artefacts dérivés. Elle préserve les changements sans rapport et évite les nettoyages opportunistes. Un runbook décrit une procédure, il n'autorise pas à l'exécuter. Une cible explicite ne vaut pas permission. Toute mutation externe, publication ou action de production doit rester dans l'autorité explicite de la tâche et la politique locale.
+**Rule.** A change includes one specific result, its tests, its documentation, and its derived artifacts. Preserve unrelated changes. Do not include opportunistic cleanup. A runbook describes a procedure. It does not grant permission to execute the procedure. An explicit target does not grant permission. Keep each external mutation, publication, or production action within the explicit authority of the task and the local policy.
 
-**Pourquoi.** Un diff ciblé est plus facile à comprendre, valider, annuler et attribuer.
+**Reason.** A focused diff is easier to understand, verify, revert, and attribute.
 
-**Preuve minimale.** Le diff final correspond au périmètre annoncé. Les fichiers ajoutés au commit ont tous un lien direct avec le résultat. Les mutations externes réalisées étaient autorisées et leurs cibles sont nommées.
+**Minimum evidence.** The final diff matches the stated scope. Each file in the commit has a direct relation to the result. Each external mutation was authorized, and its target is identified.
 
-## P09. Rendre l'exécution reproductible
+## P09. Make execution reproducible
 
-**Règle.** Versions, dépendances, variables, commandes de lancement, arrêt, vérification et réinitialisation doivent être explicites. Les contrôles critiques vivent dans une commande neutre, utilisable par un humain, un agent et la CI.
+**Rule.** Specify versions, dependencies, variables, and commands for start, stop, verification, and reset. Put critical checks in a tool-neutral command that a person, an agent, and CI can run.
 
-**Pourquoi.** Un hook propre à un outil ou une commande connue d'une seule personne ne constitue pas une protection.
+**Reason.** A tool-specific hook or a command known to one person is not a control.
 
-**Preuve minimale.** Un nouveau clone peut installer, lancer et vérifier le projet avec les commandes documentées. Les lockfiles et images sont épinglés selon le niveau de risque.
+**Minimum evidence.** A new clone can install, start, and verify the project with documented commands. Pin lockfiles and images according to the risk level.
 
-## P10. Vérifier proportionnellement au risque
+## P10. Verify in proportion to risk
 
-**Règle.** La validation couvre la couche réellement modifiée et la surface finale concernée. Elle combine automatisation, inspection et test manuel lorsque chacun apporte une preuve différente.
+**Rule.** Verification covers the layer that changed and the affected final surface. Combine automation, inspection, and manual tests when each method provides different evidence.
 
-**Pourquoi.** Un build vert ne prouve pas une interface correcte, un contrat compatible, un déploiement sain ou une restauration possible.
+**Reason.** A successful build does not prove that an interface is correct, a contract is compatible, a deployment is healthy, or restoration is possible.
 
-**Preuve minimale.** La définition de done active les gates pertinentes. Le compte rendu cite les commandes, environnements et résultats observés, sans généraliser au-delà.
+**Minimum evidence.** The definition of done enables the applicable gates. The delivery report lists the commands, environments, and observed results. It does not make broader claims than the evidence supports.
 
-## P11. Sécuriser les changements et tester le retour arrière
+## P11. Secure changes and test rollback
 
-**Règle.** Les secrets ne vivent ni dans Git, ni dans les logs, ni dans les conversations. Toute action destructive résout d'abord sa cible. Les données importantes sont sauvegardées avant migration et la restauration est testée.
+**Rule.** Do not store secrets in Git, logs, or conversations. Resolve the exact target before each destructive action. Back up important data before a migration, and test the restoration.
 
-**Pourquoi.** Une sauvegarde non restaurée, un secret imprimé ou une cible implicite ne sont pas des protections.
+**Reason.** An untested backup, an exposed secret, or an implicit target is not a control.
 
-**Preuve minimale.** Les secrets sont injectés par un mécanisme dédié. Les changements risqués ont un checkpoint, un rollback et, pour les données, une preuve de restauration.
+**Minimum evidence.** A dedicated mechanism injects secrets. Risky changes have a checkpoint and a rollback procedure. Data changes also have restoration evidence.
 
-## P12. Isoler les expériences
+## P12. Isolate experiments
 
-**Règle.** Une expérience est clairement étiquetée, séparée de la surface canonique, sans données réelles par défaut, et possède une commande ou procédure de retrait.
+**Rule.** Clearly identify an experiment. Separate it from the canonical surface. Do not use real data by default. Provide a command or procedure to remove it.
 
-**Pourquoi.** Un prototype qui partage silencieusement les routes, données ou contrats de production devient une migration accidentelle.
+**Reason.** A prototype that silently shares production routes, data, or contracts becomes an accidental migration.
 
-**Preuve minimale.** Le profil expérience documente son but, son propriétaire, sa durée, ses limites, son accès, ses données et son chemin de suppression.
+**Minimum evidence.** The experiment profile documents its purpose, owner, duration, limits, access, data, and removal path.
 
-## P13. Concevoir pour l'accès, la résilience et le coût réel
+## P13. Design for accessibility, resilience, and actual cost
 
-**Règle.** L'accessibilité, la performance, les états d'erreur, les fallbacks et l'exploitation ne sont pas des finitions. Ils sont dimensionnés avec le produit.
+**Rule.** Accessibility, performance, error states, fallbacks, and operations are not final refinements. Design them with the product.
 
-**Pourquoi.** Une fonctionnalité inaccessible, trop lente, non observable ou impossible à récupérer n'est pas terminée.
+**Reason.** A feature is not complete if it is inaccessible, too slow, not observable, or not recoverable.
 
-**Preuve minimale.** Les budgets et scénarios pertinents sont définis puis testés : clavier, focus, contraste, mouvement réduit, mobile, charge, erreurs, dégradation, santé et restauration selon le projet.
+**Minimum evidence.** Define and test applicable budgets and scenarios. Depending on the project, these can include keyboard access, focus, contrast, reduced motion, mobile use, load, errors, degraded operation, health, and restoration.
 
-## P14. Rester proche de la production
+## P14. Stay close to production
 
-**Règle.** La livraison ne s'arrête pas au code local. Le projet documente comment il est déployé, observé, sauvegardé, restauré et diagnostiqué dans son environnement réel.
+**Rule.** Delivery does not stop with local code. Document how to deploy, observe, back up, restore, and diagnose the project in its actual environment.
 
-**Pourquoi.** La production est l'endroit où les hypothèses d'architecture rencontrent les dépendances, les données et les utilisateurs.
+**Reason.** Production is where architecture assumptions meet dependencies, data, and users.
 
-**Preuve minimale.** Le dernier artefact ou SHA livré est vérifié sur sa surface cible. Les limites externes non vérifiées sont explicitement laissées ouvertes.
+**Minimum evidence.** Verify the last delivered artifact or SHA on its target surface. Explicitly keep unverified external limits open.
 
-## P15. Construire un système, pas un héros
+## P15. Build a system, not a hero
 
-**Règle.** Le contexte, la responsabilité, les runbooks et les commandes utiles sont partagés. Une opération critique ne dépend pas d'une mémoire individuelle ou d'une commande magique.
+**Rule.** Share context, responsibility, runbooks, and useful commands. A critical operation must not depend on one person's memory or an undocumented command.
 
-**Pourquoi.** La connaissance cachée augmente le temps de reprise et le risque d'incident.
+**Reason.** Hidden knowledge increases recovery time and incident risk.
 
-**Preuve minimale.** Chaque zone critique a un propriétaire, une documentation de reprise et un chemin de vérification exécutable par une autre personne ou un autre agent.
+**Minimum evidence.** Each critical area has an owner, recovery documentation, and a verification path that another person or agent can execute.
 
-## P16. Donner une place et une audience à chaque Markdown
+## P16. Give each Markdown file a classification and an audience
 
-**Règle.** Tout fichier Markdown maintenu appartient à la documentation du
-projet. Il est classé comme public, interne, référence ou archive et reste
-navigable depuis le catalogue et Nimbus. Nimbus est le moteur documentaire
-obligatoire de tous les projets ; un autre moteur peut le compléter, pas le
-remplacer. Un rendu généré ne devient jamais une seconde source éditoriale.
+**Rule.** Each maintained Markdown file belongs to the project documentation. Classify it as public, internal, reference, or archive. Keep it accessible from the catalog and Nimbus. Nimbus is the mandatory documentation engine for all projects. Another engine can supplement Nimbus but cannot replace it. A generated rendering never becomes a second editorial source.
 
-**Pourquoi.** Un fichier orphelin disparaît de la mémoire collective. Publier
-indistinctement tous les Markdown expose à l'inverse des runbooks, preuves ou
-informations internes qui n'ont pas la bonne audience.
+**Reason.** An orphan file disappears from shared knowledge. Publishing all Markdown files without classification can expose runbooks, evidence, or internal information to the wrong audience.
 
-**Preuve minimale.** `documentation.json` classe chaque `.md` exactement une
-fois, `DOCUMENTATION-CATALOG.md` fournit une navigation exhaustive et la
-commande `verify` contrôle le catalogue, l'adaptateur et le build Nimbus. La
-collection générée n'est pas éditée et une publication respecte les audiences.
+**Minimum evidence.** `documentation.json` classifies each `.md` file exactly once. `DOCUMENTATION-CATALOG.md` provides complete navigation. The `verify` command checks the catalog, adapter, and Nimbus build. Do not edit the generated collection. A publication respects the defined audiences.
 
-## P17. Tracer chaque changement livré
+## P17. Record each delivered change
 
-**Règle.** Chaque changement livré rejoint `CHANGELOG.md`. L'entrée décrit
-l'impact observable, la date ou la version concernée et, si nécessaire, la
-migration. Git conserve le diff technique exhaustif ; le changelog en donne une
-lecture durable et orientée projet.
+**Rule.** Add each delivered change to `CHANGELOG.md`. The entry describes the observable effect, the applicable date or version, and any required migration. Git contains the complete technical diff. The changelog provides a durable, project-oriented description.
 
-**Pourquoi.** Une suite de commits ne permet pas à elle seule de comprendre ce
-qui a changé pour les utilisateurs, les opérateurs ou les prochains
-contributeurs.
+**Reason.** A commit sequence alone does not explain what changed for users, operators, or future contributors.
 
-**Preuve minimale.** Le changement figure sous une section non publiée ou dans
-la version livrée. Le commit permet de retrouver exactement les fichiers
-modifiés et une décision importante pointe aussi vers son ADR.
+**Minimum evidence.** The change is under an unreleased section or in the delivered version. The commit identifies the exact changed files. An important decision also references its ADR.
 
-## P18. Committer et pousser chaque tranche validée
+## P18. Commit and push each verified work unit
 
-**Règle.** Dès qu'une tâche autorise la modification d'un dépôt Git doté d'un
-remote, chaque tranche cohérente et vérifiée est commitée puis poussée sans
-attendre d'autres travaux. Le push vise la branche canonique lorsque l'écriture
-directe y est autorisée ; si elle est protégée ou soumise à revue, il vise une
-branche dédiée au périmètre. Une tranche terminée ne reste pas uniquement dans
-le worktree ou l'historique local. Le commit ne mélange pas de changements sans
-rapport et ne fige pas volontairement un état connu comme invalide.
+**Rule.** When a task permits changes to a Git repository that has a remote repository, commit each coherent and verified work unit. Then push it before you start other work. Push directly to the canonical branch when direct write access is permitted. If the canonical branch is protected or requires review, push to a dedicated branch for the scope. Do not keep a completed work unit only in the worktree or local history. Do not mix unrelated changes in the commit. Do not intentionally commit a state that is known to be invalid.
 
-Ce principe ne peut pas être désactivé par un default ou une dérogation de
-convenance. Les seules exceptions sont une tâche explicitement en lecture seule
-ou limitée au local, une interdiction d'autorité supérieure, l'absence de remote
-ou un blocage externe de réseau, d'authentification ou de plateforme. Le SHA
-local et le blocage exact sont alors signalés, et le push reprend dès que le
-blocage disparaît.
+A default or a convenience exception cannot disable this principle. The only exceptions are a task that explicitly requires read-only or local-only work, a restriction from higher authority, no remote repository, or an external network, authentication, or platform blocker. In these cases, report the local SHA and the exact blocker. Resume the push when the blocker no longer exists.
 
-**Pourquoi.** Un travail terminé mais seulement local reste invisible,
-fragile, difficile à relire et impossible à reprendre de façon fiable par une
-autre personne ou la CI. Des unités petites et publiées réduisent la perte de
-travail, raccourcissent les revues et rendent le rollback précis.
+**Reason.** Completed work that exists only locally is not visible, is fragile, is difficult to review, and cannot be reliably resumed by another person or CI. Small published work units reduce work loss, shorten reviews, and make rollback precise.
 
-**Preuve minimale.** Le commit contient une seule tranche validée, son SHA est
-présent sur la branche distante attendue et l'état final du worktree est connu.
-La branche canonique est utilisée directement si sa politique le permet ; sinon
-la branche distante et le chemin de revue sont nommés. Les contrôles distants
-disponibles sont observés avant de déclarer la livraison terminée.
+**Minimum evidence.** The commit contains one verified work unit. Its SHA exists on the expected remote branch, and the final worktree state is known. Use the canonical branch directly when its policy permits this. Otherwise, identify the remote branch and review path. Observe available remote checks before you report that delivery is complete.
 
-## P19. Orchestrer l'environnement local avec Docker Compose
+## P19. Orchestrate the local environment with Docker Compose
 
-**Règle.** Tout projet versionne un `compose.yaml` à sa racine et utilise Docker
-Compose comme chemin canonique d'exécution intégrée en local. Les applications,
-bases de données, files, intercepteurs de courriel, stockages, proxies et autres
-dépendances nécessaires au parcours local y sont déclarés. Une commande lancée
-directement sur l'hôte peut accélérer une boucle interne, mais ne remplace pas
-ce parcours commun. Un pack Minimal sans aucun processus local peut conserver
-`services: {}` ; un pack Standard, Full ou Critical déclare au moins un service.
+**Rule.** Each project versions a `compose.yaml` file at its root and uses Docker Compose as the canonical path for integrated local execution. Declare the applications, databases, queues, email interceptors, storage services, proxies, and other dependencies required for local execution in this file. A command that runs directly on the host can make an internal loop faster, but it does not replace the common path. A Minimal pack with no local process can keep `services: {}`. A Standard, Full, or Critical pack declares at least one service.
 
-Les images externes sont épinglées par digest. Un service long possède un
-healthcheck ; une commande finie sans healthcheck porte explicitement le label
-`foundation.lifecycle=job`. Ce principe ne peut pas être désactivé par un
-default ou une dérogation locale. Une contrainte supérieure ou une plateforme
-sans Docker peut empêcher l'exécution, jamais supprimer le contrat versionné ni
-sa gate de CI ; le blocage exact est alors documenté.
+Pin external images by digest. A long-running service has a health check. A finite command without a health check has the explicit label `foundation.lifecycle=job`. A default or local exception cannot disable this principle. A higher-level restriction or a platform without Docker can prevent execution, but it cannot remove the versioned contract or its CI gate. Document the exact blocker.
 
-**Pourquoi.** Un ensemble de commandes hôte et de versions implicites produit
-des environnements différents selon la machine et laisse les dépendances
-réelles hors de la vérification. Compose fournit un contrat portable pour
-lancer, attendre, diagnostiquer et arrêter le même graphe de services.
+**Reason.** A collection of host commands and implicit versions creates different environments on different machines. It also excludes actual dependencies from verification. Compose provides a portable contract to start, wait for, diagnose, and stop the same service graph.
 
-**Preuve minimale.** `scripts/check_compose.py` est appelé par `verify` et la CI,
-valide la configuration, les digests, les healthchecks et le pack. Pour tout
-projet qui possède un service, `docker compose up --build --wait` atteint un
-état sain, les sondes du parcours principal passent, puis `docker compose down`
-arrête l'environnement sans effacer les données par défaut.
+**Minimum evidence.** The `verify` command and CI call `scripts/check_compose.py`. The script verifies the configuration, digests, health checks, and pack. For each project that has a service, `docker compose up --build --wait` reaches a healthy state. The checks for the primary path pass. Then `docker compose down` stops the environment without deleting data by default.
+
+## P20. Use controlled technical English
+
+**Rule.** Use English for all deliverables, communications, documentation, code comments, logs, and other technical content. Follow the principles of ASD-STE100 Simplified Technical English. Use precise and unambiguous terms. Use short declarative sentences. Use the active voice when appropriate. Use one term consistently for each concept. Avoid unnecessary synonyms, vague language, marketing language, and unnecessary jargon. Use ISO/IEC/IEEE 24765 terminology when it applies. Preserve proper names, external identifiers, quotations, and terms that an external contract requires.
+
+This principle does not declare formal conformance with ASD-STE100.
+
+**Reason.** Variable or ambiguous terminology increases review time, differences in interpretation, and the risk of implementation or operation errors.
+
+**Minimum evidence.** A review of changed content checks the use of English, term consistency, sentence structure, and unexplained jargon. If domain terminology differs from ISO/IEC/IEEE 24765, identify the canonical glossary or contract. An exception identifies the externally required term, its source, its scope, and its reason.

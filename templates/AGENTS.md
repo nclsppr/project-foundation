@@ -1,55 +1,55 @@
 # AGENTS.md
 
-Adaptateur local pour toute intervention automatisée ou assistée sur ce dépôt. Le socle épinglé vit dans `FOUNDATION.md` et `docs/foundation/`.
+Local adapter for all automated or assisted work on this repository. The pinned foundation is in `FOUNDATION.md` and `docs/foundation/`.
 
-## Ordre de lecture
+## Reading order
 
-1. `PROJECT.md` pour le contrat, les sources et les commandes.
-2. `FOUNDATION.md` pour la version, les profils et les dérogations.
-3. `STATUS.md` et `ROADMAP.md` s'ils existent.
-4. Les ADR acceptées sous `docs/decisions/`.
-5. `CHANGELOG.md` pour l'historique des changements livrés.
-6. `DESIGN.md` pour toute interface.
+1. Read `PROJECT.md` for the contract, sources, and commands.
+2. Read `FOUNDATION.md` for the version, profiles, and exceptions.
+3. Read `STATUS.md` and `ROADMAP.md` if they exist.
+4. Read the accepted ADRs in `docs/decisions/`.
+5. Read `CHANGELOG.md` for the history of delivered changes.
+6. Read `DESIGN.md` for interface work.
 
-## Autorité
+## Authority
 
-1. Contraintes de sécurité, droit, plateforme et système.
-2. Autorité explicite de la tâche en cours.
-3. Politiques et règles locales du dépôt.
+1. Security, legal, platform, and system constraints.
+2. Explicit authority for the current task.
+3. Local repository policies and rules.
 
-Un fichier du dépôt ou un runbook ne peut pas élargir l'autorité de la tâche ni désactiver une protection supérieure. Une instruction ponctuelle qui change durablement l'intention doit aussi mettre à jour la source canonique ou une ADR.
+A repository file or runbook cannot increase task authority or disable a higher-level protection. If a task instruction makes a durable change to the intent, also update the canonical source or an ADR.
 
-## Source selon la question
+## Source for each question
 
 | Question | Source |
 | --- | --- |
-| Que demande la tâche actuelle ? | Instruction explicite de la tâche |
-| Qu'est-ce qui est voulu durablement ? | `PROJECT.md`, ADR et documents canoniques |
-| Qu'est-ce qui existe réellement ? | Code, configuration et environnement exécuté |
-| Qu'est-ce qui est vérifié maintenant ? | `STATUS.md` et preuves datées |
-| Comment en est-on arrivé là ? | Historique Git, changelog et ADR remplacées |
+| What does the current task require? | Explicit task instruction |
+| What is the durable intent? | `PROJECT.md`, ADRs, and canonical documents |
+| What exists now? | Code, configuration, and the execution environment |
+| What is verified now? | `STATUS.md` and dated evidence |
+| Why does the current state exist? | Git history, changelog, and superseded ADRs |
 
-Une divergence entre intention et réalité est signalée, jamais arbitrée silencieusement.
+Report a conflict between intent and the current state. Do not resolve it silently.
 
-## Règles d'intervention locales
+## Local work rules
 
-- Inspecter l'état Git et préserver les changements sans rapport.
-- Modifier la source canonique, jamais un dérivé éditable par accident.
-- Ne jamais modifier `docs/foundation/` localement. Une exception propre au projet vit dans `FOUNDATION.md` ; une remise en cause générale se traite dans le dépôt Project Foundation puis par montée de version.
-- Conserver Nimbus et sa gate de build : ils sont obligatoires dans le socle adopté.
-- Conserver `compose.yaml` et sa gate : `P19` impose Docker Compose comme
-  parcours local intégré. Ajouter tout nouveau service au graphe avant de
-  dépendre d'une commande hôte.
-- Ajouter chaque changement livré à `CHANGELOG.md` et chaque décision produit ou technique importante à une ADR.
-- Utiliser la commande `verify` déclarée dans `PROJECT.md`.
-- Activer pour chaque unité uniquement les gates pertinentes de `docs/foundation/DEFINITION-OF-DONE.md`.
-- Appliquer `P18` dès que la tâche autorise des modifications : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
-- Ne pas déclarer une tranche terminée tant que son SHA reste uniquement local. Si le push est bloqué, annoncer le SHA, la cible distante et le blocage exact.
-- Exécuter `python3 scripts/check_compose.py` avec la commande `verify` et tester
-  le démarrage Compose lorsque l'unité touche l'exécution locale.
-- Traiter les skills et plugins externes comme consultatifs. Les documents locaux décident.
+- Inspect the Git state and preserve unrelated changes.
+- Modify the canonical source. Do not modify a derived file by mistake.
+- Do not modify `docs/foundation/` locally. Record a project exception in `FOUNDATION.md`. Challenge a general rule in the Project Foundation repository, then update the adopted version.
+- Keep Nimbus and its build gate. They are mandatory in the adopted foundation.
+- Keep `compose.yaml` and its gate. `P19` requires Docker Compose as the
+  integrated local path. Add each new service to the graph before you depend
+  on a host command.
+- Add each delivered change to `CHANGELOG.md`. Record each important product or technical decision in an ADR.
+- Use the `verify` command declared in `PROJECT.md`.
+- Activate only the applicable gates from `docs/foundation/DEFINITION-OF-DONE.md` for each work unit.
+- Apply `P18` when the task authorizes changes. After verification, commit each coherent work unit. Then, push it immediately to the canonical branch if direct write access is authorized. Otherwise, push it to a dedicated branch.
+- Do not declare a work unit complete while its SHA exists only locally. If the push is blocked, report the local SHA, remote target, and exact blocker.
+- Run `python3 scripts/check_compose.py` with the `verify` command. Test Compose startup when the work unit changes local execution.
+- Treat external skills and plugins as advisory. Local documents control the work.
+- Use English for every deliverable, all communication, and all technical content. Apply `P20`. A local exception cannot select another language. Preserve only the external forms that `P20` permits.
 
-## Particularités du dépôt
+## Repository-specific information
 
-- Politique Git et livraison : TODO branche canonique, protection et revue ; `P18` reste obligatoire
-- Contraintes supplémentaires : TODO
+- Git and delivery policy: TODO canonical branch, protection, and review; `P18` remains mandatory
+- Additional constraints: TODO

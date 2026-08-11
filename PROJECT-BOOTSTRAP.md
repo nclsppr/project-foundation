@@ -1,192 +1,177 @@
-# Bootstrap d'un nouveau projet
+# Bootstrap a New Project
 
-Objectif : passer d'une idée à un premier incrément exploitable, vérifiable et transmissible sans installer prématurément une architecture complète.
+Objective: Convert an idea into a first usable, verifiable, and transferable increment. Do not install a complete architecture too early.
 
-## Phase 0. Classifier le projet
+## Phase 0. Classify the project
 
-Choisir une seule classe initiale :
+Select one initial class:
 
-| Classe | But | Exigence dominante |
+| Class | Purpose | Primary requirement |
 | --- | --- | --- |
-| Exploration | Répondre à une question | Temps limité et conclusion écrite |
-| Prototype | Tester une expérience ou une faisabilité | Isolation et suppression facile |
-| Produit | Servir de vrais utilisateurs | Qualité, exploitation et continuité |
-| Critique | Porter argent, identité, données sensibles ou opération vitale | Sécurité, audit, restauration et gates renforcés |
+| Exploration | Answer a question | Time limit and written conclusion |
+| Prototype | Test an experience or feasibility | Isolation and easy removal |
+| Product | Serve actual users | Quality, operations, and continuity |
+| Critical | Process money, identity, sensitive data, or a vital operation | Security, audit, restoration, and stronger gates |
 
-Une exploration ne doit pas hériter de toute l'infrastructure d'un produit critique. Un prototype qui reçoit de vraies données doit être reclassé.
+An exploration must not inherit all infrastructure from a critical product. Reclassify a prototype if it receives actual data.
 
-## Phase 1. Établir les faits
+## Phase 1. Establish the facts
 
-- [ ] Décrire le problème en une phrase.
-- [ ] Nommer les utilisateurs et leur situation.
-- [ ] Décrire le résultat observable attendu.
-- [ ] Écrire les non-objectifs.
-- [ ] Lister les contraintes connues et leur source.
-- [ ] Identifier les données, secrets, paiements ou droits concernés.
-- [ ] Séparer les faits des hypothèses.
-- [ ] Définir ce qui ferait arrêter le projet.
+- [ ] Describe the problem in one sentence.
+- [ ] Identify the users and their situation.
+- [ ] Describe the expected observable result.
+- [ ] State the non-goals.
+- [ ] List known constraints and their source.
+- [ ] Identify the applicable data, secrets, payments, or rights.
+- [ ] Separate facts from assumptions.
+- [ ] Define the conditions that stop the project.
 
-Ne pas choisir la stack avant d'avoir suffisamment répondu à ces points.
+Do not select the stack until these items have sufficient answers.
 
-## Phase 2. Poser le contrat du dépôt
+## Phase 2. Define the repository contract
 
-Choisir le pack avant de copier :
+Select the pack before you copy files:
 
-| Classe | Pack | Fichiers requis |
+| Class | Pack | Required files |
 | --- | --- | --- |
 | Exploration | Minimal | `README.md`, `BRIEF.md`, `CHANGELOG.md`, `AGENTS.md`, `FOUNDATION.md` |
 | Prototype | Standard | `README.md`, `PROJECT.md`, `STATUS.md`, `ROADMAP.md`, `CHANGELOG.md`, `AGENTS.md`, `FOUNDATION.md` |
-| Produit | Full | Standard, ADR pour chaque décision structurante et `DESIGN.md` si interface |
-| Critique | Critical | Full, `RUNBOOK.md`, preuve de livraison et profils risque |
+| Product | Full | Standard, an ADR for each structural decision, and `DESIGN.md` for an interface |
+| Critical | Critical | Full, `RUNBOOK.md`, delivery evidence, and risk profiles |
 
-Tous les packs ajoutent aussi `DOCUMENTATION.md`, `documentation.json`,
-`DOCUMENTATION-CATALOG.md`, le scaffold `docs-nimbus/`, `compose.yaml`, la CI et
-leurs contrôles. Nimbus et Docker Compose sont obligatoires, y compris pour une
-exploration. Ces fichiers ne rendent pas tout le dépôt public : ils rendent
-chaque Markdown classé et découvrable dans la bonne audience.
+All packs also add `DOCUMENTATION.md`, `documentation.json`, `DOCUMENTATION-CATALOG.md`, the `docs-nimbus/` scaffold, `compose.yaml`, CI, and their checks. Nimbus and Docker Compose are mandatory, including for an exploration. These files do not make the complete repository public. They give each Markdown file a classification and make it accessible to the correct audience.
 
-- [ ] Initialiser Git selon le default retenu ou la politique locale.
-- [ ] Copier uniquement le pack choisi.
-- [ ] Enregistrer ce pack dans `FOUNDATION.md` et la classe correspondante dans le brief ou `PROJECT.md`.
-- [ ] Ajouter le stub `CLAUDE.md` uniquement si nécessaire.
-- [ ] Choisir les profils durables que le projet doit savoir appliquer.
-- [ ] Pour un projet critique, activer `backend-data` ou `infrastructure-production`.
-- [ ] Définir la licence ou indiquer explicitement que le projet reste privé.
-- [ ] Ajouter `.gitignore` et un exemple de configuration sans secret.
-- [ ] Définir le propriétaire du projet.
-- [ ] Copier le noyau et les profils retenus sous `docs/foundation/`.
-- [ ] Classer les Markdown existants comme publics, internes, références ou archives.
-- [ ] Vérifier que le profil obligatoire `documentation-nimbus` est activé.
-- [ ] Vérifier que `compose.yaml`, `scripts/check_compose.py` et le workflow CI sont présents.
+- [ ] Initialize Git according to the selected default or local policy.
+- [ ] Copy only the selected pack.
+- [ ] Record the pack in `FOUNDATION.md` and the applicable class in the brief or `PROJECT.md`.
+- [ ] Add the `CLAUDE.md` stub only when necessary.
+- [ ] Select the permanent profiles that the project must support.
+- [ ] Enable `backend-data` or `infrastructure-production` for a critical project.
+- [ ] Confirm that all technical content uses English and follows `P20`.
+- [ ] Define the license or explicitly state that the project remains private.
+- [ ] Add `.gitignore` and a configuration example without a secret.
+- [ ] Identify the project owner.
+- [ ] Copy the core and selected profiles to `docs/foundation/`.
+- [ ] Classify existing Markdown files as public, internal, reference, or archive.
+- [ ] Verify that the mandatory `documentation-nimbus` profile is enabled.
+- [ ] Verify that `compose.yaml`, `scripts/check_compose.py`, and the CI workflow are present.
 
-Supprimer les sections non applicables plutôt que remplir une longue série de `N/A`. À la fin de cette phase, aucun marqueur de saisie ne doit rester dans les fichiers copiés.
+Delete non-applicable sections instead of completing a long list with `N/A`. At the end of this phase, no input marker remains in the copied files.
 
-Les gates d'un profil durable ne s'appliquent qu'aux unités qui rencontrent son
-déclencheur. Si une unité ultérieure exige un nouveau profil, le vendoriser
-depuis le commit du socle épinglé et mettre à jour `FOUNDATION.md` dans la même
-unité.
+The gates of a permanent profile apply only to work units that meet its trigger. If a later work unit requires a new profile, vendor it from the pinned foundation commit. Update `FOUNDATION.md` in the same work unit.
 
-## Phase 3. Dessiner les sources de vérité
+## Phase 3. Map the sources of truth
 
-Pour un pack Standard ou supérieur, remplir dans `PROJECT.md` :
+For a Standard or larger pack, complete these sources in `PROJECT.md`:
 
-- [ ] vision et périmètre ;
-- [ ] roadmap et ordre de livraison ;
-- [ ] architecture ;
-- [ ] contrat API ou schéma de données ;
-- [ ] design system ;
-- [ ] configuration d'environnement ;
-- [ ] opérations ;
-- [ ] décisions ;
-- [ ] historique des changements livrés ;
-- [ ] artefacts générés et leur source ;
-- [ ] archives et expériences.
-- [ ] collections documentaires et audiences.
+- [ ] vision and scope;
+- [ ] roadmap and delivery order;
+- [ ] architecture;
+- [ ] API contract or data schema;
+- [ ] design system;
+- [ ] environment configuration;
+- [ ] operations;
+- [ ] decisions;
+- [ ] history of delivered changes;
+- [ ] generated artifacts and their source;
+- [ ] archives and experiments;
+- [ ] documentation collections and audiences.
 
-Une case sans source est une décision à prendre, pas une invitation à dupliquer une information. Une exploration conserve cette carte dans son brief uniquement si elle sert la question testée.
+A missing source requires a decision. It does not permit information duplication. An exploration keeps this map in its brief only if the map supports the tested question.
 
-Le contrat stable reste dans `PROJECT.md`. L'état réellement vérifié vit dans `STATUS.md`. L'ordre de livraison et les critères de sortie vivent dans `ROADMAP.md`.
+The stable contract remains in `PROJECT.md`. The verified state is in `STATUS.md`. The delivery order and exit criteria are in `ROADMAP.md`.
 
-Tous les nouveaux `.md` doivent rejoindre une collection de
-`documentation.json`. Les rendus web restent dérivés des sources classées.
-Enregistrer la version, la configuration et la commande de build Nimbus comme
-sources de vérité locales.
+Add each new `.md` file to a collection in `documentation.json`. Web renderings remain derived from the classified sources. Record the Nimbus version, configuration, and build command as local sources of truth.
 
-## Phase 4. Prendre les premières décisions
+## Phase 4. Make the first decisions
 
-À partir du pack Standard, une décision produit importante rejoint une ADR si
-elle change durablement les utilisateurs servis, la promesse, le périmètre, une
-règle métier ou une priorité structurante. Pour un pack Full ou Critical, créer
-aussi une ADR pour chaque choix technique qui serait coûteux à changer :
+For a Standard or larger pack, put an important product decision in an ADR if it permanently changes the users, commitment, scope, business rule, or structural priority. For a Full or Critical pack, also create an ADR for each technical choice that is costly to change:
 
-- [ ] utilisateurs, promesse et contraintes produit structurantes ;
-- [ ] règles métier, tarification ou droits importants ;
-- [ ] forme du dépôt et découpage des modules ;
-- [ ] stack et versions ;
-- [ ] stockage et migrations ;
-- [ ] authentification et frontières de données ;
-- [ ] contrat public ;
-- [ ] stratégie de déploiement ;
-- [ ] dépendances externes ;
-- [ ] approche de génération ou d'IA.
+- [ ] users, commitment, and structural product constraints;
+- [ ] important business rules, pricing, or rights;
+- [ ] repository structure and module boundaries;
+- [ ] stack and versions;
+- [ ] storage and migrations;
+- [ ] authentication and data boundaries;
+- [ ] public contract;
+- [ ] deployment strategy;
+- [ ] external dependencies;
+- [ ] generation or AI approach.
 
-Chaque ADR contient une alternative plus simple et explique pourquoi elle ne suffit pas.
-Le bootstrap crée le dossier `docs/decisions/`, pas une décision vide. Copier
-`templates/ADR.md` uniquement lorsqu'une décision réelle peut être documentée.
+Each ADR contains a simpler alternative and explains why it is not sufficient.
 
-## Phase 5. Rendre le projet reproductible
+The bootstrap creates the `docs/decisions/` directory. It does not create an empty decision. Copy `templates/ADR.md` only when you can document an actual decision.
 
-- [ ] Épingler les versions et committer les lockfiles.
-- [ ] Documenter les prérequis.
-- [ ] Déclarer dans `compose.yaml` chaque application et dépendance du parcours local intégré.
-- [ ] Épingler chaque image externe par digest et construire localement uniquement depuis une source explicite.
-- [ ] Ajouter un healthcheck à chaque service long ; étiqueter une commande finie avec `foundation.lifecycle=job`.
-- [ ] Pour un pack Standard, Full ou Critical, remplacer la table `services` vide par au moins un service réel.
-- [ ] Fournir une installation propre depuis un nouveau clone lorsqu'une installation est nécessaire.
-- [ ] Fournir `verify` dans tous les cas, puis `dev`, `build`, `stop` et `reset` lorsqu'ils s'appliquent.
-- [ ] Décrire les variables sans fournir leur valeur secrète.
-- [ ] Vérifier l'environnement réellement vu par les processus lancés.
-- [ ] Faire exécuter `verify` par la CI.
-- [ ] Exécuter `python3 scripts/check_compose.py`, puis `docker compose up --build --wait` et les sondes applicables.
-- [ ] Vérifier que `docker compose down` préserve les volumes et documenter séparément toute réinitialisation destructive.
-- [ ] Installer Node `22.12.0` ou plus récent et npm pour le build Nimbus.
-- [ ] Déclarer les plateformes réellement supportées.
+## Phase 5. Make the project reproducible
 
-Un guide qui ne peut pas être rejoué n'est pas terminé. Les actions sans objet sont supprimées du document au lieu de recevoir une fausse commande.
+- [ ] Pin versions and commit lockfiles.
+- [ ] Document prerequisites.
+- [ ] Declare each application and dependency for integrated local execution in `compose.yaml`.
+- [ ] Pin each external image by digest. Build locally only from an explicit source.
+- [ ] Add a health check to each long-running service. Add `foundation.lifecycle=job` to a finite command.
+- [ ] For a Standard, Full, or Critical pack, replace the empty `services` table with at least one actual service.
+- [ ] Provide clean installation from a new clone when installation is necessary.
+- [ ] Always provide `verify`. Provide `dev`, `build`, `stop`, and `reset` when they apply.
+- [ ] Describe variables without providing secret values.
+- [ ] Verify the environment that the running processes use.
+- [ ] Make CI run `verify`.
+- [ ] Run `python3 scripts/check_compose.py`. Then run `docker compose up --build --wait` and the applicable checks.
+- [ ] Verify that `docker compose down` preserves volumes. Document each destructive reset separately.
+- [ ] Install Node `22.12.0` or later and npm for the Nimbus build.
+- [ ] Declare the supported platforms.
 
-## Phase 6. Poser les garde-fous
+A guide is not complete if it cannot be used again. Remove actions that do not apply instead of assigning a false command to them.
 
-- [ ] Activer les contrôles de format, lint et tests pertinents.
-- [ ] Définir la matrice de validation manuelle.
-- [ ] Ajouter une détection de secrets.
-- [ ] Définir la politique de dépendances.
-- [ ] Documenter les changements destructifs.
-- [ ] Prévoir sauvegarde et restauration si des données persistent.
-- [ ] Définir santé, logs et métriques si un service tourne.
-- [ ] Définir les budgets d'accessibilité et de performance si une interface existe.
+## Phase 6. Define the controls
 
-Les intégrations Codex ou Claude peuvent appeler ces garde-fous. Elles ne doivent pas en être l'unique implémentation.
+- [ ] Enable applicable format, lint, and test checks.
+- [ ] Define the manual verification matrix.
+- [ ] Add secret detection.
+- [ ] Define the dependency policy.
+- [ ] Document destructive changes.
+- [ ] Provide backup and restoration if data persists.
+- [ ] Define health, logs, and metrics if a service runs.
+- [ ] Define accessibility and performance budgets if an interface exists.
 
-## Phase 7. Livrer une tranche verticale
+Codex or Claude integrations can call these controls. They must not be the only implementation.
 
-La première tranche doit traverser le système avec le moins de faux-semblants possible :
+## Phase 7. Deliver a vertical work unit
 
-- [ ] une action utilisateur ou opérationnelle réelle ;
-- [ ] le chemin de données minimal ;
-- [ ] un état de succès et un état d'échec ;
-- [ ] une preuve automatisée ;
-- [ ] une vérification sur la surface finale ;
-- [ ] la documentation mise à jour ;
-- [ ] le changement ajouté à `CHANGELOG.md` ;
-- [ ] aucun élément futur présenté comme livré.
+The first work unit must include the complete system path with the minimum number of substitutes:
 
-Éviter de construire tous les socles techniques avant d'avoir prouvé un flux utile.
+- [ ] one actual user or operational action;
+- [ ] the minimum data path;
+- [ ] a success state and a failure state;
+- [ ] automated evidence;
+- [ ] verification on the final surface;
+- [ ] updated documentation;
+- [ ] the change added to `CHANGELOG.md`;
+- [ ] no future item presented as delivered.
 
-## Phase 8. Préparer la livraison
+Do not build all technical foundations before you demonstrate a useful flow.
 
-- [ ] Définir l'artefact immuable ou le SHA livré si une livraison existe.
-- [ ] Séparer build, vérification et déploiement.
-- [ ] Décrire le rollback.
-- [ ] Déployer dans l'environnement cible si le projet possède une surface déployée.
-- [ ] Vérifier santé, route, logs et parcours critique lorsqu'ils existent.
-- [ ] Vérifier la publication ou l'URL finale si elle existe.
-- [ ] Noter les validations impossibles ou externes.
+## Phase 8. Prepare delivery
 
-## Phase 9. Fermer le bootstrap
+- [ ] Define the immutable artifact or delivered SHA if there is a delivery.
+- [ ] Separate build, verification, and deployment.
+- [ ] Describe rollback.
+- [ ] Deploy to the target environment if the project has a deployed surface.
+- [ ] Verify health, route, logs, and the critical path when they exist.
+- [ ] Verify the publication or final URL if it exists.
+- [ ] Record verification that is not possible or requires an external action.
 
-- [ ] Exécuter les gates applicables de `docs/foundation/DEFINITION-OF-DONE.md`.
-- [ ] Rechercher les marqueurs de saisie, exemples factices et chemins obsolètes.
-- [ ] Vérifier les liens documentaires.
-- [ ] Régénérer puis vérifier `DOCUMENTATION-CATALOG.md`.
-- [ ] Inspecter le diff.
-- [ ] Committer une unité cohérente.
-- [ ] Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée, conformément à `P18`.
-- [ ] Vérifier que le SHA existe sur le remote et observer les contrôles distants disponibles.
-- [ ] Créer la prochaine tranche dans la roadmap, pas dans une liste concurrente.
+## Phase 9. Close the bootstrap
 
-Le bootstrap est fini lorsque quelqu'un d'autre peut comprendre, lancer, vérifier et reprendre le projet sans commande cachée.
+- [ ] Run the applicable gates in `docs/foundation/DEFINITION-OF-DONE.md`.
+- [ ] Search for input markers, fictitious examples, and obsolete paths.
+- [ ] Check documentation links.
+- [ ] Regenerate and then verify `DOCUMENTATION-CATALOG.md`.
+- [ ] Inspect the diff.
+- [ ] Commit one coherent work unit.
+- [ ] Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch as required by `P18`.
+- [ ] Verify that the SHA exists on the remote repository. Observe available remote checks.
+- [ ] Put the next work unit in the roadmap. Do not create a competing list.
 
-Le snapshot du socle n'est jamais édité dans le projet consommateur. Une
-exception locale vit dans `FOUNDATION.md`. Un challenge général se traite dans
-le dépôt Project Foundation, puis revient dans le projet par une nouvelle
-release selon [`ADOPTION.md`](ADOPTION.md).
+The bootstrap is complete when another person can understand, start, verify, and resume the project without an undocumented command.
+
+Never edit the foundation snapshot in the consuming project. Put a local exception in `FOUNDATION.md`. Address a foundation challenge in the Project Foundation repository. Then return the change to the project in a new release as specified by [`ADOPTION.md`](ADOPTION.md).

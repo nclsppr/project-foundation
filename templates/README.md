@@ -1,33 +1,33 @@
-# TODO nom du projet
+# TODO project name
 
-TODO Décrire en une phrase la question explorée et le résultat observable recherché.
+TODO Describe the exploration question and the target observable result in one sentence.
 
-> Exploration limitée. Le périmètre, les hypothèses, l'état vérifié et la conclusion vivent dans [`BRIEF.md`](BRIEF.md).
+> Limited exploration. Scope, assumptions, verified state, and conclusion are in [`BRIEF.md`](BRIEF.md).
 
-## Démarrage
+## Start
 
-Prérequis du socle : Git, Python `3.9` ou plus récent, Node `22.12.0` ou plus
-récent, npm, Docker et Docker Compose `2.20.0` ou plus récent. Prérequis propres
-à l'exploration : TODO ou aucun.
+Foundation prerequisites: Git, Python `3.9` or later, Node `22.12.0` or later,
+npm, Docker, and Docker Compose `2.20.0` or later. Exploration-specific
+prerequisites: TODO or none.
 
-| Action | Commande | Résultat attendu |
+| Action | Command | Expected result |
 | --- | --- | --- |
-| Installer | TODO ou non applicable | TODO |
-| Lancer | TODO | TODO URL, sortie ou fichier |
-| Vérifier | `./scripts/verify.sh` | Catalogue, Markdown et build Nimbus valides |
-| Vérifier Compose | `python3 scripts/check_compose.py` | Contrat Compose conforme à `P19` |
-| Arrêter ou nettoyer | TODO ou non applicable | TODO |
+| Install | TODO or not applicable | TODO |
+| Start | TODO | TODO URL, output, or file |
+| Verify | `./scripts/verify.sh` | Valid catalog, Markdown, and Nimbus build |
+| Verify Compose | `python3 scripts/check_compose.py` | Compose contract complies with `P19` |
+| Stop or clean up | TODO or not applicable | TODO |
 
-Une commande absente est indiquée comme non applicable. Une commande future n'est pas présentée comme disponible.
+Mark a missing command as not applicable. Do not present a future command as available.
 
-## Carte documentaire
+## Documentation map
 
-- [`BRIEF.md`](BRIEF.md) : question, périmètre, faits, hypothèses et conclusion datée.
-- [`CHANGELOG.md`](CHANGELOG.md) : changements livrés et impact observable.
-- [`FOUNDATION.md`](FOUNDATION.md) : version du socle, profils activés et dérogations locales.
-- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md) : navigation exhaustive des Markdown et de leurs audiences.
-- `docs-nimbus/` : moteur documentaire obligatoire, adaptateur, configuration et lockfile.
-- [`AGENTS.md`](AGENTS.md) : routage minimal pour les interventions assistées.
-- `docs/foundation/` : snapshot vendorisé du noyau et des profils. Ne pas le modifier localement.
+- [`BRIEF.md`](BRIEF.md): Question, scope, facts, assumptions, and dated conclusion.
+- [`CHANGELOG.md`](CHANGELOG.md): Delivered changes and observable effects.
+- [`FOUNDATION.md`](FOUNDATION.md): Foundation version, activated profiles, and local exceptions.
+- [`DOCUMENTATION-CATALOG.md`](DOCUMENTATION-CATALOG.md): Complete navigation for Markdown files and their audiences.
+- `docs-nimbus/`: Mandatory documentation engine, adapter, configuration, and lockfile.
+- [`AGENTS.md`](AGENTS.md): Minimum routing for assisted work.
+- `docs/foundation/`: Vendored snapshot of the core and profiles. Do not modify it locally.
 
-Ce README oriente uniquement. Il ne duplique ni le brief, ni les règles du socle, ni les preuves.
+This README provides navigation only. It does not copy the brief, foundation rules, or evidence.

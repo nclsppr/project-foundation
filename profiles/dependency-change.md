@@ -1,103 +1,102 @@
-# Profil changement de dépendance
+# Dependency change profile
 
-Activer ce profil pour l'ajout, la mise à jour, le remplacement ou le retrait d'un package, runtime, image, action CI, modèle, service externe ou autre composant tiers.
+Activate this profile when you add, update, replace, or remove a package, runtime, image, CI action, model, external service, or other third-party component.
 
-L'activation est enregistrée durablement dans `FOUNDATION.md`. Les gates de ce
-profil ne s'appliquent qu'aux unités qui modifient une dépendance. Si le profil
-n'était pas encore vendorisé, l'ajouter depuis le commit du socle épinglé avant
-de réaliser le changement.
+Record activation durably in `FOUNDATION.md`. The gates in this profile apply
+only to work units that modify a dependency. If the profile is not vendored,
+add it from the pinned foundation commit before you make the change.
 
-## Nature du document
+## Document type
 
-- **Norme opt-in.** Ce profil opérationnalise `P01`, `P02`, `P03`, `P05`, `P06`, `P07`, `P08`, `P09`, `P10`, `P11`, `P13` et, pour une dépendance de production, `P14`.
-- **Formulaire.** Le choix durable vit dans `PROJECT.md`, l'inventaire canonique ou une ADR selon son impact. Ce profil ne constitue pas un registre de dépendances.
-- **Preuve.** Le lockfile, le digest, les scans datés, les tests, le build, les mesures et le plan de retrait observé sont consignés dans une preuve de livraison. Le nom d'une dépendance ou un build vert isolé ne suffit pas.
+- **Opt-in standard.** This profile implements `P01`, `P02`, `P03`, `P05`, `P06`, `P07`, `P08`, `P09`, `P10`, `P11`, `P13`, and, for a production dependency, `P14`.
+- **Form.** Record the durable choice in `PROJECT.md`, the canonical inventory, or an ADR according to its effect. This profile is not a dependency register.
+- **Evidence.** Record the lockfile, digest, dated scans, tests, build, measurements, and observed removal plan in delivery evidence. A dependency name or one successful build is not sufficient evidence.
 
-## Besoin et alternatives
+## Need and alternatives
 
-- Décrire le besoin concret qui n'est pas couvert.
-- Vérifier qu'une capacité existante, la plateforme standard ou une solution plus simple ne suffit pas.
-- Nommer les consommateurs, le propriétaire et la criticité de la dépendance.
-- Classer la dépendance : développement, build, test, CI, runtime, données ou service externe.
-- Documenter le coût d'une implémentation locale et le coût d'exploitation du tiers.
-- Créer une ADR si la dépendance structure plusieurs modules, modifie un contrat ou des données, augmente durablement le risque, ou rend le retrait coûteux.
+- Describe the specific unmet need.
+- Verify that an existing capability, the standard platform, or a simpler solution is not sufficient.
+- Identify the consumers, owner, and criticality of the dependency.
+- Classify the dependency as development, build, test, CI, runtime, data, or external service.
+- Document the cost of a local implementation and the operating cost of the third-party component.
+- Create an ADR if the dependency structures multiple modules, modifies a contract or data, causes a durable risk increase, or makes removal costly.
 
-## Origine et confiance
+## Origin and trust
 
-- Utiliser une source officielle ou explicitement approuvée.
-- Vérifier l'identité du package, de l'image, de l'éditeur ou du fournisseur afin d'éviter une dépendance homonyme ou détournée.
-- Examiner la maintenance, la fréquence des versions, les avis de sécurité et les changements de propriétaire pertinents.
-- Identifier les dépendances transitives, scripts d'installation, binaires téléchargés et permissions demandées.
-- Vérifier signature, checksum, digest ou provenance lorsque disponible et proportionné au risque.
-- Enregistrer la dépendance dans l'inventaire ou le SBOM utilisé par le projet.
+- Use an official or explicitly approved source.
+- Verify the identity of the package, image, publisher, or provider. Prevent adoption of a namesake or compromised dependency.
+- Review maintenance activity, release frequency, security advisories, and relevant ownership changes.
+- Identify transitive dependencies, installation scripts, downloaded binaries, and requested permissions.
+- Verify a signature, checksum, digest, or provenance when it is available and proportional to the risk.
+- Record the dependency in the project inventory or SBOM.
 
-## Licence et droits
+## License and rights
 
-- Identifier la licence et sa compatibilité avec la distribution et l'usage prévus.
-- Conserver les notices, attributions et obligations de redistribution nécessaires.
-- Vérifier séparément les conditions applicables au code, aux données, aux modèles et au contenu fourni.
-- Documenter toute restriction d'usage, de territoire, de volume ou de modification.
-- Bloquer l'adoption tant qu'une licence ou un droit nécessaire reste inconnu pour une surface distribuée ou publique.
+- Identify the license and verify that it is compatible with the planned use and distribution.
+- Keep the required notices, attributions, and redistribution obligations.
+- Verify the terms for supplied code, data, models, and content separately.
+- Document each restriction on use, territory, volume, or modification.
+- Block adoption for a distributed or public surface while a required license or right is unknown.
 
-## Version et reproductibilité
+## Version and reproducibility
 
-- Epingler une version immuable ou un digest selon le type et le risque.
-- Enregistrer séparément la version actuelle observée et la version cible sans présenter la cible comme installée.
-- Mettre à jour et committer le lockfile ou l'inventaire canonique.
-- Déclarer les plateformes, runtimes et versions compatibles.
-- Lire les notes de version, migrations et changements incompatibles pour une mise à jour.
-- Définir la politique de mise à jour, la cadence de réexamen et le propriétaire.
-- Prévoir un rollback vers une version connue sans dépendre d'une reconstruction incertaine.
+- Pin an immutable version or digest according to the component type and risk.
+- Record the observed current version and the target version separately. Do not present the target as installed.
+- Update and commit the lockfile or canonical inventory.
+- Declare compatible platforms, runtimes, and versions.
+- Read release notes, migrations, and incompatible changes before an update.
+- Define the update policy, review frequency, and owner.
+- Provide rollback to a known version without dependence on an uncertain rebuild.
 
-## Vulnérabilités et chaîne logicielle
+## Vulnerabilities and software supply chain
 
-- Exécuter les contrôles de vulnérabilités et de provenance retenus par le projet.
-- Dater les résultats et conserver l'outil, sa version, la base consultée et les limites du scan.
-- Traiter chaque vulnérabilité pertinente ou documenter son exposition réelle, la mesure compensatoire, le propriétaire et la date de réexamen.
-- Limiter les permissions, secrets, accès réseau et actions de build au strict nécessaire.
-- Tester les contributions non fiables sans leur donner accès aux secrets ou aux environnements protégés.
-- Ne pas présenter l'absence de résultat d'un scanner comme une absence certaine de vulnérabilité.
+- Run the project vulnerability and provenance controls.
+- Date the results. Record the tool, tool version, consulted database, and scan limitations.
+- Correct each applicable vulnerability. Otherwise, document the actual exposure, compensating control, owner, and review date.
+- Limit permissions, secrets, network access, and build actions to the minimum.
+- Test untrusted contributions without access to secrets or protected environments.
+- Do not present an empty scanner result as proof that no vulnerability exists.
 
-## Données et confidentialité
+## Data and confidentiality
 
-Pour une dépendance qui reçoit, stocke ou produit des données, documenter :
+For a dependency that receives, stores, or produces data, document:
 
-- les catégories de données et la finalité ;
-- la minimisation et les champs réellement transmis ;
-- la rétention, la suppression, l'export et la portabilité ;
-- les sous-traitants, régions ou transferts applicables ;
-- l'usage éventuel des données pour entraînement, analyse ou publicité ;
-- les scopes d'authentification et permissions ;
-- le chiffrement, la journalisation et les procédures d'incident ;
-- la méthode de test sans donnée réelle lorsque possible.
+- the data categories and purpose;
+- data minimization and the fields that are transmitted;
+- retention, deletion, export, and portability;
+- applicable subprocessors, regions, or transfers;
+- possible data use for training, analysis, or advertising;
+- authentication scopes and permissions;
+- encryption, logging, and incident procedures;
+- the method to test without real data when possible.
 
-## Coût, fiabilité et exploitation
+## Cost, reliability, and operations
 
-- Mesurer le coût fixe, variable et humain avec ses seuils d'alerte.
-- Documenter quotas, limites, latence, disponibilité et politique de support.
-- Définir timeouts, retries, idempotence et comportement en cas d'indisponibilité lorsque pertinent.
-- Prévoir observabilité et diagnostic sans rendre le service tiers nécessaire à l'observabilité du projet.
-- Identifier le verrouillage technique ou contractuel et le coût de migration des données.
-- Tester un mode dégradé, un fallback ou un arrêt sûr selon la criticité.
+- Measure fixed, variable, and labor costs. Define alert thresholds.
+- Document quotas, limits, latency, availability, and support policy.
+- Define timeouts, retries, idempotency, and unavailable behavior when applicable.
+- Provide observability and diagnostics. Do not make the third-party service necessary for project observability.
+- Identify technical or contractual lock-in and the data migration cost.
+- Test a degraded mode, fallback, or safe stop according to criticality.
 
-## Retrait ou remplacement
+## Removal or replacement
 
-- Définir comment désactiver la dépendance sans casser silencieusement ses consommateurs.
-- Identifier les fichiers, configurations, secrets, données, contrats et artefacts à retirer.
-- Prévoir l'export, la migration ou la suppression vérifiable des données.
-- Nommer l'alternative ou le comportement sans dépendance.
-- Tester le rollback d'une mise à jour et la procédure de retrait lorsqu'ils sont critiques.
-- Révoquer les credentials et permissions devenus inutiles après retrait.
+- Define how to disable the dependency without silently breaking its consumers.
+- Identify the files, configurations, secrets, data, contracts, and artifacts to remove.
+- Provide verifiable data export, migration, or deletion.
+- Identify the alternative or behavior without the dependency.
+- Test update rollback and the removal procedure when they are critical.
+- Revoke credentials and permissions that become unnecessary after removal.
 
-## Gate minimale
+## Minimum gate
 
-- besoin non couvert et alternatives consignés ;
-- origine, propriétaire et consommateurs identifiés ;
-- licence et obligations compatibles ;
-- version ou digest épinglé et lockfile aligné ;
-- vulnérabilités, provenance et permissions évaluées à une date nommée ;
-- données transmises, rétention et droits documentés ;
-- coût, limites, modes d'échec et observabilité évalués ;
-- tests, build et surface finale vérifiés dans les environnements pertinents ;
-- rollback et retrait concrets ;
-- SHA, versions, résultats et limites conservés dans la preuve de livraison.
+- unmet need and alternatives recorded;
+- origin, owner, and consumers identified;
+- compatible license and obligations;
+- pinned version or digest and aligned lockfile;
+- vulnerabilities, provenance, and permissions assessed on a specified date;
+- transmitted data, retention, and rights documented;
+- cost, limits, failure modes, and observability assessed;
+- tests, build, and final surface verified in applicable environments;
+- concrete rollback and removal procedures;
+- SHA, versions, results, and limitations retained in the delivery evidence.

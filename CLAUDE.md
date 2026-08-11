@@ -1,5 +1,5 @@
 # CLAUDE.md
 
-Les règles canoniques de ce dépôt sont dans [`AGENTS.md`](AGENTS.md).
+The canonical rules for this repository are in [`AGENTS.md`](AGENTS.md).
 
-Lire `AGENTS.md`, `README.md` et `PRINCIPLES.md` avant toute modification. Ne pas recopier leurs règles dans ce fichier.
+Read `AGENTS.md`, `README.md`, and `PRINCIPLES.md` before you make a change. Do not copy their rules into this file.

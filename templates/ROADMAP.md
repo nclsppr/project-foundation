@@ -1,61 +1,61 @@
 # ROADMAP.md
 
-Source canonique de l'ordre de livraison. Une liste de fonctionnalités ou une priorité MoSCoW décrit l'importance intrinsèque, pas le séquencement.
+Canonical source for the delivery order. A feature list or MoSCoW priority describes intrinsic importance. It does not define sequence.
 
-## Résultat produit
+## Product result
 
-TODO Décrire la destination sans la présenter comme livrée.
+TODO Describe the destination. Do not present it as delivered.
 
-## Principes de séquencement
+## Sequence principles
 
-- Chaque phase produit une capacité observable.
-- Une dépendance vient avant ce qui en dépend.
-- Une phase nomme ses exclusions pour éviter l'expansion silencieuse.
-- Un critère de sortie est une preuve, pas une impression d'avancement.
-- Une phase terminée reste dans l'historique.
-- L'état courant détaillé vit dans `STATUS.md`.
+- Each phase produces an observable capability.
+- A dependency comes before its dependent item.
+- Each phase identifies its exclusions to prevent silent scope expansion.
+- An exit criterion is evidence, not an impression of progress.
+- A completed phase remains in the history.
+- Detailed current state is in `STATUS.md`.
 
-## Vue d'ensemble
+## Overview
 
-| Ordre | ID | Phase | Résultat utilisateur ou opérationnel | État macro | Critère de sortie | Preuve observée | Sortie le |
+| Order | ID | Phase | User or operational result | Macro state | Exit criterion | Observed evidence | Completed on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | F01 | TODO | TODO | planned | TODO | vide tant que non prouvé | |
+| 1 | F01 | TODO | TODO | planned | TODO | empty until proven | |
 
-États autorisés : `planned`, `in_progress`, `blocked`, `done`, `cancelled`.
+Allowed states: `planned`, `in_progress`, `blocked`, `done`, `cancelled`.
 
-## Phase F01 : TODO
+## Phase F01: TODO
 
-### Objectif
+### Objective
 
 TODO
 
-### Dépendances
+### Dependencies
 
 - TODO
 
-### Inclus
+### Included
 
 - TODO
 
-### Exclu
+### Excluded
 
 - TODO
 
-### Risques
+### Risks
 
 - TODO
 
-### Critère de sortie
+### Exit criterion
 
-- TODO preuve observable, environnement et résultat attendu
+- TODO observable evidence, environment, and expected result
 
-### Retour arrière ou abandon
+### Rollback or abandonment
 
 - TODO
 
-## Règle de mise à jour
+## Update rule
 
-- Mettre à jour l'état d'une phase uniquement avec sa preuve.
-- Reporter les détails d'exécution et blocages courants dans `STATUS.md`.
-- Créer une ADR si le séquencement change à cause d'une décision structurante.
-- Ne pas créer une seconde roadmap dans un outil, un README ou un changelog.
+- Update a phase state only with its evidence.
+- Record current execution details and blockers in `STATUS.md`.
+- Create an ADR if an architectural decision changes the sequence.
+- Do not create a second roadmap in a tool, README, or changelog.

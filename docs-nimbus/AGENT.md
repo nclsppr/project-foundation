@@ -1,60 +1,54 @@
-# Maintenance du site Nimbus
+# Nimbus site maintenance
 
-Ce dossier contient le scaffold Nimbus obligatoire de Project Foundation. Il
-reste suivi par `nimbus.json`, mais ses commandes et son adaptateur sont adaptés
-au contrat documentaire du socle.
+This directory contains the mandatory Nimbus scaffold for Project Foundation.
+`nimbus.json` continues to track it, but its commands and adapter implement the
+foundation documentation contract.
 
-Les règles normatives vivent dans [`DOCUMENTATION.md`](../DOCUMENTATION.md).
-Dans un projet adopté, le profil obligatoire est vendorisé sous
-`docs/foundation/profiles/documentation-nimbus.md`. La décision d'origine reste
-dans Project Foundation sous
-`docs/decisions/adr-0003-nimbus-obligatoire.md`.
+The normative rules are in [`DOCUMENTATION.md`](../DOCUMENTATION.md).
+In an adopted project, the mandatory profile is vendored at
+`docs/foundation/profiles/documentation-nimbus.md`. The original decision remains
+in Project Foundation at
+`docs/decisions/adr-0003-mandatory-nimbus.md`.
 
-## Sources et dérivés
+## Sources and derived files
 
-- Les Markdown classés par `documentation.json` sont les seules sources
-  éditoriales.
-- `scripts/sync-content.mjs` génère `src/content/docs/` depuis cet inventaire.
-- La collection générée, `dist/`, `.astro/` et `node_modules/` ne sont jamais
-  édités ni commités.
-- Ce fichier appartient lui-même à la collection documentaire de référence.
+- The Markdown files classified by `documentation.json` are the only editorial sources.
+- `scripts/sync-content.mjs` generates `src/content/docs/` from this inventory.
+- Never edit or commit the generated collection, `dist/`, `.astro/`, or `node_modules/`.
+- This file belongs to the reference documentation collection.
 
-## Prérequis
+## Prerequisites
 
-- Node `22.12.0` ou plus récent ;
-- npm ;
-- Python `3.9` ou plus récent pour le catalogue source.
+- Node `22.12.0` or later;
+- npm;
+- Python `3.9` or later for the source catalog.
 
-Le gestionnaire canonique est npm. Ne pas introduire un second lockfile.
+npm is the canonical package manager. Do not introduce a second lockfile.
 
-## Commandes canoniques
+## Canonical commands
 
-Depuis la racine du projet :
+Run these commands from the project root:
 
-| Action | Commande |
+| Action | Command |
 | --- | --- |
-| Installer exactement le lockfile | `npm ci --prefix docs-nimbus` |
-| Synchroniser les sources | `npm run sync --prefix docs-nimbus` |
-| Développer | `npm run dev --prefix docs-nimbus` |
-| Tester, typer, construire et linter | `npm run check --prefix docs-nimbus` |
-| Vérifier le scaffold amont | `npm run outdated --prefix docs-nimbus` |
-| Vérifier tout le projet | `./scripts/verify.sh` |
+| Install the exact lockfile | `npm ci --prefix docs-nimbus` |
+| Synchronize the sources | `npm run sync --prefix docs-nimbus` |
+| Start development | `npm run dev --prefix docs-nimbus` |
+| Test, type-check, build, and lint | `npm run check --prefix docs-nimbus` |
+| Check the upstream scaffold | `npm run outdated --prefix docs-nimbus` |
+| Verify the complete project | `./scripts/verify.sh` |
 
-## Modifier le scaffold
+## Modify the scaffold
 
-1. Lire `nimbus.json` et vérifier la version amont ciblée.
-2. Comparer le nouveau scaffold dans un dossier temporaire isolé.
-3. Appliquer uniquement les changements compris, sans écraser l'adaptateur, le
-   schéma de contenu, la configuration d'audience ou les scripts du projet.
-4. Mettre à jour la dépendance exacte et `package-lock.json` dans le même
-   changement.
-5. Exécuter `./scripts/verify.sh`.
-6. Tracer la décision si le contrat documentaire, les audiences ou la version
-   minimale de Node changent.
+1. Read `nimbus.json` and check the target upstream version.
+2. Compare the new scaffold in an isolated temporary directory.
+3. Apply only changes that you understand. Do not overwrite the adapter, content schema, audience configuration, or project scripts.
+4. Update the exact dependency and `package-lock.json` in the same change.
+5. Run `./scripts/verify.sh`.
+6. Record the decision if the documentation contract, audiences, or minimum Node version changes.
 
 ## Publication
 
-Le build local contient toutes les audiences afin de rendre le corpus
-navigable. Il ne doit pas être publié tel quel. Une surface publiée sélectionne
-explicitement ses collections autorisées et prouve qu'aucun document interne
-n'est exposé.
+The local build contains all audiences so that the corpus is navigable.
+Do not publish it as is. A published surface explicitly selects its permitted
+collections and proves that it exposes no internal document.

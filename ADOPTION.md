@@ -1,22 +1,22 @@
-# Adopter et faire évoluer Project Foundation
+# Adopt and upgrade Project Foundation
 
-Ce document décrit comment un projet consomme une release sans créer une
-dépendance runtime ni une copie locale divergente.
+This document explains how a project consumes a release without creating a
+runtime dependency or a divergent local copy.
 
-Le mode d'inclusion recommandé est un snapshot vendorisé et commité avec le
-projet consommateur. Ce n'est ni un submodule, ni un symlink, ni une dépendance
-runtime : le projet reste complet après un clone et chaque montée de version
-produit un diff explicite.
+The recommended inclusion method is a vendored snapshot that is committed with
+the consuming project. It is not a submodule, symlink, or runtime dependency.
+The project remains complete after a clone. Each version upgrade produces an
+explicit diff.
 
-## Source officielle
+## Official source
 
-- Dépôt : `https://github.com/nclsppr/project-foundation.git`
-- Release courante : `v0.5.2`
-- Référence immuable : le SHA complet enregistré dans `FOUNDATION.md`
+- Repository: `https://github.com/nclsppr/project-foundation.git`
+- Current release: `v0.5.2`
+- Immutable reference: the complete SHA recorded in `FOUNDATION.md`
 
-Toujours adopter un tag et son commit, jamais l'état flottant de `main`.
+Always adopt a tag and its commit. Never adopt the moving state of `main`.
 
-## Nouveau projet
+## New project
 
 ```bash
 git clone --branch v0.5.2 --depth 1 \
@@ -24,136 +24,136 @@ git clone --branch v0.5.2 --depth 1 \
   /tmp/project-foundation-v0.5.2
 
 /tmp/project-foundation-v0.5.2/scripts/bootstrap.sh \
-  --target /chemin/absolu/vers/le-nouveau-projet \
+  --target /absolute/path/to/the-new-project \
   --class product \
   --profiles web
 ```
 
-Le bootstrap ne crée pas le dépôt Git du projet, n'écrase rien et enregistre la
-source, le tag et le commit du socle dans `FOUNDATION.md`.
+The bootstrap does not create the project Git repository and does not overwrite
+files. It records the foundation source, tag, and commit in `FOUNDATION.md`.
 
-Nimbus, `documentation-nimbus`, `compose.yaml`, le checker Compose et la CI sont
-toujours inclus. `--profiles` ne choisit que les profils supplémentaires.
+Nimbus, `documentation-nimbus`, `compose.yaml`, the Compose checker, and CI are
+always included. `--profiles` selects only the additional profiles.
 
-## Projet existant
+## Existing project
 
-Le bootstrap exige une cible inexistante. Pour un dépôt existant :
+The bootstrap requires a target that does not exist. For an existing repository:
 
-1. générer le pack dans un dossier temporaire voisin ;
-2. inspecter les collisions avec les sources canoniques existantes ;
-3. copier le snapshot `docs/foundation/` sans le modifier ;
-4. fusionner les adaptateurs locaux et contrats documentaires, sans remplacer aveuglément les règles du projet ;
-5. remplir `FOUNDATION.md`, les dérogations et les sources locales ;
-6. régénérer le catalogue documentaire ;
-7. lancer la vérification du projet ;
-8. committer l'adoption comme une unité réversible ;
-9. pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
+1. Generate the pack in an adjacent temporary directory.
+2. Inspect collisions with existing canonical sources.
+3. Copy the `docs/foundation/` snapshot without modification.
+4. Merge the local adapters and documentation contracts. Do not replace the project rules without review.
+5. Complete `FOUNDATION.md`, the deviations, and the local sources.
+6. Regenerate the documentation catalog.
+7. Run the project verification.
+8. Commit the adoption as a reversible unit.
+9. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
 
-## Exception locale ou challenge du socle
+## Local exception or foundation challenge
 
-Une règle inadaptée peut suivre deux chemins.
+An unsuitable rule can follow one of two paths.
 
-### Le besoin est propre au projet
+### The requirement is specific to the project
 
-Documenter une dérogation limitée dans `FOUNDATION.md`, avec raison, contrôle
-compensatoire, propriétaire et date de réexamen. Ne pas modifier le snapshot.
+Document a limited deviation in `FOUNDATION.md`. Include the reason,
+compensating control, owner, and review date. Do not modify the snapshot.
 
-### Le problème est général
+### The problem is general
 
-Modifier le dépôt Project Foundation lui-même :
+Modify the Project Foundation repository:
 
-1. créer une branche ou un worktree depuis le dépôt officiel ;
-2. modifier la source canonique, ses templates, contrôles et tests ;
-3. exécuter `./scripts/verify.sh` ;
-4. relire, vérifier et committer une unité cohérente ;
-5. pousser le commit selon `P18` ;
-6. publier une nouvelle version selon `VERSIONING.md` ;
-7. mettre ensuite à niveau le projet consommateur vers ce tag et ce SHA.
+1. Create a branch or worktree from the official repository.
+2. Modify the canonical source, its templates, controls, and tests.
+3. Run `./scripts/verify.sh`.
+4. Review and verify the change. Commit it as one coherent unit.
+5. Push the commit in accordance with `P18`.
+6. Publish a new version in accordance with `VERSIONING.md`.
+7. Then upgrade the consuming project to this tag and SHA.
 
-Une modification directe de `docs/foundation/` est interdite : elle serait
-écrasée à la prochaine mise à niveau et masquerait le débat aux autres projets.
+Direct modification of `docs/foundation/` is prohibited. The next upgrade would
+overwrite the modification and hide the discussion from other projects.
 
-## Mettre à niveau
+## Upgrade
 
-1. Lire `CHANGELOG.md` entre les deux tags.
-2. Remplacer le snapshot depuis le nouveau commit.
-3. Examiner le diff des invariants, defaults, profils et gates.
-4. Réconcilier les dérogations locales.
-5. Comparer les nouvelles baselines des scripts avec les adaptations locales.
-6. Régénérer le catalogue documentaire.
-7. Vérifier et committer snapshot, provenance et adaptations ensemble.
-8. Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
+1. Read `CHANGELOG.md` between the two tags.
+2. Replace the snapshot from the new commit.
+3. Review the diff for invariants, defaults, profiles, and quality gates.
+4. Reconcile the local deviations.
+5. Compare the new script baselines with the local adaptations.
+6. Regenerate the documentation catalog.
+7. Verify and commit the snapshot, provenance, and adaptations together.
+8. Push immediately to the canonical branch if direct write access is permitted. Otherwise, push to a dedicated branch.
 
-Une future commande de mise à niveau pourra préparer ce diff. Elle ne devra
-jamais écraser silencieusement une dérogation ou une gate locale.
+A future upgrade command can prepare this diff. It must never silently overwrite
+a deviation or local quality gate.
 
-### Migration de v0.2.0 vers v0.3.1
+### Migration from v0.2.0 to v0.3.1
 
-Cette montée de version est incompatible sans adaptation :
+This upgrade is incompatible without adaptation:
 
-1. installer Node `22.12.0` ou plus récent et npm dans les environnements local et CI ;
-2. copier `docs-nimbus/`, son lockfile et le profil obligatoire depuis `v0.3.1` ;
-3. ajouter `CHANGELOG.md` depuis le template si le projet n'en possède pas ;
-4. fusionner les nouvelles baselines de `scripts/check_markdown.py` et `scripts/verify.sh` ;
-5. déclarer `documentation-nimbus` dans `FOUNDATION.md` ;
-6. définir les variables Nimbus uniquement si les valeurs locales par défaut ne conviennent pas ;
-7. exécuter `./scripts/verify.sh` avant de publier la montée de version.
+1. Install Node `22.12.0` or later and npm in the local and CI environments.
+2. Copy `docs-nimbus/`, its lockfile, and the mandatory profile from `v0.3.1`.
+3. Add `CHANGELOG.md` from the template if the project does not have this file.
+4. Merge the new baselines for `scripts/check_markdown.py` and `scripts/verify.sh`.
+5. Declare `documentation-nimbus` in `FOUNDATION.md`.
+6. Define the Nimbus variables only if the local default values are not suitable.
+7. Run `./scripts/verify.sh` before you publish the upgrade.
 
-### Migration de v0.3.0 vers v0.3.1
+### Migration from v0.3.0 to v0.3.1
 
-`v0.3.0` construit correctement le dépôt du socle mais son guide Nimbus contient
-deux liens non portables qui font échouer le lint d'un pack généré. Remplacer le
-scaffold et les scripts de vérification depuis `v0.3.1`, puis rejouer
-`./scripts/verify.sh`.
+`v0.3.0` builds the foundation repository correctly, but its Nimbus guide
+contains two non-portable links. These links cause lint to fail in a generated
+pack. Replace the scaffold and verification scripts with the files from
+`v0.3.1`. Then run `./scripts/verify.sh` again.
 
-### Migration de v0.3.1 vers v0.4.0
+### Migration from v0.3.1 to v0.4.0
 
-Cette version ajoute l'invariant `P18` :
+This version adds invariant `P18`:
 
-1. remplacer `PRINCIPLES.md`, `DEFAULTS.md` et `DEFINITION-OF-DONE.md` depuis `v0.4.0` ;
-2. fusionner la nouvelle baseline de l'adaptateur `AGENTS.md` ;
-3. expliciter dans `PROJECT.md` la branche canonique et le choix entre push direct et branche avec revue ;
-4. conserver les gates applicatives locales puis exécuter `./scripts/verify.sh` ;
-5. committer snapshot, provenance et adaptations dans une unité ;
-6. pousser cette unité conformément à `P18` et vérifier son SHA distant.
+1. Replace `PRINCIPLES.md`, `DEFAULTS.md`, and `DEFINITION-OF-DONE.md` with the files from `v0.4.0`.
+2. Merge the new baseline for the `AGENTS.md` adapter.
+3. Specify the canonical branch in `PROJECT.md`. Also specify whether the project uses direct pushes or reviewed branches.
+4. Preserve the local application quality gates. Then run `./scripts/verify.sh`.
+5. Commit the snapshot, provenance, and adaptations as one unit.
+6. Push this unit in accordance with `P18`, and verify its remote SHA.
 
-Une dérogation locale ne peut pas annuler `P18`. Une tâche explicitement en
-lecture seule ou limitée au local, une interdiction supérieure, l'absence de
-remote ou un blocage externe documenté restent les seules exceptions.
+A local deviation cannot cancel `P18`. The only exceptions are a task that is
+explicitly read-only or local-only, a higher-level prohibition, no remote, or a
+documented external blocker.
 
-### Migration de v0.4.0 vers v0.5.0
+### Migration from v0.4.0 to v0.5.0
 
-Cette version ajoute l'invariant `P19` et un prérequis Docker Compose :
+This version adds invariant `P19` and a Docker Compose prerequisite:
 
-1. installer Docker et Docker Compose `2.20.0` ou plus récent en local et en CI ;
-2. remplacer `PRINCIPLES.md`, `DEFAULTS.md` et `DEFINITION-OF-DONE.md` depuis `v0.5.0` ;
-3. ajouter ou fusionner `compose.yaml` à la racine ;
-4. copier `scripts/check_compose.py` et appeler ce checker depuis `scripts/verify.sh` ;
-5. fusionner la baseline `.github/workflows/verify.yml` sans perdre les gates applicatives locales ;
-6. placer dans Compose chaque application et dépendance requise par le parcours local intégré ;
-7. épingler les images externes par digest, ajouter les healthchecks et étiqueter les commandes finies ;
-8. exécuter `python3 scripts/check_compose.py`, le parcours `docker compose up --build --wait`, puis `./scripts/verify.sh` ;
-9. committer et pousser snapshot, provenance, Compose, CI et adaptations dans une seule unité.
+1. Install Docker and Docker Compose `2.20.0` or later in the local and CI environments.
+2. Replace `PRINCIPLES.md`, `DEFAULTS.md`, and `DEFINITION-OF-DONE.md` with the files from `v0.5.0`.
+3. Add or merge `compose.yaml` at the repository root.
+4. Copy `scripts/check_compose.py` and call this checker from `scripts/verify.sh`.
+5. Merge the `.github/workflows/verify.yml` baseline without removing the local application quality gates.
+6. Add each application and dependency that the integrated local path requires to Compose.
+7. Pin external images by digest, add health checks, and label finite commands.
+8. Run `python3 scripts/check_compose.py`, the `docker compose up --build --wait` path, and then `./scripts/verify.sh`.
+9. Commit and push the snapshot, provenance, Compose configuration, CI configuration, and adaptations as one unit.
 
-Une dérogation locale ne peut retirer `compose.yaml`, son checker ou sa gate.
-Un check réellement indépendant du contenu du dépôt exige en complément que la
-plateforme rende le workflow de vérification obligatoire sur la branche.
+A local deviation cannot remove `compose.yaml`, its checker, or its quality gate.
+A check that is independent of repository content also requires the platform to
+make the verification workflow mandatory on the branch.
 
-### Migration de v0.5.0 vers v0.5.1
+### Migration from v0.5.0 to v0.5.1
 
-Cette correction concerne le `compose.yaml` du dépôt Project Foundation : les
-sources sont montées en lecture seule et les contrôles s'exécutent dans un
-workspace anonyme. Les projets générés ne possèdent pas ce service documentaire et
-ne nécessitent aucune adaptation supplémentaire. Toute nouvelle adoption doit
-néanmoins viser `v0.5.1` afin de partir de la release dont les runs main et tag
-peuvent être vérifiés sans conflit de permissions.
+This correction applies to `compose.yaml` in the Project Foundation repository.
+The sources are mounted as read-only, and the checks run in an anonymous
+workspace. Generated projects do not have this documentation service and do not
+require an additional adaptation. However, each new adoption must use `v0.5.1`.
+This release permits verification of `main` and tag runs without permission
+conflicts.
 
-### Migration de v0.5.1 vers v0.5.2
+### Migration from v0.5.1 to v0.5.2
 
-Cette correction durcit le câblage de la gate Compose. Fusionner les nouvelles
-baselines de `scripts/check_markdown.py` et `.github/workflows/verify.yml` : le
-workflow appelle désormais `scripts/check_compose.py` directement avant la gate
-projet, et le checker documentaire refuse le retrait de cet appel ou de celui
-présent dans `scripts/verify.sh`. Le contrôle reste versionné avec le dépôt ; une
-racine de confiance indépendante exige toujours de rendre ce workflow requis
-dans les règles GitHub du projet consommateur.
+This correction strengthens the Compose quality gate wiring. Merge the new
+baselines for `scripts/check_markdown.py` and `.github/workflows/verify.yml`.
+The workflow now calls `scripts/check_compose.py` directly before the project
+quality gate. The documentation checker rejects removal of this call or the
+call in `scripts/verify.sh`. The control remains versioned with the repository.
+An independent root of trust still requires the verification workflow to be a
+required check in the GitHub rules of the consuming project.

@@ -1,5 +1,5 @@
 # CLAUDE.md
 
-Les règles canoniques du dépôt sont dans [`AGENTS.md`](AGENTS.md).
+The canonical repository rules are in [`AGENTS.md`](AGENTS.md).
 
-Lire `AGENTS.md` et les documents qu'il référence avant toute modification. Ne pas recopier leurs règles dans ce fichier.
+Read `AGENTS.md` and the documents that it references before any modification. Do not copy their rules into this file.

@@ -1,161 +1,161 @@
-# RUNBOOK : TODO opération
+# RUNBOOK: TODO operation
 
-Ce document décrit une procédure opératoire. Il n'autorise pas son exécution.
+This document describes an operating procedure. It does not authorize its execution.
 
-## Nature du document
+## Document type
 
-| Couche | Rôle |
+| Layer | Role |
 | --- | --- |
-| Norme | `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P15` et les profils activés dans `FOUNDATION.md` |
-| Formulaire | Ce runbook traduit ces règles pour une cible et une opération précises |
-| Preuve | Les SHA, sorties, sauvegardes, restaurations et observations sont consignés dans une preuve de livraison ou d'incident, pas déduits de ce fichier |
+| Standard | `P05`, `P08`, `P09`, `P10`, `P11`, `P14`, `P15`, and the profiles activated in `FOUNDATION.md` |
+| Form | This runbook applies these rules to an exact target and operation |
+| Evidence | Record SHAs, outputs, backups, restores, and observations in delivery or incident evidence. Do not infer them from this file. |
 
-Un runbook rempli n'est ni une preuve d'exécution, ni une permission, ni une description automatique de l'état courant.
+A completed runbook is not evidence of execution, permission, or an automatic description of the current state.
 
-## Identité
+## Identity
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Opération | TODO |
-| Propriétaire | TODO |
-| Suppléant | TODO |
-| Statut documentaire | TODO brouillon, actuel, cible, expérimental ou retiré |
-| Dernière vérification | TODO YYYY-MM-DD ou jamais vérifié |
-| Environnement concerné | TODO |
-| Décisions liées | TODO ADR ou non applicable |
-| Preuve de la dernière exécution | TODO lien ou aucune |
+| Operation | TODO |
+| Owner | TODO |
+| Alternate | TODO |
+| Document status | TODO draft, current, target, experimental, or removed |
+| Last verification | TODO YYYY-MM-DD or never verified |
+| Applicable environment | TODO |
+| Related decisions | TODO ADR or not applicable |
+| Evidence from the last execution | TODO link or none |
 
-## Etat actuel et cible
+## Current and target states
 
-### Etat actuel vérifié
+### Verified current state
 
-| Elément | Valeur observée | Preuve | Vérifié le |
+| Item | Observed value | Evidence | Verified on |
 | --- | --- | --- | --- |
-| Version, SHA ou digest | TODO | TODO commande, artefact ou URL | TODO YYYY-MM-DD |
-| Configuration chargée | TODO | TODO | TODO YYYY-MM-DD |
-| Santé et dépendances | TODO | TODO | TODO YYYY-MM-DD |
+| Version, SHA, or digest | TODO | TODO command, artifact, or URL | TODO YYYY-MM-DD |
+| Loaded configuration | TODO | TODO | TODO YYYY-MM-DD |
+| Health and dependencies | TODO | TODO | TODO YYYY-MM-DD |
 
-### Cible
+### Target
 
-TODO Décrire le résultat attendu sans le présenter comme déjà opérationnel.
+TODO Describe the expected result. Do not present it as operational.
 
-### Limites et exclusions
+### Limitations and exclusions
 
 - TODO
 
-## Cible exacte
+## Exact target
 
-| Dimension | Valeur attendue |
+| Dimension | Expected value |
 | --- | --- |
-| Environnement | TODO |
-| Service ou composant | TODO |
-| Hôte, cluster, compte ou tenant | TODO |
-| Région, namespace ou réseau | TODO ou non applicable |
-| Données concernées | TODO ou aucune |
-| Cibles explicitement exclues | TODO |
+| Environment | TODO |
+| Service or component | TODO |
+| Host, cluster, account, or tenant | TODO |
+| Region, namespace, or network | TODO or not applicable |
+| Affected data | TODO or none |
+| Explicitly excluded targets | TODO |
 
-Ne placer aucun secret dans ce tableau. Une cible explicite ne vaut pas autorisation.
+Do not put secrets in this table. An explicit target does not provide authorization.
 
-## Autorité et checkpoints
+## Authority and checkpoints
 
-| Action sensible | Autorité requise | Checkpoint avant action | Condition d'arrêt |
+| Sensitive action | Required authority | Checkpoint before action | Stop condition |
 | --- | --- | --- | --- |
-| TODO accès, secret, achat, DNS, suppression ou mutation externe | TODO politique, rôle ou instruction | TODO validation observable | TODO |
+| TODO access, secret, purchase, DNS, deletion, or external modification | TODO policy, role, or instruction | TODO observable approval | TODO |
 
-Si l'autorité manque ou si la cible résolue diffère de la cible attendue, arrêter la procédure.
+Stop the procedure if authority is missing or if the resolved target differs from the expected target.
 
-## Préconditions
+## Preconditions
 
-- Source canonique de la configuration : TODO.
-- Commande canonique de validation : TODO.
-- Accès requis et portée minimale : TODO.
-- Référence des secrets sans leur valeur : TODO.
-- Fenêtre d'intervention : TODO ou non applicable.
-- Etat de santé acceptable avant intervention : TODO.
-- Critères qui interdisent de commencer : TODO.
+- Canonical configuration source: TODO.
+- Canonical verification command: TODO.
+- Required access and minimum scope: TODO.
+- Secret reference without its value: TODO.
+- Maintenance window: TODO or not applicable.
+- Acceptable health state before work starts: TODO.
+- Conditions that prevent the start: TODO.
 
-## Sauvegarde et restauration isolée
+## Backup and isolated restore
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Données ou configuration à protéger | TODO ou non applicable |
-| Commande canonique de sauvegarde | TODO ou non applicable |
-| Identifiant et emplacement de la sauvegarde | TODO sans secret |
-| Intégrité vérifiée par | TODO commande, hash ou contrôle |
-| Chiffrement et accès | TODO |
-| Cible isolée de restauration | TODO, jamais la production servant des utilisateurs |
-| Commande canonique de restauration | TODO ou non applicable |
-| Dernier test de restauration | TODO date, résultat et preuve |
-| RPO et RTO | TODO ou non applicable |
+| Data or configuration to protect | TODO or not applicable |
+| Canonical backup command | TODO or not applicable |
+| Backup identifier and location | TODO without a secret |
+| Integrity verified by | TODO command, hash, or control |
+| Encryption and access | TODO |
+| Isolated restore target | TODO, never the production system that serves users |
+| Canonical restore command | TODO or not applicable |
+| Last restore test | TODO date, result, and evidence |
+| RPO and RTO | TODO or not applicable |
 
-Une sauvegarde non restaurée dans une cible isolée reste une hypothèse de récupération.
+A backup that was not restored to an isolated target is only an assumption of recovery.
 
-## Contrôles avant exécution
+## Pre-execution controls
 
-1. TODO Résoudre et afficher la cible sans donnée sensible.
-2. TODO Inspecter l'état, les versions et la configuration réellement chargée.
-3. TODO Valider la configuration et produire un diff ou dry-run si disponible.
-4. TODO Confirmer les checkpoints et le rollback.
-5. TODO Créer puis vérifier la sauvegarde requise.
+1. TODO Resolve and display the target without sensitive data.
+2. TODO Inspect the state, versions, and loaded configuration.
+3. TODO Validate the configuration. Produce a diff or dry run if available.
+4. TODO Confirm the checkpoints and rollback.
+5. TODO Create and verify the required backup.
 
-## Procédure
+## Procedure
 
-Les commandes détaillées vivent dans leur script canonique. Ce tableau les appelle sans recopier leur implémentation.
+Detailed commands are in their canonical scripts. This table invokes them without copying their implementation.
 
-| Etape | Action | Commande canonique | Résultat attendu | Arrêt immédiat si |
+| Step | Action | Canonical command | Expected result | Stop immediately if |
 | --- | --- | --- | --- | --- |
 | 1 | TODO | TODO | TODO | TODO |
 
-## Vérification après action
+## Post-action verification
 
-| Contrôle | Environnement | Résultat attendu | Preuve à conserver |
+| Control | Environment | Expected result | Evidence to retain |
 | --- | --- | --- | --- |
 | Configuration | TODO | TODO | TODO |
-| Santé et dépendances | TODO | TODO | TODO |
-| Parcours critique | TODO | TODO | TODO |
-| Logs et métriques | TODO | TODO | TODO |
-| Surface finale | TODO | TODO | TODO SHA, digest, fichier ou URL |
+| Health and dependencies | TODO | TODO | TODO |
+| Critical path | TODO | TODO | TODO |
+| Logs and metrics | TODO | TODO | TODO |
+| Final surface | TODO | TODO | TODO SHA, digest, file, or URL |
 
-Définir une fenêtre d'observation : TODO durée, signaux et seuils.
+Define an observation window: TODO duration, signals, and thresholds.
 
 ## Rollback
 
-### Déclencheurs
+### Triggers
 
-- TODO seuil, échec ou délai qui impose le rollback.
+- TODO threshold, failure, or delay that requires rollback.
 
-### Point de retour
+### Restore point
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Artefact, SHA ou configuration précédente | TODO référence immuable |
-| Données concernées | TODO |
-| Perte ou incompatibilité possible | TODO |
-| Autorité requise | TODO |
+| Previous artifact, SHA, or configuration | TODO immutable reference |
+| Affected data | TODO |
+| Possible loss or incompatibility | TODO |
+| Required authority | TODO |
 
-### Procédure de rollback
+### Rollback procedure
 
 1. TODO
 
-### Vérification du rollback
+### Rollback verification
 
-- Commande de santé : TODO.
-- Parcours critique : TODO.
-- Etat des données : TODO.
-- Preuve finale : TODO.
+- Health command: TODO.
+- Critical path: TODO.
+- Data state: TODO.
+- Final evidence: TODO.
 
-## Incident et escalade
+## Incident and escalation
 
-| Condition | Action sûre | Contact ou rôle | Preuve à conserver |
+| Condition | Safe action | Contact or role | Evidence to retain |
 | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO |
 
-Ne pas poursuivre une procédure partiellement comprise après un échec. Préserver les preuves sans exposer de secret ou de donnée personnelle inutile.
+Do not continue a partially understood procedure after a failure. Preserve evidence without exposing secrets or unnecessary personal data.
 
-## Clôture
+## Closure
 
-- Preuve de livraison ou d'incident : TODO chemin vers un document issu de `templates/DELIVERY-EVIDENCE.md` ou équivalent.
-- Etat courant mis à jour dans `STATUS.md` : TODO oui ou non avec raison.
-- Documentation ou ADR à aligner : TODO.
-- Risques et actions externes restants : TODO.
-- Prochaine date de vérification du runbook : TODO YYYY-MM-DD.
+- Delivery or incident evidence: TODO path to a document created from `templates/DELIVERY-EVIDENCE.md` or an equivalent document.
+- Current state updated in `STATUS.md`: TODO yes or no, with reason.
+- Documentation or ADR to align: TODO.
+- Remaining risks and external actions: TODO.
+- Next runbook verification date: TODO YYYY-MM-DD.

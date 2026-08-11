@@ -1,32 +1,33 @@
 # AGENTS.md
 
-Adaptateur local d'une exploration. Il ne redéfinit pas le noyau déclaré dans [`FOUNDATION.md`](FOUNDATION.md).
+Local adapter for an exploration. It does not redefine the core declared in [`FOUNDATION.md`](FOUNDATION.md).
 
-Lire [`BRIEF.md`](BRIEF.md), puis [`README.md`](README.md) et les profils vendorisés sous `docs/foundation/`.
+Read [`BRIEF.md`](BRIEF.md), then [`README.md`](README.md), and the vendored profiles in `docs/foundation/`.
 
-## Sources selon la question
+## Sources for each question
 
 | Question | Source |
 | --- | --- |
-| Quelle intervention est autorisée maintenant ? | Demande explicite du propriétaire, dans les limites de sécurité et de confidentialité du socle |
-| Quel résultat cherche l'exploration ? | `BRIEF.md` |
-| Qu'est-ce qui existe et fonctionne réellement ? | Dépôt, configuration, commandes et processus observés maintenant |
-| Pourquoi un choix passé a-t-il été fait ? | Historique Git ou décision datée, non normatifs pour l'état courant |
+| What work is authorized now? | Explicit owner request, within the foundation security and confidentiality limits |
+| What result does the exploration seek? | `BRIEF.md` |
+| What exists and operates now? | Repository, configuration, commands, and processes observed now |
+| Why was a previous choice made? | Git history or a dated decision, which are not normative for the current state |
 
-Une intention n'est pas une preuve d'état. Signaler tout écart sans choisir silencieusement une couche.
+An intention is not evidence of state. Report each conflict. Do not silently select one layer.
 
-## Intervention
+## Work rules
 
-- Rester dans la question, le périmètre et la limite du brief.
-- Inspecter l'état du dépôt avant d'agir et préserver le travail sans rapport.
-- Utiliser les commandes canoniques du README et rapporter uniquement les preuves réellement observées.
-- Ne pas modifier `docs/foundation/`. Une exception reste dans `FOUNDATION.md` ; une règle générale se change dans le dépôt Project Foundation puis se réadopte par version.
-- Conserver Nimbus et sa gate de build, même pour cette exploration.
-- Conserver `compose.yaml` et sa gate. Si l'exploration lance un processus ou
-  une dépendance locale, le déclarer dans Compose avant de documenter son usage.
-- Ajouter chaque changement livré à `CHANGELOG.md` ; consigner une décision importante dans le brief ou une ADR si l'exploration devient durable.
-- Appliquer `P18` dès que la tâche autorise des modifications : après validation, committer chaque tranche cohérente puis la pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
-- Ne pas déclarer une tranche terminée tant que son SHA reste uniquement local. Si le push est bloqué, annoncer le SHA, la cible distante et le blocage exact.
-- Exécuter `python3 scripts/check_compose.py` avec la commande `verify`.
-- Mettre à jour la conclusion et ses limites dans `BRIEF.md`.
-- Si l'exploration devient un produit, arrêter ce parcours léger et effectuer un bootstrap standard.
+- Stay within the question, scope, and limit in the brief.
+- Inspect the repository state before work starts. Preserve unrelated work.
+- Use the canonical commands from the README. Report only evidence that you observed.
+- Do not modify `docs/foundation/`. Record an exception in `FOUNDATION.md`. Change a general rule in the Project Foundation repository, then adopt the new version.
+- Keep Nimbus and its build gate, including for this exploration.
+- Keep `compose.yaml` and its gate. If the exploration starts a local process or
+  dependency, declare it in Compose before you document its use.
+- Add each delivered change to `CHANGELOG.md`. Record an important decision in the brief or an ADR if the exploration becomes durable.
+- Apply `P18` when the task authorizes changes. After verification, commit each coherent work unit. Then, push it immediately to the canonical branch if direct write access is authorized. Otherwise, push it to a dedicated branch.
+- Do not declare a work unit complete while its SHA exists only locally. If the push is blocked, report the local SHA, remote target, and exact blocker.
+- Run `python3 scripts/check_compose.py` with the `verify` command.
+- Use English for every deliverable, all communication, and all technical content. Apply `P20`. A local exception cannot select another language. Preserve only the external forms that `P20` permits.
+- Update the conclusion and its limitations in `BRIEF.md`.
+- If the exploration becomes a product, stop this lightweight process and use the standard bootstrap process.

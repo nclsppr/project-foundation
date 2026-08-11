@@ -1,84 +1,84 @@
-# ADR-NNNN : titre
+# ADR-NNNN: title
 
-- Statut : proposé
-- Statut d'implémentation : non commencé
-- Date : YYYY-MM-DD
-- Dernière vérification : non vérifiée
-- Propriétaire : TODO
-- Domaine : TODO produit, architecture, données, sécurité, exploitation ou autre
-- Remplace : aucune
-- Remplacé par : aucune
+- Status: proposed
+- Implementation status: not started
+- Date: YYYY-MM-DD
+- Last verification: not verified
+- Owner: TODO
+- Domain: TODO product, architecture, data, security, operations, or other
+- Supersedes: none
+- Superseded by: none
 
-Statuts de décision autorisés : `proposé`, `accepté`, `refusé`, `remplacé`.
+Allowed decision statuses: `proposed`, `accepted`, `rejected`, `superseded`.
 
-Statuts d'implémentation autorisés : `non commencé`, `partiel`, `livré`, `retiré`.
+Allowed implementation statuses: `not started`, `partial`, `delivered`, `removed`.
 
-## Contexte
+## Context
 
-Décrire les faits, contraintes et forces en présence. Séparer l'état actuel de la cible. Lier les sources utiles.
+Describe the facts, constraints, and applicable forces. Separate the current state from the target state. Link to useful sources.
 
-## Problème à décider
+## Decision problem
 
-Formuler une question unique.
+Write one question.
 
-## Critères
-
-- TODO
-
-## Options considérées
-
-### Option A : TODO
-
-Description, avantages, limites, coût d'exploitation et réversibilité.
-
-### Option B : TODO
-
-Description, avantages, limites, coût d'exploitation et réversibilité.
-
-### Option minimale ou statu quo
-
-Expliquer ce que produit l'absence de changement.
-
-## Décision
-
-Décrire précisément le choix. Indiquer ce qui ne change pas.
-
-## Conséquences
-
-### Positives
+## Criteria
 
 - TODO
 
-### Négatives
+## Considered options
+
+### Option A: TODO
+
+Describe the option, benefits, limitations, operating cost, and reversibility.
+
+### Option B: TODO
+
+Describe the option, benefits, limitations, operating cost, and reversibility.
+
+### Minimum option or status quo
+
+Explain the result if no change occurs.
+
+## Decision
+
+Describe the decision precisely. State what does not change.
+
+## Consequences
+
+### Positive
 
 - TODO
 
-### Risques
+### Negative
 
 - TODO
 
-## Mise en oeuvre
+### Risks
+
+- TODO
+
+## Implementation
 
 1. TODO
 
-## Vérification
+## Verification
 
-- Commandes : TODO
-- Environnements : TODO
-- Résultat attendu : TODO
-- Preuve observée : TODO date, SHA, environnement et résultat
-- Limites de la preuve : TODO
+- Commands: TODO
+- Environments: TODO
+- Expected result: TODO
+- Observed evidence: TODO date, SHA, environment, and result
+- Evidence limitations: TODO
 
 ## Rollback
 
-Décrire un retour arrière concret, ses limites et les données concernées.
+Describe a concrete rollback procedure, its limitations, and the affected data.
 
-## Réexamen
+## Review
 
-Réexaminer cette décision si :
+Review this decision if:
 
 - TODO
 
-## Références
+## References
 
 - TODO

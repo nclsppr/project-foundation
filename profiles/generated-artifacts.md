@@ -1,84 +1,84 @@
-# Profil artefacts générés
+# Generated artifacts profile
 
-Activer ce profil lorsqu'une source produit un fichier, un document, un client, une image, un rapport, un bundle ou un autre artefact dérivé consommé par le projet.
+Activate this profile when a source produces a file, document, client, image, report, bundle, or other derived artifact that the project consumes.
 
-## Nature du document
+## Document type
 
-- **Norme opt-in.** Ce profil opérationnalise `P02`, `P03`, `P04`, `P05`, `P08`, `P09`, `P10` et, pour une sortie perceptive ou publique, `P13` et `P14`.
-- **Formulaire.** L'inventaire local des sources, commandes, dérivés et consommateurs vit dans la source canonique désignée par `PROJECT.md`.
-- **Preuve.** Les commandes, versions, hashes, diffs, rendus et contrôles de consommateurs sont consignés dans une preuve de livraison. La présence d'un dérivé n'est pas une preuve de génération correcte.
+- **Opt-in standard.** This profile implements `P02`, `P03`, `P04`, `P05`, `P08`, `P09`, `P10`, and, for perceptible or public output, `P13` and `P14`.
+- **Form.** The local inventory of sources, commands, derived artifacts, and consumers is in the canonical source identified by `PROJECT.md`.
+- **Evidence.** Record commands, versions, hash values, diffs, renderings, and consumer controls in delivery evidence. The presence of a derived artifact is not evidence of correct generation.
 
-## Source et frontière éditable
+## Source and editable boundary
 
-- Désigner une source canonique pour chaque famille d'artefacts.
-- Désigner la commande ou le script canonique qui réalise la génération.
-- Identifier explicitement les chemins dérivés et les consommateurs.
-- Distinguer le dérivé actuellement committé, le résultat cible et le résultat finalement observé.
-- Modifier la source ou le générateur, jamais le dérivé à la main.
-- Marquer le dérivé comme généré lorsque son format le permet.
-- Retirer toute ancienne source concurrente ou l'étiqueter comme archive non normative.
+- Identify one canonical source for each artifact family.
+- Identify the canonical generation command or script.
+- Explicitly identify derived paths and consumers.
+- Distinguish the currently committed derived artifact, target result, and final observed result.
+- Modify the source or generator. Do not modify the derived artifact manually.
+- Mark the derived artifact as generated when its format permits it.
+- Remove each former competing source or label it as a non-normative archive.
 
-## Reproductibilité
+## Reproducibility
 
-- Epingler le générateur, ses dépendances et les ressources d'entrée selon le risque.
-- Documenter les paramètres, variables et prérequis sans secret.
-- Générer depuis un état propre et mesurer le diff produit.
-- Conserver un seed, un modèle, une version, un prompt ou une référence d'entrée lorsqu'ils participent au résultat.
-- Déclarer la part non déterministe au lieu de promettre une reproduction bit à bit impossible.
-- Vérifier qu'une nouvelle génération sans changement de source ne crée pas de dérive inexpliquée lorsque la génération est annoncée comme déterministe.
+- Pin the generator, its dependencies, and input resources according to risk.
+- Document parameters, variables, and prerequisites without secrets.
+- Generate from a clean state and measure the resulting diff.
+- Retain a seed, model, version, prompt, or input reference when it affects the result.
+- Declare the non-deterministic part. Do not promise impossible bit-for-bit reproduction.
+- If generation is declared deterministic, verify that a new generation without source changes causes no unexplained drift.
 
-## Livraison atomique
+## Atomic delivery
 
-- Livrer dans une même unité la source, le générateur, le dérivé et les adaptations de ses consommateurs.
-- Vérifier tous les consommateurs connus après génération.
-- Invalider les caches, manifests ou versions de ressources lorsque le chemin public ne change pas.
-- Supprimer les dérivés orphelins et leurs références lors d'un retrait.
-- Ne pas mélanger une régénération globale sans rapport avec une modification ciblée.
+- Deliver the source, generator, derived artifact, and consumer adaptations in one work unit.
+- Verify all known consumers after generation.
+- Invalidate caches, manifests, or resource versions when the public path does not change.
+- Remove orphaned derived artifacts and their references during removal.
+- Do not combine an unrelated global regeneration with a targeted change.
 
-## Provenance et droits
+## Provenance and rights
 
-Le registre canonique doit permettre de retrouver, selon le type d'artefact :
+For each artifact type, the canonical register must identify:
 
-- l'auteur ou la source d'origine ;
-- la licence, les droits et les attributions nécessaires ;
-- la date d'acquisition ou de génération ;
-- le générateur, sa version et ses paramètres significatifs ;
-- les entrées, références, prompts ou transformations ;
-- le hash ou l'identifiant de l'artefact retenu ;
-- l'usage prévu et les consommateurs autorisés ;
-- les limites connues de reproduction ou de réutilisation.
+- the author or original source;
+- the required license, rights, and attributions;
+- the acquisition or generation date;
+- the generator, its version, and significant parameters;
+- inputs, references, prompts, or transformations;
+- the hash value or identifier of the selected artifact;
+- the intended use and authorized consumers;
+- known reproduction or reuse limitations.
 
-Ne pas intégrer de donnée personnelle, secret, métadonnée sensible ou contenu sans droit établi dans une source ou un dérivé.
+Do not include personal data, secrets, sensitive metadata, or content without established rights in a source or derived artifact.
 
-## Qualité du dérivé
+## Derived artifact quality
 
-- Valider le format, les dimensions, le poids, l'encodage et la transparence attendus.
-- Contrôler le rendu final lorsqu'une sortie est visuelle, sonore, imprimée ou interactive.
-- Conserver le texte fonctionnel et l'information essentielle dans une source accessible, pas uniquement dans une image ou un média.
-- Vérifier compatibilité, performance et fallback sur les consommateurs représentatifs.
-- Comparer le résultat à la source et aux critères produit, pas seulement à la réussite de la commande.
+- Validate the expected format, dimensions, file size, encoding, and transparency.
+- Inspect the final output when it is visual, audio, printed, or interactive.
+- Keep functional text and essential information in an accessible source. Do not keep them only in an image or media file.
+- Verify compatibility, performance, and fallback behavior on representative consumers.
+- Compare the result with the source and product criteria. Do not rely only on successful command execution.
 
-## Inventaire minimal local
+## Minimum local inventory
 
-| Champ requis | Finalité |
+| Required field | Purpose |
 | --- | --- |
-| Source canonique | Identifier ce qui est éditable |
-| Générateur canonique | Rejouer la production |
-| Version et environnement | Borner la reproductibilité |
-| Dérivés | Détecter les sorties manquantes ou orphelines |
-| Consommateurs | Valider les impacts |
-| Provenance et droits | Autoriser l'usage et l'attribution |
-| Déterminisme et limites | Ne pas surinterpréter la preuve |
-| Procédure de retrait | Supprimer sans laisser de références |
+| Canonical source | Identify the editable item |
+| Canonical generator | Repeat generation |
+| Version and environment | Define reproducibility limits |
+| Derived artifacts | Detect missing or orphaned output |
+| Consumers | Verify effects |
+| Provenance and rights | Authorize use and attribution |
+| Determinism and limitations | Prevent incorrect interpretation of evidence |
+| Removal procedure | Remove artifacts without residual references |
 
-## Gate minimale
+## Minimum gate
 
-- source canonique, dérivés et consommateurs identifiés ;
-- commande rejouée dans un environnement nommé ;
-- versions, paramètres significatifs et limites consignés ;
-- diff de génération inspecté ;
-- absence de modification manuelle du dérivé ;
-- provenance, droits et données sensibles contrôlés ;
-- format et rendu final vérifiés selon l'usage ;
-- consommateurs et invalidation de cache vérifiés ;
-- SHA, hashes, résultats et limites conservés dans la preuve de livraison.
+- canonical source, derived artifacts, and consumers identified;
+- command repeated in a named environment;
+- versions, significant parameters, and limitations recorded;
+- generation diff inspected;
+- no manual modification of the derived artifact;
+- provenance, rights, and sensitive data controlled;
+- format and final output verified for its use;
+- consumers and cache invalidation verified;
+- SHA, hash values, results, and limitations retained in the delivery evidence.

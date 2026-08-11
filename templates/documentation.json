@@ -7,25 +7,25 @@
   "collections": [
     {
       "id": "project",
-      "title": "Documentation du projet",
+      "title": "Project documentation",
       "visibility": "internal",
       "include": ["*.md"]
     },
     {
       "id": "decisions",
-      "title": "Décisions",
+      "title": "Decisions",
       "visibility": "internal",
       "include": ["docs/decisions/**/*.md"]
     },
     {
       "id": "foundation",
-      "title": "Socle vendorisé",
+      "title": "Vendored foundation",
       "visibility": "reference",
       "include": ["docs/foundation/**/*.md"]
     },
     {
       "id": "nimbus-maintenance",
-      "title": "Maintenance Nimbus",
+      "title": "Nimbus maintenance",
       "visibility": "reference",
       "include": ["docs-nimbus/AGENT.md"]
     }
@@ -33,31 +33,31 @@
   "ignored": [
     {
       "pattern": "node_modules/**/*.md",
-      "reason": "Dépendances tierces"
+      "reason": "Third-party dependencies"
     },
     {
       "pattern": "dist/**/*.md",
-      "reason": "Sorties générées"
+      "reason": "Generated outputs"
     },
     {
       "pattern": "build/**/*.md",
-      "reason": "Sorties générées"
+      "reason": "Generated outputs"
     },
     {
       "pattern": ".venv/**/*.md",
-      "reason": "Environnement Python local"
+      "reason": "Local Python environment"
     },
     {
       "pattern": "docs-nimbus/src/content/docs/**/*.md",
-      "reason": "Collection Nimbus générée depuis les sources classées"
+      "reason": "Nimbus collection generated from classified sources"
     },
     {
       "pattern": "docs-nimbus/node_modules/**/*.md",
-      "reason": "Dépendances Nimbus tierces"
+      "reason": "Third-party Nimbus dependencies"
     },
     {
       "pattern": "docs-nimbus/dist/**/*.md",
-      "reason": "Site Nimbus généré"
+      "reason": "Generated Nimbus site"
     }
   ]
 }

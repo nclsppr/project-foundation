@@ -18,12 +18,12 @@ const nimbusConfig = defineNimbusConfig({
   title: process.env.NIMBUS_TITLE?.trim() || "Project Documentation",
   description:
     process.env.NIMBUS_DESCRIPTION?.trim() ||
-    "Documentation produit, technique et opérationnelle du projet.",
-  locale: process.env.NIMBUS_LOCALE?.trim() || "fr",
-  homeLabel: "Accueil",
+    "Product, technical, and operational project documentation.",
+  locale: process.env.NIMBUS_LOCALE?.trim() || "en",
+  homeLabel: "Home",
   github: process.env.NIMBUS_GITHUB?.trim() || null,
   editPattern: null,
-  socialImageAlt: "Aperçu de la documentation Nimbus",
+  socialImageAlt: "Nimbus documentation preview",
   sidebar: {
     defaultCollapsed: true,
   },
@@ -33,7 +33,7 @@ export default defineConfig({
   base: `${basePath}/`,
   output: "static",
   // Tailwind v4 via its Vite plugin (the integration Astro recommends for
-  // Tailwind v4 — replaces the PostCSS plugin, which doesn't build under
+  // Tailwind v4. It replaces the PostCSS plugin, which does not build under
   // Astro 7's Vite 8 bundler).
   vite: {
     plugins: [tailwindcss()],
@@ -52,7 +52,7 @@ export default defineConfig({
       // against the content schema for the page to render properly, and
       // broken internal links are 404s for your readers. Add the others
       // (heading hierarchy, code-block language, style, etc.) when you're
-      // ready to enforce them — see `nimbus-docs lint --help`.
+      // ready to enforce them. See `nimbus-docs lint --help`.
       rules: {
         "nimbus/frontmatter-shape": "error",
         "nimbus/internal-link": "error",

@@ -1,117 +1,120 @@
 # FOUNDATION.md
 
-Contrat d'adoption du socle commun par ce projet.
+Contract for this project's adoption of the common foundation.
 
 ## Version
 
-| Champ | Valeur |
+| Field | Value |
 | --- | --- |
-| Source | TODO URL ou chemin d'origine |
-| Version lisible | TODO tag |
-| Commit immuable | TODO SHA complet |
-| Pack adopté | TODO minimal, standard, full ou critical |
-| Adoptée le | TODO YYYY-MM-DD |
-| Adoptée par | TODO |
+| Source | TODO origin URL or path |
+| Readable version | TODO tag |
+| Immutable commit | TODO full SHA |
+| Adopted pack | TODO minimal, standard, full, or critical |
+| Adopted on | TODO YYYY-MM-DD |
+| Adopted by | TODO |
 
-## Snapshot vendorisé
+## Vendored snapshot
 
-Les fichiers suivants sont copiés sous `docs/foundation/` et ne sont pas édités localement :
+The following files are copied into `docs/foundation/`. Do not edit them locally:
 
 - `PRINCIPLES.md`
 - `DEFAULTS.md`
 - `DEFINITION-OF-DONE.md`
 
-Les profils vendorisés sont exactement ceux de la section « Profils activés ».
+The vendored profiles are exactly the profiles in the "Activated profiles" section.
 
-Une mise à jour remplace ces fichiers depuis une nouvelle version du socle. Relire le diff avant de changer la version enregistrée ici.
+An update replaces these files from a new foundation version. Review the diff before you change the version recorded in this file.
 
-## Profils activés
+## Activated profiles
 
 - TODO
 
-Les profils sont des politiques durables du projet. Leurs gates ne s'appliquent
-qu'aux unités de travail qui rencontrent leur déclencheur.
+Profiles are durable project policies. Their gates apply only to work units
+that meet their activation conditions.
 
-`documentation-nimbus` est le seul profil obligatoire et s'applique à chaque
-unité qui modifie un Markdown ou la documentation. Il ne peut pas être retiré
-par une dérogation locale.
+`documentation-nimbus` is the only mandatory profile. It applies to each work
+unit that modifies a Markdown file or documentation. A local exception cannot
+remove it.
 
-## Dérogations et contrôles compensatoires
+## Exceptions and compensating controls
 
-| Règle ou default | Portée | Choix local | Raison | Contrôle compensatoire | Propriétaire | Réexamen | ADR |
+| Rule or default | Scope | Local choice | Reason | Compensating control | Owner | Review | ADR |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | TODO | TODO | TODO | TODO | TODO | TODO | TODO | TODO |
 
-Une dérogation à un invariant exige une portée limitée, un contrôle compensatoire et une date de réexamen.
-`P18` ne peut pas être désactivé par une dérogation locale : la politique du
-projet choisit entre push direct sur la branche canonique et branche dédiée,
-mais ne conserve pas une tranche terminée uniquement en local.
+An exception to an invariant requires a limited scope, a compensating control, and a review date.
+`P18` cannot be disabled by a local exception. The project policy selects
+either a direct push to the canonical branch or a dedicated branch. It cannot
+keep a completed work unit only locally.
 
-`P19` ne peut pas être désactivé par une dérogation locale : `compose.yaml` et
-sa gate restent obligatoires. Seul un pack Minimal sans processus local peut
-conserver une table `services` vide.
+`P19` cannot be disabled by a local exception. `compose.yaml` and its gate
+remain mandatory. Only a Minimal pack without a local process can keep an empty
+`services` table.
 
-## Challenger le socle
+`P20` cannot be disabled by a local exception. A local exception cannot select
+another language. Preserve only the external forms that `P20` permits.
 
-Le snapshot `docs/foundation/` est en lecture seule dans ce projet.
+## Challenge the foundation
 
-- Si le besoin est local, écrire une dérogation dans ce fichier.
-- Si la règle devrait changer pour tous les projets, modifier le dépôt indiqué
-  par `Source`, vérifier ses tests, publier une nouvelle release, puis mettre ce
-  projet à niveau vers le nouveau tag et son SHA.
-- Ne jamais corriger directement le snapshot : cela créerait un fork silencieux
-  et la modification serait perdue à la prochaine mise à niveau.
+The `docs/foundation/` snapshot is read-only in this project.
 
-Le protocole complet vit dans `ADOPTION.md` du dépôt Project Foundation.
+- For a local requirement, record an exception in this file.
+- If the rule must change for all projects, modify the repository identified by
+  `Source`, run its tests, publish a new release, and then update this project
+  to the new tag and its SHA.
+- Do not modify the snapshot directly. A direct modification creates a silent
+  fork and the next update will remove the modification.
 
-## Sources locales supplémentaires
+The complete protocol is in `ADOPTION.md` in the Project Foundation repository.
 
-Les règles locales vivent dans leur document naturel. Cette table les référence sans les recopier.
+## Additional local sources
 
-| Sujet | Source locale |
+Local rules belong in their natural documents. This table references them without copying them.
+
+| Subject | Local source |
 | --- | --- |
 | TODO | TODO |
 
-## Adaptateurs locaux initialisés
+## Initialized local adapters
 
-Les fichiers suivants partent de la baseline du socle puis deviennent locaux et
-éditables :
+The following files start from the foundation baseline. They then become local
+and editable:
 
 - `scripts/check_markdown.py`
 - `scripts/check_compose.py`
 - `scripts/documentation_catalog.py`
 - `scripts/verify.sh`
 
-Ils peuvent recevoir les gates propres au projet. Une mise à niveau compare leur
-baseline avec la nouvelle version, puis fusionne explicitement les corrections
-utiles sans écraser les contrôles locaux.
+They can receive project-specific gates. An update compares their baseline with
+the new version. It then merges useful corrections without replacing local
+controls.
 
-## Reclassification et activation ultérieure
+## Reclassification and later activation
 
-Lorsqu'un projet change de classe :
+When a project changes class:
 
-1. choisir le nouveau pack ;
-2. ajouter les documents requis ;
-3. aligner `Pack adopté` ici et `Classe` dans `PROJECT.md` ou `BRIEF.md` ;
-4. activer les profils durables nécessaires ;
-5. exécuter la vérification et livrer le tout atomiquement.
+1. Select the new pack.
+2. Add the required documents.
+3. Align `Adopted pack` in this file with `Class` in `PROJECT.md` or `BRIEF.md`.
+4. Activate the required durable profiles.
+5. Run verification and deliver all changes atomically.
 
-Lors d'un downgrade, retirer uniquement les stubs jamais utilisés. Un runbook,
-une preuve ou une décision historique est marqué comme inactif ou archivé, pas
-supprimé silencieusement.
+During a downgrade, remove only stubs that were never used. Mark a runbook,
+evidence record, or historical decision as inactive or archived. Do not remove
+it silently.
 
-Lorsqu'une unité exige un profil non encore activé, copier ce profil depuis le
-même commit du socle, l'ajouter à la liste ci-dessus, puis consigner dans la
-preuve de livraison les gates de ce profil applicables à l'unité.
+When a work unit requires a profile that is not activated, copy that profile
+from the same foundation commit. Add it to the list above. Then, record the
+profile gates that apply to the unit in the delivery evidence.
 
-## Mise à jour
+## Update
 
-1. Lire le changelog du socle entre la version actuelle et la cible.
-2. Remplacer le snapshot vendorisé.
-3. Examiner les changements d'invariants, defaults et profils.
-4. Mettre à jour les dérogations locales si nécessaire.
-5. Comparer la nouvelle baseline des scripts et fusionner les corrections utiles.
-6. Régénérer le catalogue documentaire.
-7. Exécuter la commande de vérification du projet.
-8. Committer le snapshot, ce fichier et les adaptations dans une seule unité.
-9. Pousser immédiatement sur la branche canonique si l'écriture directe est autorisée, sinon sur une branche dédiée.
+1. Read the foundation changelog between the current version and the target version.
+2. Replace the vendored snapshot.
+3. Review changes to invariants, defaults, and profiles.
+4. Update local exceptions if necessary.
+5. Compare the new script baseline and merge useful corrections.
+6. Regenerate the documentation catalog.
+7. Run the project verification command.
+8. Commit the snapshot, this file, and the adaptations as one unit.
+9. Push immediately to the canonical branch if direct write access is authorized. Otherwise, push to a dedicated branch.

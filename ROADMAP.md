@@ -1,114 +1,110 @@
 # ROADMAP.md
 
-Source canonique de l'ordre d'évolution de Project Foundation.
+Canonical source for the Project Foundation development sequence.
 
-## Résultat produit
+## Product result
 
-Un projet neuf ou existant peut adopter un cadre commun en quelques minutes, sans dépendance cachée et sans importer des décisions propres à un autre dépôt.
+A new or existing project can adopt the common foundation in a few minutes. It has no hidden dependency and does not import decisions from another repository.
 
-## Vue d'ensemble
+## Overview
 
-| Ordre | ID | Phase | Résultat | État | Critère de sortie |
+| Order | ID | Phase | Result | State | Exit criterion |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `F01` | Socle et bootstrap | Noyau, templates, profils et initialiseur versionnés | done | Vérification locale verte et tag `v0.1.0` |
-| 2 | `F02` | Test d'adoption | Un dépôt neuf utilise réellement le socle | done | Bootstrap rejoué, liens autonomes, commit distant et commande `verify` du projet verte |
-| 3 | `F03` | Mise à niveau assistée | Un projet compare puis remplace son snapshot sans perdre ses dérogations | planned | Diff explicite, dry-run, aucun écrasement implicite |
-| 4 | `F04` | Audit d'adoption | Un projet détecte sa dérive par rapport au snapshot | planned | Contrôle neutre local et CI avec messages actionnables |
+| 1 | `F01` | Foundation and bootstrap | Versioned core, templates, profiles, and initializer | done | Local verification passes and tag `v0.1.0` exists |
+| 2 | `F02` | Adoption test | A new repository uses the foundation | done | Repeated bootstrap, independent links, remote commit, and successful project `verify` command |
+| 3 | `F03` | Assisted upgrade | A project compares and then replaces its snapshot without losing its exceptions | planned | Explicit diff, dry run, and no implicit overwrite |
+| 4 | `F04` | Adoption audit | A project detects drift from its snapshot | planned | Tool-neutral local and CI check with actionable messages |
 
-## Phase F01 : socle et bootstrap
+## Phase F01: foundation and bootstrap
 
-### Inclus
+### Included
 
-- invariants et defaults ;
-- profils opt-in ;
-- templates stables et snapshots datés ;
-- définition de done ;
-- provenance et décisions ;
-- commande de vérification ;
-- initialiseur déterministe, atomique et sans écrasement ;
-- tests structurels des quatre packs ;
-- historique Git local et tag.
+- invariants and defaults;
+- optional profiles;
+- stable templates and dated snapshots;
+- definition of done;
+- provenance and decisions;
+- verification command;
+- deterministic and atomic initializer without overwrite;
+- structural tests for the four packs;
+- local Git history and tag.
 
-### Exclu
+### Excluded
 
-- modification des projets sources ;
-- outil de mise à niveau automatique.
+- changes to source projects;
+- automatic upgrade tool.
 
-### Critère de sortie
+### Exit criterion
 
-- `./scripts/verify.sh` passe ;
-- le dépôt est sur `main` avec un commit propre ;
-- le tag `v0.1.0` pointe vers le commit vérifié.
+- `./scripts/verify.sh` passes;
+- the repository is on `main` with a clean commit;
+- tag `v0.1.0` references the verified commit.
 
-### Maintenance compatible livrée en v0.2.0
+### Compatible maintenance delivered in v0.2.0
 
-- dépôt officiel et tags publiés ;
-- catalogue exhaustif de tous les Markdown ;
-- audiences documentaires explicites ;
-- profil Nimbus opt-in ;
-- protocole de contribution amont depuis un projet consommateur.
+- official repository and published tags;
+- complete catalog of all Markdown files;
+- explicit documentation audiences;
+- optional Nimbus profile;
+- upstream contribution procedure from a consuming project.
 
-### Migration documentaire livrée en v0.3.0
+### Documentation migration delivered in v0.3.0
 
-- Nimbus obligatoire dans les quatre packs ;
-- scaffold officiel et lockfile vendorisés ;
-- adaptateur générique depuis `documentation.json` ;
-- tests, typecheck, build, recherche et lint dans `verify` ;
-- migration incompatible depuis `v0.2.0` documentée.
+- mandatory Nimbus in all four packs;
+- vendored official scaffold and lockfile;
+- generic adapter from `documentation.json`;
+- tests, type checking, build, search, and lint in `verify`;
+- documented incompatible migration from `v0.2.0`.
 
-### Correction d'adoption livrée en v0.3.1
+### Adoption correction delivered in v0.3.1
 
-- liens de maintenance Nimbus portables dans les projets générés ;
-- build Nimbus d'un pack Product ajouté aux tests du bootstrap ;
-- lockfile copié comparé octet pour octet à la source.
+- portable Nimbus maintenance links in generated projects;
+- Nimbus build of a Full pack added to bootstrap tests;
+- copied lockfile compared byte for byte with the source.
 
-### Discipline de publication livrée en v0.4.0
+### Publication discipline delivered in v0.4.0
 
-- invariant `P18` pour committer et pousser chaque tranche validée ;
-- push direct sur la branche canonique si autorisé, branche dédiée sinon ;
-- adaptateurs, définition de done, bootstrap et adoption alignés ;
-- propagation vérifiée dans les packs générés.
+- invariant `P18` to commit and push each verified work unit;
+- direct push to the canonical branch when permitted, or a dedicated branch otherwise;
+- aligned adapters, definition of done, bootstrap, and adoption;
+- verified propagation to generated packs.
 
-### Orchestration locale obligatoire livrée en v0.5.0
+### Mandatory local orchestration delivered in v0.5.0
 
-- invariant `P19` pour rendre Docker Compose obligatoire ;
-- fichier, checker et workflow CI générés dans chaque pack ;
-- digests, healthchecks, cycles de vie et pack durable contrôlés ;
-- contournements structurels testés par le bootstrap ;
-- Parkventory choisi comme première montée de version réelle.
+- invariant `P19` to make Docker Compose mandatory;
+- file, checker, and CI workflow generated in each pack;
+- checked digests, health checks, lifecycles, and durable packs;
+- bootstrap tests for structural bypasses;
+- Parkventory selected as the first actual version upgrade.
 
-### Correction de permissions livrée en v0.5.1
+### Permission correction delivered in v0.5.1
 
-- sources du job Compose montées en lecture seule ;
-- contrôles isolés dans un workspace anonyme ;
-- vérification du tag rejouable après l'exécution conteneurisée.
+- Compose job sources mounted as read-only;
+- checks isolated in an anonymous workspace;
+- tag verification can run again after container execution.
 
-### Câblage Compose durci en v0.5.2
+### Compose integration strengthened in v0.5.2
 
-- appel direct du checker Compose par le workflow généré ;
-- vérification structurelle des appels depuis `verify` et la CI ;
-- tests de retrait de chacun des deux câblages dans un projet généré.
+- generated workflow calls the Compose checker directly;
+- structural verification of calls from `verify` and CI;
+- tests that remove each integration from a generated project.
 
-## Phase F02 : test d'adoption
+## Phase F02: adoption test
 
-### Objectif
+### Objective
 
-Créer un dépôt jetable ou un vrai petit projet, suivre uniquement le bootstrap, puis corriger ce qui nécessite encore du contexte implicite.
+Create a disposable repository or an actual small project. Follow only the bootstrap instructions. Then correct each item that still requires implicit context.
 
-Parkventory est le premier projet réel utilisé pour cette preuve. Le snapshot
-`v0.4.0` et ses six profils y sont autonomes, le dépôt public a été rejoué depuis
-un clone propre, et les commits ont été poussés sur `main`. La CI Parkventory
-est verte jusqu'au SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4`
-(run `30517607760`). F02 est sortie le 2026-07-30.
+Parkventory is the first actual project used for this evidence. Its `v0.4.0` snapshot and six profiles are independent. The public repository was tested again from a clean clone. The commits were pushed to `main`. Parkventory CI is successful through SHA `d9a50adb04ad1c7e038d7c672723c6dd4bba07d4` in run `30517607760`. F02 exited on 2026-07-30.
 
-### Critère de sortie
+### Exit criterion
 
-- le projet cloné reste autonome sans chemin vers ce dépôt ;
-- les profils et dérogations sont traçables ;
-- une autre session peut lancer et vérifier le projet.
+- the cloned project remains independent and has no path to this repository;
+- profiles and exceptions are traceable;
+- another session can start and verify the project.
 
-## Règle de mise à jour
+## Update rule
 
-- Une phase passe à `done` uniquement avec son critère de sortie.
-- Les constats courants vivent dans `STATUS.md`.
-- Une modification structurelle de ce séquencement passe par ADR.
+- A phase changes to `done` only when it meets its exit criterion.
+- Current findings are in `STATUS.md`.
+- A structural change to this sequence requires an ADR.
