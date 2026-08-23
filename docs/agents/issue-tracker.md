@@ -7,11 +7,11 @@ Issues. Run the `gh` CLI from this repository so it resolves the remote.
 
 - Create an issue with `gh issue create --title "..." --body "..."`. Use a
   heredoc for a multi-line body.
-- Read an issue with `gh issue view <number> --comments`. Fetch labels when the
-  task depends on its triage state.
+- Read an issue with
+  `gh issue view <number> --json number,title,body,author,createdAt,updatedAt,state,labels,comments`.
 - List issues with
-  `gh issue list --state open --json number,title,body,labels,comments` and use
-  `--label`, `--state`, and `--jq` filters as needed.
+  `gh issue list --state open --limit 1000 --json number,title,body,labels,comments`
+  and use `--label`, `--state`, and `--jq` filters as needed.
 - Comment with `gh issue comment <number> --body "..."`.
 - Add or remove labels with `gh issue edit <number> --add-label "..."` and
   `gh issue edit <number> --remove-label "..."`.
@@ -27,9 +27,7 @@ If the value becomes `yes`, use the corresponding `gh pr` commands:
 - Read a pull request with `gh pr view <number> --comments` and
   `gh pr diff <number>`.
 - List external pull requests with
-  `gh pr list --state open --json number,title,body,labels,author,authorAssociation,comments`.
-  Keep only `CONTRIBUTOR`, `FIRST_TIME_CONTRIBUTOR`, or `NONE` author
-  associations.
+  `gh api --paginate 'repos/{owner}/{repo}/pulls?state=open&per_page=100' | jq -s 'add | map(select(.author_association == "CONTRIBUTOR" or .author_association == "FIRST_TIME_CONTRIBUTOR" or .author_association == "NONE"))'`.
 - Comment, label, or close with `gh pr comment`, `gh pr edit`, and
   `gh pr close`.
 
