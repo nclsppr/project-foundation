@@ -12,6 +12,20 @@ Maintenance rules for this foundation. Read `README.md` first. Then read `PRINCI
 - `AUDIT.md` explains the origin of the choices. It is a historical, non-normative snapshot.
 - `CLAUDE.md` is an adapter. It does not duplicate any rule.
 
+## Agent skills
+
+### Issue tracker
+
+Issues and specifications live in GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default triage roles map directly to GitHub labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repository uses the single-context layout and stores decisions in `docs/decisions/`. See `docs/agents/domain.md`.
+
 ## Change rules
 
 - Never invent a source, repository state, or verification result.

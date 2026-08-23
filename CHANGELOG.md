@@ -4,6 +4,7 @@ This file describes foundation versions. It is historical and non-normative.
 
 ## Unreleased
 
+- Configures engineering skills to use GitHub Issues, the default triage labels, and one domain context backed by the existing decision records.
 - Adds `P20` to require English for all deliverables, communications, documentation, code comments, logs, and other technical content.
 - Applies the principles of ASD-STE100 and applicable ISO/IEC/IEEE 24765 terminology without declaring formal conformance with ASD-STE100.
 - Propagates the rule to adapters, documentation gates, and generated-pack tests.

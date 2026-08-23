@@ -36,10 +36,16 @@
       ]
     },
     {
+      "id": "agent-guidance",
+      "title": "Agent guidance",
+      "visibility": "internal",
+      "include": ["docs/agents/**/*.md"]
+    },
+    {
       "id": "decisions",
       "title": "Decisions",
       "visibility": "reference",
-      "include": ["docs/**/*.md"]
+      "include": ["docs/decisions/**/*.md"]
     },
     {
       "id": "profiles",

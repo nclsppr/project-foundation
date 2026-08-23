@@ -10,6 +10,7 @@ Declared renderer: `nimbus`.
 | --- | --- | ---: |
 | Public guides | `public` | 9 |
 | Internal governance | `internal` | 7 |
+| Agent guidance | `internal` | 3 |
 | Decisions | `reference` | 8 |
 | Profiles | `reference` | 7 |
 | Templates | `reference` | 16 |
@@ -37,6 +38,12 @@ Declared renderer: `nimbus`.
 - [PROJECT.md](PROJECT.md)
 - [ROADMAP.md](ROADMAP.md)
 - [STATUS.md](STATUS.md)
+
+## Agent guidance
+
+- [docs/agents/domain.md](docs/agents/domain.md)
+- [docs/agents/issue-tracker.md](docs/agents/issue-tracker.md)
+- [docs/agents/triage-labels.md](docs/agents/triage-labels.md)
 
 ## Decisions
 
